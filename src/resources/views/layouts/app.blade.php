@@ -18,10 +18,21 @@
         <div class="header-logo">
             <img class="header-logo-image" src="{{ asset('images/logo.svg') }}" alt="COACHTECH">
         </div>
+        <div class="header-search">
+            <form class="search-form" action="#" method="GET">
+                <input type="text" class="search-input" placeholder="なにをお探しですか?" name="search">
+            </form>
+        </div>
         <nav class="header-nav">
             <ul class="header-nav__list">
                 <li class="header-nav__item">
-                    <a href="#" class="header-nav__link">Home</a>
+                    <a href="{{ route('logout') }}" class="header-nav__link">ログアウト</a>
+                </li>
+                <li class="header-nav__item">
+                    <a href="#" class="header-nav__link">マイページ</a>
+                </li>
+                <li class="header-nav__item">
+                    <a href="#" class="header-nav__link sell-link">出品</a>
                 </li>
             </ul>
         </nav>

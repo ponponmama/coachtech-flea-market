@@ -6,6 +6,7 @@ use App\Actions\Fortify\AuthenticateUser;
 use App\Actions\Fortify\CreateNewUser;
 use App\Actions\Fortify\CustomLoginResponse;
 use App\Actions\Fortify\CustomRegisterResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Fortify\Fortify;
 
@@ -27,7 +28,9 @@ class FortifyServiceProvider extends ServiceProvider
         Fortify::createUsersUsing(CreateNewUser::class);
 
         // カスタム認証アクションを設定
-        Fortify::authenticateUsing([AuthenticateUser::class, 'authenticate']);
+        Fortify::authenticateUsing(function (Request $request) {
+            return app(AuthenticateUser::class)->authenticate($request);
+        });
 
 
 

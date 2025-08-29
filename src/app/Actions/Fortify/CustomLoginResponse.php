@@ -32,7 +32,7 @@ class CustomLoginResponse implements LoginResponseContract
                 : redirect()->intended('/mypage/profile');
         }
 
-        // 通常の場合はホーム画面に遷移
+        // 通常の場合はトップページに遷移
         return $request->wantsJson()
             ? new JsonResponse(['redirect' => '/'], 200)
             : redirect()->intended('/');

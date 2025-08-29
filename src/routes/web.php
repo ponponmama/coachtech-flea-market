@@ -1,9 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Laravel\Fortify\Http\Controllers\RegisteredUserController;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use App\Http\Controllers\FleamarketController;
 
 
 
@@ -23,25 +23,10 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 Route::get('/register', function () {
     return view('register');
 })->name('register');
-Route::post('/register', function (App\Http\Requests\RegisterRequest $request) {
-    return app(\Laravel\Fortify\Contracts\CreatesNewUsers::class)->create($request->validated());
-})->name('register.store');
 Route::get('/login', function () {
     return view('login');
 })->name('login');
-Route::post('/login', function (App\Http\Requests\LoginRequest $request) {
-    // バリデーション済みデータで認証処理を実行
-    $credentials = $request->validated();
-
-    if (auth()->attempt($credentials)) {
-        $request->session()->regenerate();
-        return app(\Laravel\Fortify\Contracts\LoginResponse::class)->toResponse($request);
-    }
-
-    return back()->withErrors([
-        'email' => 'ログイン情報が登録されていません',
-    ]);
-})->name('login.store');
+Route::post('/login', [AuthenticatedSessionController::class, 'store'])->name('login.store');
 Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 
 // メール認証関連(user)
@@ -66,11 +51,10 @@ Route::get('/email/verification-notice', function () {
 
 
 // プロフィール設定画面
-Route::get('/mypage/profile', function () {
-    return view('mypage.profile');
-})->middleware(['auth'])->name('mypage.profile');
+Route::get('/mypage/profile', [FleamarketController::class, 'showProfile'])->middleware(['auth'])->name('mypage.profile');
 
-// ホーム
-Route::get('/', function () {
-    return view('home');
-});
+// プロフィール更新
+Route::post('/mypage/profile', [FleamarketController::class, 'updateProfile'])->middleware(['auth'])->name('mypage.profile.update');
+
+// 商品一覧画面（トップ）
+Route::get('/', [FleamarketController::class, 'index'])->middleware(['auth'])->name('top');

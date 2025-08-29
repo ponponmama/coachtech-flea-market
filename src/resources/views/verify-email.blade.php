@@ -14,25 +14,23 @@
                 登録していただいたメールアドレスに認証メールを送付しました。<br>
                 メール認証を完了してください。
             </p>
-
             @if (session('status'))
                 <div class="alert alert-success">
                     {{ session('status') }}
                 </div>
             @endif
-
-            <div class="form-group">
-                <a href="https://mailtrap.io" target="_blank" class="verify-email-button button">
-                    認証はこちらから
-                </a>
-            </div>
-
-            <form method="POST" action="{{ route('verification.send') }}" class="resend-email-form">
-                @csrf
+                <div class="form-group">
+                    <a href="https://mailtrap.io" target="_blank" class="verify-email-button button">
+                        認証はこちらから
+                    </a>
+                </div>
+                <form method="POST" action="{{ route('verification.send') }}" class="resend-email-form">
+                    @csrf
                     <button type="submit" class="resend-email-button button">
                         認証メールを再送する
                     </button>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
 @endsection
