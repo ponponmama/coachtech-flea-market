@@ -26,7 +26,10 @@
         <nav class="header-nav">
             <ul class="header-nav__list">
                 <li class="header-nav__item">
-                    <a href="{{ route('logout') }}" class="header-nav__link">ログアウト</a>
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit" class="header-nav__link button">ログアウト</button>
+                    </form>
                 </li>
                 <li class="header-nav__item">
                     <a href="#" class="header-nav__link">マイページ</a>
@@ -40,6 +43,7 @@
     <main class="main-content">
         @yield('content')
     </main>
+    @yield('js')
 </body>
 
 </html>

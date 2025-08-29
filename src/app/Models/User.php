@@ -12,6 +12,9 @@ use App\Models\Item;
 use App\Models\Comment;
 use App\Models\Like;
 use App\Models\Purchase;
+use App\Mail\VerifyEmailCustom;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\URL;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -95,5 +98,18 @@ class User extends Authenticatable implements MustVerifyEmail
     public function purchases()
     {
         return $this->hasMany(Purchase::class);
+    }
+
+    /**
+     * カスタムメール認証メールを送信
+     */
+    public function sendEmailVerificationNotification()
+    {
+        $verificationUrl = URL::temporarySignedRoute(
+            'verification.verify',
+            now()->addMinutes(60),
+            ['id' => $this->getKey(), 'hash' => sha1($this->getEmailForVerification())]
+        );
+        Mail::to($this->email)->send(new VerifyEmailCustom($this, $verificationUrl));
     }
 }

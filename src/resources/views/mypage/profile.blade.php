@@ -5,12 +5,19 @@
     <link rel="stylesheet" href="{{ asset('css/auth.css') }}">
 @endsection
 
+@section('js')
+    <script src="{{ asset('js/profile-image.js') }}"></script>
+@endsection
+
 @section('content')
     <div class="auth-container">
         <p class="auth-title">プロフィール設定</p>
         <div class="auth-content-profile">
-            <span class="profile-image" for="profile-image">画像を選択する</span>
-            <input type="file" name="profile-image" id="profile-image" class="profile-image-input">
+            <div class="profile-image-container">
+                <div class="profile-image-placeholder"></div>
+                <label for="profile-image" class="profile-image-button">画像を選択する</label>
+                <input type="file" name="profile-image" id="profile-image" class="profile-image-input" accept="image/*">
+            </div>
         </div>
         <div class="auth-content">
             <form action="{{ route('mypage.profile.update') }}" method="POST">

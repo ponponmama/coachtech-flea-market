@@ -6,6 +6,7 @@ use App\Actions\Fortify\AuthenticateUser;
 use App\Actions\Fortify\CreateNewUser;
 use App\Actions\Fortify\CustomLoginResponse;
 use App\Actions\Fortify\CustomRegisterResponse;
+use App\Mail\VerifyEmailCustom;
 use Illuminate\Http\Request;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Fortify\Fortify;
@@ -50,6 +51,8 @@ class FortifyServiceProvider extends ServiceProvider
             };
         });
 
+        // カスタムメール認証メールを設定
+        Fortify::verifyEmailView('verify-email');
 
     }
 }
