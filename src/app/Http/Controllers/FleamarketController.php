@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\Item;
 
 class FleamarketController extends Controller
 {
@@ -68,7 +69,21 @@ class FleamarketController extends Controller
      */
     public function showMypage()
     {
-        return view('mypage.index');
+        $user = Auth::user();
+
+        // itemsテーブルから出品した商品の画像と商品名を取得
+        $soldItems = Item::where('seller_id', $user->id)
+            ->select('id', 'name', 'image_path')
+            ->latest()
+            ->get();
+
+        // itemsテーブルから購入した商品の画像と商品名を取得
+        $purchasedItems = Item::where('buyer_id', $user->id)
+            ->select('id', 'name', 'image_path')
+            ->latest()
+            ->get();
+
+        return view('mypage', compact('user', 'soldItems', 'purchasedItems'));
     }
 
     /**

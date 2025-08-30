@@ -5,11 +5,9 @@
     <link rel="stylesheet" href="{{ asset('css/auth.css') }}">
 @endsection
 
-@section('title', 'ログイン')
-
 @section('content')
     <div class="auth-container">
-            <p class="auth-title">ログイン</p>
+        <p class="content-title">ログイン</p>
         <div class="auth-content">
             <p class="auth-error-message">
                 @error('failed')

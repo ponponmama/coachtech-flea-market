@@ -5,24 +5,21 @@
     <link rel="stylesheet" href="{{ asset('css/index.css') }}">
 @endsection
 
-@section('title', '商品一覧画面(トップ) - ログイン後')
-
 @section('content')
     <div class="content-container">
         <nav class="nav-tabs">
             <ul class="nav-tabs__list">
-                <li class="nav-tabs__item">
+                <li class="nav-tabs__item link">
                     <a href="#" class="nav-tabs__link">おすすめ</a>
                 </li>
                 <li class="nav-tabs__item nav-tabs__item--active">
-                    <a href="#" class="nav-tabs__link nav-tabs__link--active">マイリスト</a>
+                    <a href="#" class="nav-tabs__link nav-tabs__link--active link">マイリスト</a>
                 </li>
             </ul>
         </nav>
-
+        <p class="nav-tabs-border-line"></p>
         <div class="product-list">
             <div class="product-grid">
-                <!-- 商品アイテム1 -->
                 <div class="product-item">
                     <div class="product-image">
                         <span class="product-image__placeholder">商品画像</span>

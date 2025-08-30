@@ -5,11 +5,9 @@
     <link rel="stylesheet" href="{{ asset('css/auth.css') }}">
 @endsection
 
-@section('title', '会員登録')
-
 @section('content')
     <div class="auth-container">
-        <p class="auth-title">会員登録</p>
+        <p class="content-title">会員登録</p>
         <div class="auth-content">
             <form action="{{ route('register') }}" method="POST">
                 @csrf

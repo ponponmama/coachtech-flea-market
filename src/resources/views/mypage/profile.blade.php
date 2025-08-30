@@ -2,7 +2,7 @@
 @extends('layouts.app')
 
 @section('css')
-    <link rel="stylesheet" href="{{ asset('css/auth.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/profile.css') }}">
 @endsection
 
 @section('js')
@@ -10,16 +10,16 @@
 @endsection
 
 @section('content')
-    <div class="auth-container">
-        <p class="auth-title">プロフィール設定</p>
-        <div class="auth-content-profile">
+    <div class="content-container">
+        <p class="content-title">プロフィール設定</p>
+        <div class="profile-image-section">
             <div class="profile-image-container">
-                <div class="profile-image-placeholder"></div>
-                <label for="profile-image" class="profile-image-button">画像を選択する</label>
+                <span class="profile-image-placeholder"></span>
+                <label for="profile-image" class="profile-image-button button">画像を選択する</label>
                 <input type="file" name="profile-image" id="profile-image" class="profile-image-input" accept="image/*">
             </div>
         </div>
-        <div class="auth-content">
+        <div class="profile-content">
             <form action="{{ route('mypage.profile.update') }}" method="POST">
                 @csrf
                 <div class="form-group">

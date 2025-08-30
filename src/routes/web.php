@@ -50,6 +50,9 @@ Route::get('/email/verification-notice', function () {
 })->middleware('auth')->name('verification.notice.page');
 
 
+// プロフィール画面
+Route::get('/mypage', [FleamarketController::class, 'showMypage'])->middleware(['auth'])->name('mypage');
+
 // プロフィール設定画面
 Route::get('/mypage/profile', [FleamarketController::class, 'showProfile'])->middleware(['auth'])->name('mypage.profile');
 
