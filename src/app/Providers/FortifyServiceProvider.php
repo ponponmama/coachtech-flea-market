@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Actions\Fortify\AuthenticateUser;
 use App\Actions\Fortify\CreateNewUser;
 use App\Actions\Fortify\CustomLoginResponse;
 use App\Actions\Fortify\CustomRegisterResponse;
@@ -18,7 +17,11 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        // デフォルトのLoginRequestをカスタムLoginRequestに置き換え
+        $this->app->bind(
+            \Laravel\Fortify\Http\Requests\LoginRequest::class,
+            \App\Http\Requests\LoginRequest::class
+        );
     }
 
     /**
@@ -28,12 +31,10 @@ class FortifyServiceProvider extends ServiceProvider
     {
         Fortify::createUsersUsing(CreateNewUser::class);
 
-        // カスタム認証アクションを設定
-        Fortify::authenticateUsing(function (Request $request) {
-            return app(AuthenticateUser::class)->authenticate($request);
+        // ログインビューを設定
+        Fortify::loginView(function () {
+            return view('login');
         });
-
-
 
         // カスタム登録レスポンスを設定
         app()->singleton(\Laravel\Fortify\Contracts\RegisterResponse::class, CustomRegisterResponse::class);
@@ -53,6 +54,5 @@ class FortifyServiceProvider extends ServiceProvider
 
         // カスタムメール認証メールを設定
         Fortify::verifyEmailView('verify-email');
-
     }
 }
