@@ -77,6 +77,13 @@
     box-shadow: 0px 4px 4px 25% #00000040;
 }
 
+.product-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    height: 100%;
+}
+
 .product-image {
     width: 100%;
     height: 290px;
@@ -86,6 +93,15 @@
     align-items: center;
     justify-content: center;
     margin-bottom: 15px;
+    position: relative;
+    overflow: hidden;
+}
+
+.product-image__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 4px;
 }
 
 .product-image__placeholder {
@@ -93,6 +109,20 @@
     background-color: #D9D9D9;
     font-weight: 400;
     font-size: 40px;
+}
+
+/* SOLDバッジ */
+.sold-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #FF5555;
+    color: #FFFFFF;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 600;
+    z-index: 1;
 }
 
 .product-name {
@@ -107,6 +137,15 @@
     line-height: 30px;
     font-weight: 400;
     text-align: left;
+}
+
+/* 商品が見つからない場合 */
+.no-items {
+    width: 100%;
+    text-align: center;
+    padding: 50px;
+    color: #5F5F5F;
+    font-size: 18px;
 }
 
 /* レスポンシブ対応 */

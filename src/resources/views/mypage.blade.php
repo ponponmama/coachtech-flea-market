@@ -9,7 +9,14 @@
     <div class="content-container">
         <div class="profile-image-section">
             <div class="profile-image-container">
-                <span class="profile-image-placeholder"></span>
+                <div class="profile-image-placeholder">
+                    @if ($user->profile && $user->profile->profile_image_path)
+                        <img src="{{ asset('storage/' . $user->profile->profile_image_path) }}" alt="プロフィール画像"
+                            class="profile-image-holder">
+                    @else
+                        <span class="profile-image-placeholder">画像</span>
+                    @endif
+                </div>
                 <span class="user-name">{{ $user->name }}</span>
                 <a href="{{ route('mypage.profile') }}" class="profile-edit-button button">プロフィールを編集</a>
             </div>
@@ -33,13 +40,13 @@
                             <div class="product-image">
                                 @if ($item->image_path)
                                     <img src="{{ asset('storage/' . $item->image_path) }}" alt="{{ $item->name }}"
-                                        class="product-image__img">
+                                        class="product-image-holder">
                                 @else
-                                    <span class="product-image__placeholder"></span>
+                                    <span class="product-image-placeholder">商品画像</span>
                                 @endif
                             </div>
                             <div class="product-name">
-                                <span class="product-name__text">{{ $item->name }}</span>
+                                <span class="product-name-text">{{ $item->name }}</span>
                             </div>
                         </div>
                     @endforeach

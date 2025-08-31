@@ -31,8 +31,8 @@ class CustomRegisterResponse implements RegisterResponseContract
         if ($user && !$user->email_verified_at) {
             \Illuminate\Support\Facades\Log::info('Redirecting to email verification notice');
             return $request->wantsJson()
-                ? new JsonResponse(['redirect' => '/email/verification-notice'], 200)
-                : redirect()->intended('/email/verification-notice');
+                ? new JsonResponse(['redirect' => '/email/verify'], 200)
+                : redirect()->intended('/email/verify');
         }
 
         // 初回ログインの場合はプロフィール設定画面に遷移

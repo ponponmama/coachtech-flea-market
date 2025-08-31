@@ -101,6 +101,14 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
+     * ユーザーがいいねした商品を取得
+     */
+    public function favorites()
+    {
+        return $this->belongsToMany(Item::class, 'likes', 'user_id', 'item_id');
+    }
+
+    /**
      * カスタムメール認証メールを送信
      */
     public function sendEmailVerificationNotification()

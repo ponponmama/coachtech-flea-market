@@ -1,18 +1,23 @@
 document.addEventListener('DOMContentLoaded', function() {
     const fileInput = document.getElementById('profile-image');
-    const placeholder = document.querySelector('.profile-image-placeholder');
+    const imageDisplay = document.getElementById('profile-image-display');
 
-    if (fileInput && placeholder) {
+    if (fileInput && imageDisplay) {
         fileInput.addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    placeholder.style.backgroundImage = `url(${e.target.result})`;
-                    placeholder.style.backgroundSize = 'cover';
-                    placeholder.style.backgroundPosition = 'center';
-                    placeholder.style.backgroundRepeat = 'no-repeat';
-                    placeholder.textContent = ''; // テキストを削除
+                    // 既存の画像またはテキストを削除
+                    imageDisplay.innerHTML = '';
+
+                    // 新しい画像を作成
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.alt = 'プロフィール画像';
+                    img.className = 'profile-image-holder';
+
+                    imageDisplay.appendChild(img);
                 };
                 reader.readAsDataURL(file);
             }

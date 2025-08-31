@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\FleamarketController;
-
+use App\Http\Controllers\ItemController;
 
 
 /*
@@ -60,4 +60,22 @@ Route::get('/mypage/profile', [FleamarketController::class, 'showProfile'])->mid
 Route::post('/mypage/profile', [FleamarketController::class, 'updateProfile'])->middleware(['auth'])->name('mypage.profile.update');
 
 // 商品一覧画面（トップ）
-Route::get('/', [FleamarketController::class, 'index'])->middleware(['auth'])->name('top');
+Route::get('/', [ItemController::class, 'index'])->name('top');
+
+// 商品詳細画面
+Route::get('/item/{item_id}', [FleamarketController::class, 'showItem'])->name('item.detail');
+
+// 商品詳細画面でのコメント投稿
+Route::post('/item/{item_id}/comment', [FleamarketController::class, 'storeComment'])->middleware(['auth'])->name('item.comment');
+
+// 商品出品画面
+Route::get('/sell', [FleamarketController::class, 'showSell'])->middleware(['auth'])->name('sell');
+Route::post('/sell', [FleamarketController::class, 'storeItem'])->middleware(['auth'])->name('sell.store');
+
+// 商品購入画面
+Route::get('/purchase/{item_id}', [FleamarketController::class, 'showPurchase'])->middleware(['auth'])->name('purchase');
+Route::post('/purchase/{item_id}', [FleamarketController::class, 'processPurchase'])->middleware(['auth'])->name('purchase.process');
+
+// 送付先住所変更画面
+Route::get('/purchase/address/{item_id}', [FleamarketController::class, 'showAddress'])->middleware(['auth'])->name('purchase.address');
+Route::post('/purchase/address/{item_id}', [FleamarketController::class, 'updateAddress'])->middleware(['auth'])->name('purchase.address.update');

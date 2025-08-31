@@ -35,7 +35,7 @@
                     <a href="{{ route('mypage') }}" class="header-nav__link link">マイページ</a>
                 </li>
                 <li class="header-nav__item">
-                    <a href="#" class="header-nav__link sell-link link">出品</a>
+                    <a href="{{ route('sell') }}" class="header-nav__link sell-link link">出品</a>
                 </li>
             </ul>
         </nav>
