@@ -5,37 +5,33 @@
     <link rel="stylesheet" href="{{ asset('css/sell.css') }}">
 @endsection
 
+@section('js')
+    <script src="{{ asset('js/image-upload.js') }}"></script>
+@endsection
+
 @section('content')
     <div class="content-container">
-        <h1 class="page-title">商品の出品</h1>
-
+        <h1 class="content-title">商品の出品</h1>
         <form action="{{ route('sell.store') }}" method="POST" enctype="multipart/form-data" class="sell-form">
             @csrf
-
-            <!-- 商品画像 -->
             <div class="form-section">
-                <h2 class="section-title">商品画像</h2>
-                <div class="image-upload-section">
-                    <div class="image-preview" id="image-preview">
-                        <div class="image-placeholder">
-                            <span class="placeholder-text">画像を選択してください</span>
-                        </div>
+                <p class="section-title">商品画像</p>
+                <div class="image-preview" id="image-preview">
+                    <div class="image-placeholder">
+                        <button for="upload-image" class="image-upload-button button">画像を登録する</button>
+                        <input type="file" name="upload-image" id="upload-image" class="upload-image-input" accept="image/*">
                     </div>
-                    <label for="image" class="image-upload-button">画像を登録する</label>
-                    <input type="file" name="image" id="image" class="image-input" accept="image/*" required>
                 </div>
-                @error('image')
-                    <p class="error-message">{{ $message }}</p>
-                @enderror
+                <p class="form__error">
+                    @error('upload-image')
+                        {{ $message }}
+                    @enderror
+                </p>
             </div>
-
-            <!-- 商品の詳細 -->
             <div class="form-section">
-                <h2 class="section-title">商品の詳細</h2>
-
-                <!-- カテゴリー -->
-                <div class="form-group">
-                    <label class="form-label">カテゴリー</label>
+                <h2 class="form-section-title">商品の詳細</h2>
+                <div class="form-group form-group-category">
+                    <label class="form-label form-label-category">カテゴリー</label>
                     <div class="category-buttons">
                         @foreach ($categories as $category)
                             <label class="category-button">
@@ -49,8 +45,6 @@
                         <p class="error-message">{{ $message }}</p>
                     @enderror
                 </div>
-
-                <!-- 商品の状態 -->
                 <div class="form-group">
                     <label class="form-label" for="condition">商品の状態</label>
                     <select name="condition" id="condition" class="form-select" required>
@@ -64,12 +58,8 @@
                     @enderror
                 </div>
             </div>
-
-            <!-- 商品名と説明 -->
             <div class="form-section">
                 <h2 class="section-title">商品名と説明</h2>
-
-                <!-- 商品名 -->
                 <div class="form-group">
                     <label class="form-label" for="name">商品名</label>
                     <input type="text" name="name" id="name" class="form-input" required>

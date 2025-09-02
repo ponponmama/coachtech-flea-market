@@ -1,41 +1,100 @@
 /* 商品出品画面 */
-.content-container {
-    width: 100%;
-    min-height: 100vh;
-    padding-top: 47px;
-    background-color: #F5F5F5;
-}
-
-.page-title {
+.content-title {
+    width: 180px;
+    line-height: 44px;
+    font-size: 36px;
+    margin: 49px auto 43px;
     text-align: center;
-    font-size: 32px;
-    font-weight: 700;
-    color: #000000;
-    margin: 30px 0;
 }
 
 .sell-form {
-    max-width: 800px;
+    width: 680px;
     margin: 0 auto;
-    background-color: #FFFFFF;
-    padding: 40px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-.form-section {
-    margin-bottom: 40px;
+    padding: 0;
 }
 
 .section-title {
+    width: 100%;
     font-size: 24px;
-    font-weight: 600;
-    color: #000000;
-    margin-bottom: 20px;
-    border-bottom: 2px solid #E0E0E0;
-    padding-bottom: 10px;
+    text-align: left;
+    color: #5F5F5F;
+    margin-bottom: 10px;
 }
 
+/* 画像アップロード */
+.image-preview {
+    width: 100%;
+    height: 150px;
+    border: 1px dashed #5F5F5F;
+    border-radius: 8px;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    overflow: hidden;
+}
+
+.image-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.image-upload-button {
+    display: inline-block;
+    text-align: center;
+    width: 165px;
+    line-height: 43.46px;
+    border: 2px solid #FF5555;
+    color: #FF5655;
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    font-size: 16px;
+}
+
+.image-upload-button:hover {
+    background-color: #FF5555;
+    color: white;
+}
+
+.upload-image-input {
+    display: none;
+}
+
+.form-section {
+    width: 100%;
+
+    margin-bottom: 40px;
+    text-align: left;
+}
+
+.image-section-title {
+    width: 150px;
+    height: 36px;
+    color: #5F5F5F;
+    margin-top: 70px;
+    font-size: 24px;
+}
+
+.section-title {
+    width: 150px;
+    height: 36px;
+    font-size: 24px;
+    color: #000000;
+}
+
+.form-section-title {
+    width: 100%;
+    text-align: left;
+    color: #5F5F5F;
+    margin-bottom: 10px;
+    font-size: 30px;
+}
+
+/* フォーム要素 */
 .form-group {
     margin-bottom: 25px;
 }
@@ -48,62 +107,39 @@
     margin-bottom: 10px;
 }
 
-/* 画像アップロード */
-.image-upload-section {
-    text-align: center;
+.form-label-category {
+    width: 162.09px;
+    line-height: 36px;
+    font-size: 24px;
+    color: #000000;
+    text-align: left;
 }
 
-.image-preview {
-    width: 300px;
-    height: 200px;
-    border: 2px dashed #CCCCCC;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 20px;
-    background-color: #FAFAFA;
-    overflow: hidden;
-}
-
-.image-placeholder {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-}
-
-.placeholder-text {
-    color: #999999;
-    font-size: 16px;
-}
-
-.preview-image {
+.form-input,
+.form-select,
+.form-textarea {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.image-upload-button {
-    display: inline-block;
-    background-color: #FF5555;
-    color: #FFFFFF;
-    padding: 12px 24px;
+    padding: 12px 16px;
+    border: 2px solid #E0E0E0;
     border-radius: 6px;
     font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: border-color 0.3s ease;
+    box-sizing: border-box;
 }
 
-.image-upload-button:hover {
-    background-color: #E04444;
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+    outline: none;
+    border-color: #FF5555;
 }
 
-.image-input {
-    display: none;
+.form-textarea {
+    resize: vertical;
+    min-height: 120px;
+    font-family: inherit;
 }
+
 
 /* カテゴリーボタン */
 .category-buttons {
@@ -143,31 +179,6 @@
     font-weight: 500;
 }
 
-/* フォーム要素 */
-.form-input,
-.form-select,
-.form-textarea {
-    width: 100%;
-    padding: 12px 16px;
-    border: 2px solid #E0E0E0;
-    border-radius: 6px;
-    font-size: 16px;
-    transition: border-color 0.3s ease;
-    box-sizing: border-box;
-}
-
-.form-input:focus,
-.form-select:focus,
-.form-textarea:focus {
-    outline: none;
-    border-color: #FF5555;
-}
-
-.form-textarea {
-    resize: vertical;
-    min-height: 120px;
-    font-family: inherit;
-}
 
 /* 価格入力 */
 .price-input-group {

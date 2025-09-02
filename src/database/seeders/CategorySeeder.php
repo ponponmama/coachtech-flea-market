@@ -20,7 +20,7 @@ class CategorySeeder extends Seeder
             'レディース',
             'メンズ',
             'コスメ',
-            '本',
+            '本・雑誌',
             'ゲーム',
             'スポーツ',
             'キッチン',

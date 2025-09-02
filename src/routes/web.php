@@ -1,14 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\FleamarketController;
 use App\Http\Controllers\ItemController;
-
-
-
-
 
 /*
 |--------------------------------------------------------------------------
@@ -21,17 +16,6 @@ use App\Http\Controllers\ItemController;
 |
 */
 
-// 認証関連
-//ユーザー登録
-Route::get('/register', function () {
-    return view('register');
-})->name('register');
-Route::get('/login', function () {
-    return view('login');
-})->name('login');
-Route::post('/login', [AuthenticatedSessionController::class, 'store'])->name('login.store');
-Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
-
 // メール認証関連(user)
 Route::get('/email/verify', function () {
     return view('verify-email');
@@ -40,7 +24,7 @@ Route::get('/email/verify', function () {
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
     $request->fulfill();
     return redirect('/mypage/profile')->with('success', 'メール認証が完了しました。');
-})->middleware(['auth', 'signed'])->name('verification.verify');
+})->middleware(['signed'])->name('verification.verify');
 
 Route::post('/email/verification-notification', function () {
     request()->user()->sendEmailVerificationNotification();

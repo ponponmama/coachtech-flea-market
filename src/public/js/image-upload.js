@@ -6,6 +6,12 @@ document.addEventListener('DOMContentLoaded', function() {
         fileInput.addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
+                // エラーメッセージをクリア
+                const errorElement = document.querySelector('.profile-image-section .form__error');
+                if (errorElement) {
+                    errorElement.style.display = 'none';
+                }
+
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     // 既存の画像またはテキストを削除

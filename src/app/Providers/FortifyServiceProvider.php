@@ -3,12 +3,24 @@
 namespace App\Providers;
 
 use App\Actions\Fortify\CreateNewUser;
+use App\Actions\Fortify\ResetUserPassword;
+use App\Actions\Fortify\UpdateUserPassword;
+use App\Actions\Fortify\UpdateUserProfileInformation;
+use App\Http\Requests\LoginRequest;
+use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Str;
+use Laravel\Fortify\Fortify;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 use App\Actions\Fortify\CustomLoginResponse;
 use App\Actions\Fortify\CustomRegisterResponse;
 use App\Mail\VerifyEmailCustom;
-use Illuminate\Http\Request;
-use Illuminate\Support\ServiceProvider;
-use Laravel\Fortify\Fortify;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -17,10 +29,16 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        // デフォルトのLoginRequestをカスタムLoginRequestに置き換え
+        // FortifyのLoginRequestをカスタムLoginRequestに置き換え
         $this->app->bind(
             \Laravel\Fortify\Http\Requests\LoginRequest::class,
             \App\Http\Requests\LoginRequest::class
+        );
+
+        // カスタム登録レスポンスを設定
+        $this->app->singleton(
+            \Laravel\Fortify\Contracts\RegisterResponse::class,
+            \App\Actions\Fortify\CustomRegisterResponse::class
         );
     }
 
@@ -29,18 +47,31 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Fortify::createUsersUsing(CreateNewUser::class);
-
-        // ログインビューを設定
         Fortify::loginView(function () {
             return view('login');
         });
 
-        // カスタム登録レスポンスを設定
-        app()->singleton(\Laravel\Fortify\Contracts\RegisterResponse::class, CustomRegisterResponse::class);
+        Fortify::registerView(function () {
+            return view('register');
+        });
 
-        // カスタムログインレスポンスを設定
-        app()->singleton(\Laravel\Fortify\Contracts\LoginResponse::class, CustomLoginResponse::class);
+        Fortify::createUsersUsing(CreateNewUser::class);
+
+        // LoginRequestを使用してログイン処理を行う
+        Fortify::authenticateUsing(function ($request) {
+            $user = \App\Models\User::where('email', $request->email)->first();
+
+            if ($user && Hash::check($request->password, $user->password)) {
+                return $user;
+            }
+
+            throw ValidationException::withMessages([
+                'failed' => 'ログイン情報が登録されていません'
+            ]);
+        });
+
+        // カスタムメール認証メールを設定
+        Fortify::verifyEmailView('verify-email');
 
         // カスタムログアウトレスポンスを設定
         app()->singleton(\Laravel\Fortify\Contracts\LogoutResponse::class, function () {
@@ -51,8 +82,5 @@ class FortifyServiceProvider extends ServiceProvider
                 }
             };
         });
-
-        // カスタムメール認証メールを設定
-        Fortify::verifyEmailView('verify-email');
     }
 }

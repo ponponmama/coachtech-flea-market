@@ -29,4 +29,38 @@ class Profile extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    /**
+     * 発送用の住所情報を取得
+     */
+    public function getShippingInfoAttribute()
+    {
+        return [
+            'postal_code' => $this->postal_code,
+            'address' => $this->address,
+            'building_name' => $this->building_name,
+        ];
+    }
+
+    /**
+     * 完全な住所文字列を取得
+     */
+    public function getFullAddressAttribute()
+    {
+        $fullAddress = $this->address;
+        if ($this->building_name) {
+            $fullAddress .= ' ' . $this->building_name;
+        }
+        return $fullAddress;
+    }
+
+    /**
+     * 郵便番号付きの完全な住所を取得
+     */
+    public function getCompleteAddressAttribute()
+    {
+        $address = $this->postal_code ? '〒' . $this->postal_code . ' ' : '';
+        $address .= $this->full_address;
+        return $address;
+    }
 }

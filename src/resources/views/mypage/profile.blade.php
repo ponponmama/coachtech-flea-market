@@ -6,12 +6,12 @@
 @endsection
 
 @section('js')
-    <script src="{{ asset('js/profile-image.js') }}"></script>
+    <script src="{{ asset('js/image-upload.js') }}"></script>
 @endsection
 
 @section('content')
     <div class="content-container">
-        <p class="content-title">プロフィール設定</p>
+        <h1 class="content-title">プロフィール設定</h1>
         <div class="profile-content">
             <form action="{{ route('mypage.profile.update') }}" method="POST" enctype="multipart/form-data">
                 @csrf
@@ -25,15 +25,14 @@
                                 <span class="profile-image-text">画像</span>
                             @endif
                         </div>
-                        <label for="profile-image" class="profile-image-button button">画像を選択する</label>
+                        <button type="button" class="profile-image-button button"
+                            onclick="document.getElementById('profile-image').click()">画像を選択する</button>
                         <input type="file" name="profile-image" id="profile-image" class="profile-image-input"
-                            accept="image/*">
+                            accept="image/*" style="display: none;">
                     </div>
-                    <p class="form__error">
-                        @error('profile-image')
-                            {{ $message }}
-                        @enderror
-                    </p>
+                    @error('profile-image')
+                        <p class="form__error">{{ $message }}</p>
+                    @enderror
                 </div>
                 <div class="form-group">
                     <label class="profile-label" for="name">ユーザー名</label>
@@ -48,7 +47,7 @@
                 <div class="form-group">
                     <label class="profile-label" for="postal_code">郵便番号</label>
                     <input class="profile-input" type="text" name="postal_code" id="postal_code"
-                        value="{{ old('postal_code', $profile->postal_code_display ?? '') }}" autocomplete="postal_code">
+                        value="{{ old('postal_code', $profile->postal_code_display ?? '') }}" autocomplete="postal-code">
                 </div>
                 <p class="form__error">
                     @error('postal_code')
@@ -57,8 +56,8 @@
                 </p>
                 <div class="form-group">
                     <label class="profile-label" for="address">住所</label>
-                    <input class="profile-input" type="address" name="address" id="address"
-                        value="{{ old('address', $profile->address ?? '') }}" autocomplete="address">
+                    <input class="profile-input" type="text" name="address" id="address"
+                        value="{{ old('address', $profile->address ?? '') }}" autocomplete="street-address">
                 </div>
                 <p class="form__error">
                     @error('address')
@@ -67,8 +66,8 @@
                 </p>
                 <div class="form-group">
                     <label class="profile-label" for="building_name">建物名</label>
-                    <input class="profile-input" type="building_name" name="building_name" id="building_name"
-                        value="{{ old('building_name', $profile->building_name ?? '') }}" autocomplete="building_name">
+                    <input class="profile-input" type="text" name="building_name" id="building_name"
+                        value="{{ old('building_name', $profile->building_name ?? '') }}" autocomplete="off">
                 </div>
                 <p class="form__error">
                     @error('building_name')

@@ -96,13 +96,14 @@
 }
 
 .login-register-link {
-    display: inline-block;
+    display: block;
     width: 257px;
     line-height: 53.29px;
     font-size: 20px;
     font-weight: 400;
-    margin-top: 3%;
     color: #0073CC;
+    margin: 3% auto;
+    text-align: center;
 }
 
 @media screen and (max-width: 768px) {

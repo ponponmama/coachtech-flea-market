@@ -54,4 +54,48 @@ class Purchase extends Model
     {
         return $this->belongsTo(Profile::class);
     }
+
+    /**
+     * 発送先住所を取得
+     */
+    public function getShippingAddressAttribute()
+    {
+        if ($this->profile) {
+            return [
+                'postal_code' => $this->profile->postal_code,
+                'address' => $this->profile->address,
+                'building_name' => $this->profile->building_name,
+            ];
+        }
+
+        // プロフィールがない場合は購入者のプロフィールから取得
+        if ($this->user && $this->user->profile) {
+            return [
+                'postal_code' => $this->user->profile->postal_code,
+                'address' => $this->user->profile->address,
+                'building_name' => $this->user->profile->building_name,
+            ];
+        }
+
+        return null;
+    }
+
+    /**
+     * 発送先住所の完全な文字列を取得
+     */
+    public function getFullShippingAddressAttribute()
+    {
+        $address = $this->shipping_address;
+
+        if (!$address) {
+            return '住所が設定されていません';
+        }
+
+        $fullAddress = $address['address'];
+        if ($address['building_name']) {
+            $fullAddress .= ' ' . $address['building_name'];
+        }
+
+        return $fullAddress;
+    }
 }
