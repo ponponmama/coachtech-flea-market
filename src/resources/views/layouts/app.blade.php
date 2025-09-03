@@ -20,27 +20,30 @@
         </div>
 
         @auth
-            <div class="header-search">
-                <form class="search-form" action="#" method="GET">
-                    <input type="text" class="search-input" placeholder="なにをお探しですか?" name="search">
-                </form>
-            </div>
-            <nav class="header-nav">
-                <ul class="header-nav__list">
-                    <li class="header-nav__item">
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
-                            <button type="submit" class="header-nav__link button">ログアウト</button>
-                        </form>
-                    </li>
-                    <li class="header-nav__item">
-                        <a href="{{ route('mypage') }}" class="header-nav__link link">マイページ</a>
-                    </li>
-                    <li class="header-nav__item">
-                        <a href="{{ route('sell') }}" class="header-nav__link sell-link link">出品</a>
-                    </li>
-                </ul>
-            </nav>
+            {{-- メール認証が完了している場合のみナビゲーションを表示 --}}
+            @if (auth()->user()->email_verified_at)
+                <div class="header-search">
+                    <form class="search-form" action="#" method="GET">
+                        <input type="text" class="search-input" placeholder="なにをお探しですか?" name="search">
+                    </form>
+                </div>
+                <nav class="header-nav">
+                    <ul class="header-nav__list">
+                        <li class="header-nav__item">
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button type="submit" class="header-nav__link button">ログアウト</button>
+                            </form>
+                        </li>
+                        <li class="header-nav__item">
+                            <a href="{{ route('mypage') }}" class="header-nav__link link">マイページ</a>
+                        </li>
+                        <li class="header-nav__item">
+                            <a href="{{ route('sell') }}" class="header-nav__link sell-link link">出品</a>
+                        </li>
+                    </ul>
+                </nav>
+            @endif
         @endauth
     </header>
     <main class="main-content">

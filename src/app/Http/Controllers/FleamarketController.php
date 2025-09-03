@@ -22,6 +22,12 @@ class FleamarketController extends Controller
     {
         $user = Auth::user();
 
+        // 初回ログインの場合
+        if ($user->is_first_login) {
+            // 初回ログインのメッセージを表示
+            session()->flash('first_login', true);
+        }
+
         // プロフィール情報を取得（存在しない場合はnull）
         $profile = $user->profile;
 
@@ -177,33 +183,40 @@ class FleamarketController extends Controller
      */
     public function storeItem(Request $request)
     {
-        // ExhibitionRequestのバリデーションを使用
-        $exhibitionRequest = new \App\Http\Requests\ExhibitionRequest();
-        $exhibitionRequest->merge($request->all());
-        $exhibitionRequest->validate($exhibitionRequest->rules(), $exhibitionRequest->messages());
+        try {
+            // ExhibitionRequestのバリデーションを使用
+            $exhibitionRequest = new \App\Http\Requests\ExhibitionRequest();
+            $exhibitionRequest->merge($request->all());
+            $exhibitionRequest->validate($exhibitionRequest->rules(), $exhibitionRequest->messages());
 
-        $user = Auth::user();
+            $user = Auth::user();
 
-        // 画像を保存
-        $imagePath = $request->file('image')->store('product-images', 'public');
+            // 画像を保存
+            $imagePath = $request->file('image')->store('product-images', 'public');
 
-        // 商品を作成
-        $item = Item::create([
-            'name' => $request->name,
-            'brand' => $request->brand,
-            'description' => $request->description,
-            'image_path' => $imagePath,
-            'condition' => $request->condition,
-            'price' => $request->price,
-            'seller_id' => $user->id,
-        ]);
+            // 商品を作成
+            $item = Item::create([
+                'name' => $request->name,
+                'brand' => $request->brand,
+                'description' => $request->description,
+                'image_path' => $imagePath,
+                'condition' => $request->condition,
+                'price' => $request->price,
+                'seller_id' => $user->id,
+            ]);
 
-        // カテゴリーを複数関連付け
-        if ($request->category && is_array($request->category)) {
-            $item->categories()->attach($request->category);
+            // カテゴリーを複数関連付け
+            if ($request->category && is_array($request->category)) {
+                // カテゴリーIDを整数に変換
+                $categoryIds = array_map('intval', $request->category);
+                $item->categories()->attach($categoryIds);
+            }
+
+            return redirect('/')->with('success', '商品を出品しました。');
+        } catch (\Exception $e) {
+            Log::error('商品出品エラー: ' . $e->getMessage());
+            return back()->withInput()->with('error', '商品の出品に失敗しました。もう一度お試しください。');
         }
-
-        return redirect('/')->with('success', '商品を出品しました。');
     }
 
     /**

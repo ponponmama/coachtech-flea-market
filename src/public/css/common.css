@@ -140,14 +140,16 @@ li {
 
 .content-container {
     width: 100%;
+    height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    justify-content: flex-start;
+    align-items: flex-start;
     text-align: center;
     padding: 0;
     flex: 1;
     background-color: #fff;
+    padding-top: 47px;
 }
 
 .form__error {

@@ -5,6 +5,8 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\FleamarketController;
 use App\Http\Controllers\ItemController;
 
+use Illuminate\Support\Facades\Auth;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,25 +18,28 @@ use App\Http\Controllers\ItemController;
 |
 */
 
+// 認証関連はFortifyが自動生成するため、ここでは設定不要
+
 // メール認証関連(user)
 Route::get('/email/verify', function () {
     return view('verify-email');
-})->middleware('auth')->name('verification.notice');
+})->middleware(['auth'])->name('verification.notice');
 
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
     $request->fulfill();
     return redirect('/mypage/profile')->with('success', 'メール認証が完了しました。');
-})->middleware(['signed'])->name('verification.verify');
+})->middleware(['auth', 'signed'])->name('verification.verify');
 
 Route::post('/email/verification-notification', function () {
-    request()->user()->sendEmailVerificationNotification();
-    return back()->with('status', 'verification-link-sent');
-})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+    // ログイン済みユーザーの場合のみ
+    if (auth()->check()) {
+        request()->user()->sendEmailVerificationNotification();
+        return back()->with('status', '認証メールを再送しました。');
+    }
 
-// メール認証誘導画面
-Route::get('/email/verification-notice', function () {
-    return view('verify-email');
-})->middleware('auth')->name('verification.notice.page');
+    return back()->withErrors(['email' => 'ログインが必要です。']);
+})->middleware(['throttle:6,1'])->name('verification.send');
+
 
 
 // プロフィール画面

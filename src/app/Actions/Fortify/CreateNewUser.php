@@ -20,7 +20,12 @@ class CreateNewUser implements CreatesNewUsers
         $request = new RegisterRequest();
         $request->merge($input);
 
-        $request->validate($request->rules(), $request->messages());
+        // バリデーションを実行
+        $validator = \Illuminate\Support\Facades\Validator::make($input, $request->rules(), $request->messages());
+
+        if ($validator->fails()) {
+            throw new \Illuminate\Validation\ValidationException($validator);
+        }
 
         return User::create([
             'name' => $input['name'],

@@ -27,7 +27,8 @@
                         <a href="{{ route('item.detail', $item->id) }}" class="product-link">
                             <div class="product-image">
                                 @if ($item->image_path)
-                                    <img src="{{ asset('storage/' . $item->image_path) }}" alt="{{ $item->name }}" class="product-image__img">
+                                    <img src="{{ asset('storage/' . $item->image_path) }}" alt="{{ $item->name }}"
+                                        class="product-image__img">
                                 @else
                                     <span class="product-image__placeholder">商品画像</span>
                                 @endif
@@ -36,13 +37,46 @@
                                 @endif
                             </div>
                             <div class="product-name">
-                                <span class="product-name__text">{{ $item->name }}</span>
+                                <span class="product-name__text">
+                                    @if ($item->name && trim($item->name) !== '')
+                                        {{ $item->name }}
+                                    @else
+                                        <span class="product-name__placeholder">商品名</span>
+                                    @endif
+                                </span>
                             </div>
                         </a>
                     </div>
                 @empty
-                    <div class="no-items">
-                        <p>商品が見つかりませんでした。</p>
+                    <div class="product-item">
+                        <div class="product-link">
+                            <div class="product-image">
+                                <span class="product-image__placeholder">商品画像</span>
+                            </div>
+                            <div class="product-name">
+                                <span class="product-name__placeholder">商品名</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product-item">
+                        <div class="product-link">
+                            <div class="product-image">
+                                <span class="product-image__placeholder">商品画像</span>
+                            </div>
+                            <div class="product-name">
+                                <span class="product-name__placeholder">商品名</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product-item">
+                        <div class="product-link">
+                            <div class="product-image">
+                                <span class="product-image__placeholder">商品画像</span>
+                            </div>
+                            <div class="product-name">
+                                <span class="product-name__placeholder">商品名</span>
+                            </div>
+                        </div>
                     </div>
                 @endforelse
             </div>

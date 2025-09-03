@@ -49,7 +49,7 @@
 .resend-email-button {
     width: 100%;
     line-height: 53px;
-    color: #0073CC;
+    color: rgba(0, 115, 204, 1);
     font-size: 20px;
     text-align: center;
     font-weight: 400;

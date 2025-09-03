@@ -12,18 +12,32 @@
 @section('content')
     <div class="content-container">
         <h1 class="content-title">商品の出品</h1>
+
+        @if (session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
+
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
         <form action="{{ route('sell.store') }}" method="POST" enctype="multipart/form-data" class="sell-form">
             @csrf
             <div class="form-section">
                 <p class="section-title">商品画像</p>
                 <div class="image-preview" id="image-preview">
                     <div class="image-placeholder">
-                        <button for="upload-image" class="image-upload-button button">画像を登録する</button>
-                        <input type="file" name="upload-image" id="upload-image" class="upload-image-input" accept="image/*">
+                        <button type="button" class="image-upload-button button"
+                            onclick="document.getElementById('upload-image').click()">画像を登録する</button>
+                        <input type="file" name="image" id="upload-image" class="upload-image-input" accept="image/*"
+                            style="display: none;">
                     </div>
                 </div>
                 <p class="form__error">
-                    @error('upload-image')
+                    @error('image')
                         {{ $message }}
                     @enderror
                 </p>
@@ -47,7 +61,7 @@
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="condition">商品の状態</label>
-                    <select name="condition" id="condition" class="form-select" required>
+                    <select name="condition" id="condition" class="form-select">
                         <option value="">選択してください</option>
                         @foreach ($conditions as $key => $value)
                             <option value="{{ $key }}">{{ $value }}</option>
@@ -62,7 +76,7 @@
                 <h2 class="section-title">商品名と説明</h2>
                 <div class="form-group">
                     <label class="form-label" for="name">商品名</label>
-                    <input type="text" name="name" id="name" class="form-input" required>
+                    <input type="text" name="name" id="name" class="form-input">
                     @error('name')
                         <p class="error-message">{{ $message }}</p>
                     @enderror
@@ -80,7 +94,7 @@
                 <!-- 商品の説明 -->
                 <div class="form-group">
                     <label class="form-label" for="description">商品の説明</label>
-                    <textarea name="description" id="description" class="form-textarea" rows="5" required></textarea>
+                    <textarea name="description" id="description" class="form-textarea" rows="5"></textarea>
                     @error('description')
                         <p class="error-message">{{ $message }}</p>
                     @enderror
@@ -94,8 +108,7 @@
                     <label class="form-label" for="price">価格</label>
                     <div class="price-input-group">
                         <span class="price-symbol">¥</span>
-                        <input type="number" name="price" id="price" class="form-input price-input" min="0"
-                            required>
+                        <input type="number" name="price" id="price" class="form-input price-input" min="0">
                     </div>
                     @error('price')
                         <p class="error-message">{{ $message }}</p>
@@ -113,33 +126,14 @@
 
 @section('js')
     <script>
-        // 画像プレビュー機能
-        document.getElementById('image').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            const preview = document.getElementById('image-preview');
-
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    preview.innerHTML = `<img src="${e.target.result}" alt="プレビュー" class="preview-image">`;
-                };
-                reader.readAsDataURL(file);
-            } else {
-                preview.innerHTML =
-                    '<div class="image-placeholder"><span class="placeholder-text">画像を選択してください</span></div>';
+        // フォーム送信前のバリデーション
+        document.querySelector('.sell-form').addEventListener('submit', function(e) {
+            const selectedCategories = document.querySelectorAll('.category-checkbox:checked');
+            if (selectedCategories.length === 0) {
+                e.preventDefault();
+                alert('カテゴリーを選択してください。');
+                return false;
             }
-        });
-
-        // カテゴリーボタンの選択状態管理
-        document.querySelectorAll('.category-checkbox').forEach(checkbox => {
-            checkbox.addEventListener('change', function() {
-                const button = this.closest('.category-button');
-                if (this.checked) {
-                    button.classList.add('selected');
-                } else {
-                    button.classList.remove('selected');
-                }
-            });
         });
     </script>
 @endsection

@@ -140,7 +140,6 @@
     font-family: inherit;
 }
 
-
 /* カテゴリーボタン */
 .category-buttons {
     display: flex;
@@ -151,23 +150,26 @@
 .category-button {
     display: inline-block;
     padding: 8px 16px;
-    background-color: #F0F0F0;
-    border: 2px solid #E0E0E0;
+    border: 2px solid rgba(255, 86, 85, 1);
+    color: rgba(255, 86, 85, 1);
+    background-color: rgba(217, 217, 217, 0);
     border-radius: 20px;
     cursor: pointer;
     transition: all 0.3s ease;
     position: relative;
 }
 
-.category-button:hover {
-    background-color: #E8E8E8;
-    border-color: #CCCCCC;
+/* チェックボックスが選択されている時のスタイル */
+.category-button:has(.category-checkbox:checked) {
+    background-color: rgba(255, 86, 85, 1);
+    border-color: rgba(255, 86, 85, 1);
+    color: rgba(255, 255, 255, 1);
 }
 
-.category-button.selected {
-    background-color: #FF5555;
-    border-color: #FF5555;
-    color: #FFFFFF;
+.category-button:has(.category-checkbox:checked):hover {
+    background-color: rgba(255, 86, 85, 1);
+    border-color: rgba(255, 86, 85, 1);
+    color: rgba(255, 255, 255, 1);
 }
 
 .category-checkbox {
