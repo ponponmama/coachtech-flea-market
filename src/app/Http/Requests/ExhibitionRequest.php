@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Log;
 
 class ExhibitionRequest extends FormRequest
 {
@@ -28,11 +29,33 @@ class ExhibitionRequest extends FormRequest
             'description' => 'required|string|max:255',
             'image' => 'required|image|mimes:jpeg,png|max:2048',
             'category' => 'required|array',
-            'category.*' => 'required|string|exists:categories,id',
+            'category.*' => 'required|integer|exists:categories,id',
             'condition' => 'required|string',
-            'brand' => 'nullable|string|max:255',
             'price' => 'required|integer|min:0',
         ];
+    }
+
+    /**
+     * Configure the validator instance.
+     *
+     * @param  \Illuminate\Validation\Validator  $validator
+     * @return void
+     */
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            // デバッグ用ログ
+            Log::info('ExhibitionRequest バリデーション:', [
+                'all_data' => $this->all(),
+                'has_image' => $this->hasFile('image'),
+                'image_name' => $this->file('image') ? $this->file('image')->getClientOriginalName() : 'なし',
+                'price' => $this->price,
+                'name' => $this->name,
+                'description' => $this->description,
+                'condition' => $this->condition,
+                'category' => $this->category,
+            ]);
+        });
     }
 
     /**
@@ -55,7 +78,6 @@ class ExhibitionRequest extends FormRequest
             'category.*.required' => '商品のカテゴリーを選択してください',
             'category.*.exists' => '有効なカテゴリーを選択してください',
             'condition.required' => '商品の状態を選択してください',
-            'brand.max' => 'ブランド名は255文字以内で入力してください',
             'price.required' => '商品価格を入力してください',
             'price.integer' => '商品価格は数値で入力してください',
             'price.min' => '商品価格は0円以上で入力してください',

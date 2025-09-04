@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 use App\Http\Requests\UpdateProfileRequest;
-use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\ExhibitionRequest;
 use App\Models\User;
 use App\Models\Item;
 
@@ -167,29 +167,31 @@ class FleamarketController extends Controller
         // カテゴリ一覧を取得
         $categories = \App\Models\Category::all();
 
-        // 商品状態の選択肢
-        $conditions = [
-            'excellent' => '良好',
-            'good' => '目立った傷や汚れなし',
-            'fair' => 'やや傷や汚れあり',
-            'poor' => '状態が悪い',
-        ];
-
-        return view('sell', compact('categories', 'conditions'));
+        return view('sell', compact('categories'));
     }
 
     /**
      * 商品を出品
      */
-    public function storeItem(Request $request)
+    public function storeItem(ExhibitionRequest $request)
     {
         try {
-            // ExhibitionRequestのバリデーションを使用
-            $exhibitionRequest = new \App\Http\Requests\ExhibitionRequest();
-            $exhibitionRequest->merge($request->all());
-            $exhibitionRequest->validate($exhibitionRequest->rules(), $exhibitionRequest->messages());
-
             $user = Auth::user();
+
+            // デバッグ用ログ
+            Log::info('出品リクエストデータ:', [
+                'all_data' => $request->all(),
+                'has_image' => $request->hasFile('image'),
+                'image_name' => $request->file('image') ? $request->file('image')->getClientOriginalName() : 'なし',
+                'price' => $request->price,
+                'name' => $request->name,
+                'description' => $request->description,
+                'condition' => $request->condition,
+                'category' => $request->category,
+            ]);
+
+            // 価格のカンマを除去して数値に変換（バリデーション済み）
+            $price = (int) str_replace(',', '', $request->price);
 
             // 画像を保存
             $imagePath = $request->file('image')->store('product-images', 'public');
@@ -201,7 +203,7 @@ class FleamarketController extends Controller
                 'description' => $request->description,
                 'image_path' => $imagePath,
                 'condition' => $request->condition,
-                'price' => $request->price,
+                'price' => $price,
                 'seller_id' => $user->id,
             ]);
 

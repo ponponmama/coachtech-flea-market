@@ -16,7 +16,7 @@ class CreateItemsTable extends Migration
         Schema::create('items', function (Blueprint $table) {
             $table->id();
             $table->string('name'); // 入力必須
-            $table->string('brand')->nullable();
+            $table->string('brand')->nullable(); // 任意項目
             $table->text('description', 255); // 最大255文字
             $table->integer('price'); // 数値型、0円以上
             $table->string('condition'); // 選択必須
