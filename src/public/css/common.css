@@ -154,7 +154,7 @@ li {
 
 .form__error {
     line-height: 18px;
-    min-height: 18px;
+    height: 18px;
     color: red;
     font-size: 16px;
     margin: 0.5%;

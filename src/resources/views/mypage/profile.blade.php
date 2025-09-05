@@ -30,16 +30,18 @@
                         <input type="file" name="profile-image" id="profile-image" class="profile-image-input"
                             accept="image/*" style="display: none;">
                     </div>
-                    @error('profile-image')
-                        <p class="form__error">{{ $message }}</p>
-                    @enderror
+                    <p class="form__error">
+                        @error('profile-image')
+                            {{ $message }}
+                        @enderror
+                    </p>
                 </div>
                 <div class="form-group">
                     <label class="profile-label" for="name">ユーザー名</label>
                     <input class="profile-input" type="text" name="name" id="name"
                         value="{{ old('name', $user->name) }}" autocomplete="name">
                 </div>
-                <p class="form__error"></p>
+                <p class="form__error">
                 @error('name')
                     {{ $message }}
                 @enderror

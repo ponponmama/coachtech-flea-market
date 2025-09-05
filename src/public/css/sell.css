@@ -16,8 +16,9 @@
 .section-title {
     width: 100%;
     font-size: 24px;
+    line-height: 36px;
     text-align: left;
-    color: #5F5F5F;
+    color: rgba(0, 0, 0, 1);
     margin-bottom: 10px;
 }
 
@@ -25,34 +26,36 @@
 .image-preview {
     width: 100%;
     height: 150px;
-    border: 1px dashed #5F5F5F;
-    border-radius: 8px;
+    border: 1px dashed rgba(95, 95, 95, 1);
+    border-radius: 4px;
     display: flex;
     text-align: center;
     align-items: center;
     justify-content: center;
-    margin: 0 auto 20px;
     overflow: hidden;
 }
 
 .image-placeholder {
+    width: 100%;
+    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100%;
 }
 
 .image-upload-button {
     display: inline-block;
     text-align: center;
     width: 165px;
+    height: 43.46px;
     line-height: 43.46px;
-    border: 2px solid #FF5555;
-    color: #FF5655;
+    border: 2px solid rgba(255, 85, 85, 1);
+    color: rgba(255, 86, 85, 1);
     background-color: #FFFFFF;
     border-radius: 10px;
     font-size: 16px;
+    box-sizing: border-box;
 }
 
 .image-upload-button:hover {
@@ -74,8 +77,7 @@
 
 .form-section {
     width: 100%;
-
-    margin-bottom: 40px;
+    margin-bottom: 52px;
     text-align: left;
 }
 
@@ -94,12 +96,24 @@
     color: #000000;
 }
 
+.form-section-title-container {
+    width: 100%;
+    height: 48px;
+    text-align: left;
+    border-bottom: 1px solid rgba(95, 95, 95, 1);
+    margin-bottom: 36px;
+}
+
 .form-section-title {
     width: 100%;
-    text-align: left;
-    color: #5F5F5F;
-    margin-bottom: 10px;
+    line-height: 36px;
+    color: rgba(95, 95, 95, 1);
     font-size: 30px;
+}
+
+.form-section-line {
+    border: 1px solid rgba(95, 95, 95, 1);
+    margin-bottom: 36px;
 }
 
 /* フォーム要素 */
@@ -109,62 +123,103 @@
 
 .form-label {
     display: block;
-    font-size: 18px;
-    font-weight: 600;
-    color: #333333;
-    margin-bottom: 10px;
-}
-
-.form-label-category {
-    width: 162.09px;
-    line-height: 36px;
     font-size: 24px;
-    color: #000000;
+    line-height: 29px;
+    color: rgba(0, 0, 0, 1);
+    margin-bottom: 19px;
     text-align: left;
 }
 
 .form-input,
-.form-select,
-.form-textarea {
+.form-select {
     width: 100%;
-    padding: 12px 16px;
-    border: 2px solid #E0E0E0;
+    height: 45px;
+    padding-left: 15px;
+    border: 1px solid rgba(95, 95, 95, 1);
+    color: rgba(95, 95, 95, 1);
     border-radius: 6px;
     font-size: 16px;
-    transition: border-color 0.3s ease;
     box-sizing: border-box;
 }
 
-.form-input:focus,
-.form-select:focus,
-.form-textarea:focus {
+.form-select {
+    appearance: none;
+    background-image: none;
+    padding-right: 34px;
+}
+
+.select-wrapper {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+.select-wrapper::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 34px;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-left: 9px solid transparent;
+    border-right: 9px solid transparent;
+    border-top: 10px solid rgba(95, 95, 95, 1);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.form-select:focus {
+    border: 1.5px solid rgba(177, 177, 177, 1);
     outline: none;
-    border-color: #FF5555;
+}
+
+/* セレクトボックスのオプションスタイル */
+.form-select option {
+    background: rgba(99, 103, 105, 1);
+    color: rgba(234, 234, 234, 1);
+}
+
+.form-select option:hover {
+    background-color: rgba(85, 153, 235, 1);
+}
+
+
+.form-input:focus,
+.form-textarea:focus {
+    outline: 1px solid rgba(177, 177, 177, 1);
 }
 
 .form-textarea {
-    resize: vertical;
-    min-height: 120px;
-    font-family: inherit;
+    width: 100%;
+    height: 120px;
+    padding: 15px;
 }
 
 /* カテゴリーボタン */
 .category-buttons {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    justify-content: space-between;
 }
 
 .category-button {
-    display: inline-block;
-    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 15px;
+    height: 32px;
     border: 2px solid rgba(255, 86, 85, 1);
     color: rgba(255, 86, 85, 1);
-    background-color: rgba(217, 217, 217, 0);
+    background-color: #FFFFFF;
     border-radius: 20px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    position: relative;
+    box-sizing: border-box;
+    margin: 16px 6px;
+}
+
+.category-buttons::after {
+    content: "";
+    flex: auto;
 }
 
 /* チェックボックスが選択されている時のスタイル */
@@ -185,27 +240,28 @@
 }
 
 .category-text {
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 500;
+    line-height: 32px;
 }
-
 
 /* 価格入力 */
 .price-input-group {
+    width: 100%;
+    height: 45px;
     display: flex;
     align-items: center;
-    border: 2px solid #E0E0E0;
-    border-radius: 6px;
+    border: 1px solid rgba(95, 95, 95, 1);
     overflow: hidden;
 }
 
 .price-symbol {
-    background-color: #F8F8F8;
-    padding: 12px 16px;
-    font-size: 18px;
-    font-weight: 600;
-    color: #333333;
-    border-right: 2px solid #E0E0E0;
+    width: 36px;
+    line-height: 28px;
+    font-size: 24px;
+    color: rgba(0, 0, 0, 1);
+    text-align: left;
+    padding: 0 12px;
 }
 
 .price-input {
@@ -215,32 +271,27 @@
 }
 
 .price-input:focus {
+    outline: none;
     border-color: transparent;
-}
-
-/* エラーメッセージ */
-.error-message {
-    color: #FF5555;
-    font-size: 14px;
-    margin-top: 5px;
 }
 
 /* 出品ボタン */
 .submit-button {
     width: 100%;
-    background-color: #FF5555;
-    color: #FFFFFF;
+    height: 60px;
+    background-color: rgba(255, 85, 85, 1);
+    color: rgba(255, 255, 255, 1);
     border: none;
-    border-radius: 6px;
-    padding: 16px 24px;
-    font-size: 20px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+    border-radius: 5px;
+    font-size: 26px;
+    margin-top: 98px;
+    margin-bottom: 152px;
 }
 
 .submit-button:hover {
-    background-color: #E04444;
+    background-color: rgba(255, 255, 255, 1);
+    color: rgba(255, 85, 85, 1);
+    border: 1px solid rgba(255, 85, 85, 1);
 }
 
 /* レスポンシブ対応 */
