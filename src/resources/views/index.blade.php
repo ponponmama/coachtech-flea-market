@@ -24,7 +24,7 @@
             <div class="product-grid">
                 @forelse ($items as $item)
                     <div class="product-item">
-                        <a href="{{ route('item.detail', $item->id) }}" class="product-link">
+                        <a href="{{ route('item.detail', $item->id) }}" class="product-image-link">
                             <div class="product-image">
                                 @if ($item->image_path)
                                     <img src="{{ asset('storage/' . $item->image_path) }}" alt="{{ $item->name }}"
@@ -36,7 +36,9 @@
                                     <div class="sold-badge">SOLD</div>
                                 @endif
                             </div>
-                            <div class="product-name">
+                        </a>
+                        <div class="product-name">
+                            <a href="{{ route('item.detail', $item->id) }}" class="product-name-link">
                                 <span class="product-name__text">
                                     @if ($item->name && trim($item->name) !== '')
                                         {{ $item->name }}
@@ -44,39 +46,12 @@
                                         <span class="product-name__placeholder">商品名</span>
                                     @endif
                                 </span>
-                            </div>
-                        </a>
+                            </a>
+                        </div>
                     </div>
                 @empty
-                    <div class="product-item">
-                        <div class="product-link">
-                            <div class="product-image">
-                                <span class="product-image__placeholder">商品画像</span>
-                            </div>
-                            <div class="product-name">
-                                <span class="product-name__placeholder">商品名</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="product-item">
-                        <div class="product-link">
-                            <div class="product-image">
-                                <span class="product-image__placeholder">商品画像</span>
-                            </div>
-                            <div class="product-name">
-                                <span class="product-name__placeholder">商品名</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="product-item">
-                        <div class="product-link">
-                            <div class="product-image">
-                                <span class="product-image__placeholder">商品画像</span>
-                            </div>
-                            <div class="product-name">
-                                <span class="product-name__placeholder">商品名</span>
-                            </div>
-                        </div>
+                    <div class="no-items-message">
+                        <p>商品がありません</p>
                     </div>
                 @endforelse
             </div>

@@ -60,6 +60,9 @@ Route::get('/item/{item_id}', [FleamarketController::class, 'showItem'])->name('
 // 商品詳細画面でのコメント投稿
 Route::post('/item/{item_id}/comment', [FleamarketController::class, 'storeComment'])->middleware(['auth'])->name('item.comment');
 
+// いいね機能
+Route::post('/item/{item_id}/like', [ItemController::class, 'toggleLike'])->middleware(['auth'])->name('item.like');
+
 // 商品出品画面
 Route::get('/sell', [FleamarketController::class, 'showSell'])->middleware(['auth'])->name('sell');
 Route::post('/sell', [FleamarketController::class, 'storeItem'])->middleware(['auth'])->name('sell.store');

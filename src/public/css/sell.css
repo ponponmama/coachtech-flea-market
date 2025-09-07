@@ -42,6 +42,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    border-radius: 4px;
 }
 
 .image-upload-button {
@@ -67,17 +68,17 @@
     display: none;
 }
 
-/* プレビュー画像のスタイル */
+/* プレビュー画像のスタイル　JavaScriptと連携 */
 .preview-image {
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
-    border-radius: 8px;
+    object-position: center;
+    border-radius: 4px;
 }
 
 .form-section {
     width: 100%;
-    margin-bottom: 52px;
     text-align: left;
 }
 
@@ -118,7 +119,7 @@
 
 /* フォーム要素 */
 .form-group {
-    margin-bottom: 25px;
+    margin-bottom: 18px;
 }
 
 .form-label {
@@ -126,7 +127,7 @@
     font-size: 24px;
     line-height: 29px;
     color: rgba(0, 0, 0, 1);
-    margin-bottom: 19px;
+    margin-bottom: 7px;
     text-align: left;
 }
 
@@ -184,15 +185,22 @@
     background-color: rgba(85, 153, 235, 1);
 }
 
-
 .form-input:focus,
 .form-textarea:focus {
     outline: 1px solid rgba(177, 177, 177, 1);
 }
 
+.label-description {
+    margin-top: 18px;
+}
+
+.form-textarea {
+    margin-bottom: 9px;
+}
+
 .form-textarea {
     width: 100%;
-    height: 120px;
+    height: 125px;
     padding: 15px;
 }
 
@@ -284,7 +292,7 @@
     border: none;
     border-radius: 5px;
     font-size: 26px;
-    margin-top: 98px;
+    margin-top: 82px;
     margin-bottom: 152px;
 }
 

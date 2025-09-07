@@ -23,11 +23,13 @@
         </div>
         <nav class="nav-tabs">
             <ul class="nav-tabs__list">
-                <li class="nav-tabs__item link">
-                    <a href="#" class="nav-tabs__link">出品した商品</a>
+                <li class="nav-tabs__item {{ $page !== 'buy' ? 'nav-tabs__item--active' : '' }}">
+                    <a href="{{ route('mypage') }}"
+                        class="nav-tabs__link {{ $page !== 'buy' ? 'nav-tabs__link--active' : '' }}">出品した商品</a>
                 </li>
-                <li class="nav-tabs__item nav-tabs__item--active">
-                    <a href="#" class="nav-tabs__link nav-tabs__link--active link">購入した商品</a>
+                <li class="nav-tabs__item {{ $page === 'buy' ? 'nav-tabs__item--active' : '' }}">
+                    <a href="{{ route('mypage', ['page' => 'buy']) }}"
+                        class="nav-tabs__link {{ $page === 'buy' ? 'nav-tabs__link--active' : '' }}">購入した商品</a>
                 </li>
             </ul>
         </nav>

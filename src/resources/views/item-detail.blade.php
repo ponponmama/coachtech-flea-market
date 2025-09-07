@@ -23,84 +23,149 @@
             <div class="item-info-section">
                 <!-- 商品概要 -->
                 <div class="item-overview">
-                    <h1 class="item-name">{{ $item->name }}</h1>
-                    <p class="item-brand">{{ $item->brand ?? 'ブランド名' }}</p>
-                    <p class="item-price">¥{{ number_format($item->price) }} (税込)</p>
-
-                    <!-- いいね・コメント数 -->
-                    <div class="item-engagement">
-                        <div class="engagement-item">
-                            <span class="engagement-icon">★</span>
-                            <span class="engagement-count">{{ $item->likes->count() }}</span>
-                        </div>
-                        <div class="engagement-item">
-                            <span class="engagement-icon">💬</span>
-                            <span class="engagement-count">{{ $item->comments->count() }}</span>
+                    <div class="item-header">
+                        <p class="item-name">
+                            {{ $item->name }}
+                        </p>
+                        <p class="item-brand">
+                            {{ $item->brand ?? 'ブランド名' }}
+                        </p>
+                        <p class="item-price-section">
+                            <span class="item-price">
+                                ¥{{ number_format($item->price) }}
+                            </span>
+                            <span class="item-price-tax">(税込)</span>
+                            </span>
+                        </p>
+                        <!-- いいね・コメント数 -->
+                        <div class="item-engagement">
+                            <div class="engagement-item">
+                                <button class="like-button" data-item-id="{{ $item->id }}"
+                                    data-liked="{{ Auth::check() && $item->likes->where('user_id', Auth::id())->count() > 0 ? 'true' : 'false' }}">
+                                    <img src="{{ asset('images/star-icon.png') }}" alt="いいね" class="engagement-icon">
+                                    <span class="engagement-count"> {{ $item->likes->count() }}</span>
+                                </button>
+                            </div>
+                            <div class="engagement-item">
+                                <img src="{{ asset('images/comment-icon.png') }}" alt="コメント" class="engagement-icon">
+                                <span class="engagement-count">{{ $item->comments->count() }}</span>
+                            </div>
                         </div>
                     </div>
-
-                    <!-- 購入ボタン -->
-                    <a href="{{ route('purchase', $item->id) }}" class="purchase-button">購入手続きへ</a>
+                    <div class="item-purchase">
+                        <!-- 購入ボタン -->
+                        <a href="{{ route('purchase', $item->id) }}" class="purchase-link">購入手続きへ</a>
+                    </div>
                 </div>
-
                 <!-- 商品説明 -->
                 <div class="item-description-section">
-                    <h2 class="section-title">商品説明</h2>
-                    <div class="item-description">
-                        <p>カラー:グレー</p>
-                        <p>新品</p>
-                        <p>{{ $item->description }}</p>
-                        <p>購入後、即発送いたします。</p>
-                    </div>
+                    <p class="description-section-title">商品説明</p>
+                    <p class="item-description-text">
+                        {{ $item->description }}
+                    </p>
                 </div>
 
                 <!-- 商品情報 -->
                 <div class="item-information-section">
-                    <h2 class="section-title">商品の情報</h2>
+                    <p class="information-section-title">商品の情報</p>
                     <div class="item-information">
-                        <div class="info-item">
-                            <span class="info-label">カテゴリー</span>
+                        <div class="category-info-item">
+                            <span class="category-info-label">カテゴリー</span>
                             <div class="category-tags">
                                 @foreach ($item->categories as $category)
                                     <span class="category-tag">{{ $category->name }}</span>
                                 @endforeach
                             </div>
                         </div>
-                        <div class="info-item">
-                            <span class="info-label">商品の状態</span>
-                            <span class="info-value">{{ $item->condition }}</span>
+                        <div class="condition-info-item">
+                            <span class="condition-info-label">商品の状態</span>
+                            <span class="info-value">
+                                {{ $item->condition }}
+                            </span>
                         </div>
                     </div>
                 </div>
-
                 <!-- コメントセクション -->
                 <div class="comments-section">
-                    <h2 class="section-title">コメント({{ $item->comments->count() }})</h2>
-
-                    <!-- 既存コメント -->
+                    <p class="comments-section-title">コメント({{ $item->comments->count() }})</p>
                     @foreach ($item->comments as $comment)
                         <div class="comment-item">
-                            <div class="comment-user">
-                                <div class="user-avatar"></div>
-                                <span class="user-name">{{ $comment->user->name }}</span>
-                            </div>
+                            <span class="profile-image">
+                                @if ($comment->user->profile_image)
+                                    <img src="{{ \Illuminate\Support\Facades\Storage::url($comment->user->profile_image) }}"
+                                        alt="プロフィール画像">
+                                @endif
+                            </span>
+                            <span class="user-name">{{ $comment->user->name }}</span>
                             <div class="comment-content">
                                 {{ $comment->content }}
                             </div>
                         </div>
-                    @endforeach
-
-                    <!-- コメント投稿フォーム -->
-                    <div class="comment-form-section">
-                        <h3 class="form-title">商品へのコメント</h3>
-                        <form action="{{ route('item.comment', $item->id) }}" method="POST" class="comment-form">
-                            @csrf
-                            <textarea name="comment" class="comment-input" placeholder="コメントを入力してください"></textarea>
-                            <button type="submit" class="comment-submit-button">コメントを送信する</button>
-                        </form>
-                    </div>
+                </div>
+                @endforeach
+                <!-- コメント投稿フォーム -->
+                <div class="comment-form-section">
+                    <p class="form-title">商品へのコメント</p>
+                    <form action="{{ route('item.comment', $item->id) }}" method="POST" class="comment-form">
+                        @csrf
+                        <textarea name="comment" class="comment-input"></textarea>
+                        <button type="submit" class="comment-submit-button">コメントを送信する</button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
+    </div>
+@endsection
+
+@section('js')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const likeButtons = document.querySelectorAll('.like-button');
+
+            likeButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const itemId = this.dataset.itemId;
+                    const isLiked = this.dataset.liked === 'true';
+
+                    // CSRFトークンを取得
+                    const token = document.querySelector('meta[name="csrf-token"]').getAttribute(
+                        'content');
+
+                    fetch(`/item/${itemId}/like`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': token,
+                                'Accept': 'application/json'
+                            },
+                            body: JSON.stringify({})
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.error) {
+                                alert(data.error);
+                                return;
+                            }
+
+                            // いいね状態を更新
+                            this.dataset.liked = data.isLiked;
+                            this.querySelector('.engagement-count').textContent = data
+                                .likeCount;
+
+                            // ボタンのスタイルを更新
+                            if (data.isLiked) {
+                                this.classList.add('liked');
+                            } else {
+                                this.classList.remove('liked');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert('エラーが発生しました');
+                        });
+                });
+            });
+        });
+    </script>
 @endsection

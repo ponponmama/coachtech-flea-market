@@ -104,7 +104,7 @@
                         autocomplete="off">
                 </div>
                 <div class="form-group">
-                    <label class="form-label" for="description">商品の説明</label>
+                    <label class="form-label label-description" for="description">商品の説明</label>
                     <textarea name="description" id="description" class="form-textarea" rows="5" autocomplete="off">{{ old('description') }}</textarea>
                     <p class="form__error">
                         @error('description')
@@ -115,7 +115,7 @@
             </div>
             <div class="form-section">
                 <div class="form-group">
-                    <label class="form-label" for="price">価格</label>
+                    <label class="form-label" for="price">販売価格</label>
                     <div class="price-input-group">
                         <span class="price-symbol">¥</span>
                         <input type="text" name="price" id="price" class="form-input price-input"
