@@ -22,48 +22,101 @@ class ItemFactory extends Factory
      */
     public function definition()
     {
-        $conditions = ['良好', '目立った傷や汚れなし', 'やや傷や汚れあり', '状態が悪い'];
-
-        $itemNames = [
-            '腕時計', 'バッグ', '靴', '洋服', '帽子', 'アクセサリー', 'スマートフォン',
-            'ノートPC', 'タブレット', 'カメラ', 'ゲーム機', '本', 'CD', 'DVD',
-            '家具', '家電', 'キッチン用品', 'スポーツ用品', '楽器', 'おもちゃ',
-            'コスメ', '香水', '時計', '財布', 'ベルト', 'ネクタイ', 'スカーフ'
+        // 指定された商品データ
+        $productData = [
+            [
+                'name' => '腕時計',
+                'price' => 15000,
+                'brand' => 'Rolax',
+                'description' => 'スタイリッシュなデザインのメンズ腕時計',
+                'image_path' => 'product-images/watch_1.jpg',
+                'condition' => '良好'
+            ],
+            [
+                'name' => 'HDD',
+                'price' => 5000,
+                'brand' => '西芝',
+                'description' => '高速で信頼性の高いハードディスク',
+                'image_path' => 'product-images/hdd_2.jpg',
+                'condition' => '目立った傷や汚れなし'
+            ],
+            [
+                'name' => '玉ねぎ3束',
+                'price' => 300,
+                'brand' => null,
+                'description' => '新鮮な玉ねぎ3束のセット',
+                'image_path' => 'product-images/onion_3.jpg',
+                'condition' => 'やや傷や汚れあり'
+            ],
+            [
+                'name' => '革靴',
+                'price' => 4000,
+                'brand' => null,
+                'description' => 'クラシックなデザインの革靴',
+                'image_path' => 'product-images/shoes_4.jpg',
+                'condition' => '状態が悪い'
+            ],
+            [
+                'name' => 'ノートPC',
+                'price' => 45000,
+                'brand' => null,
+                'description' => '高性能なノートパソコン',
+                'image_path' => 'product-images/laptop_5.jpg',
+                'condition' => '良好'
+            ],
+            [
+                'name' => 'マイク',
+                'price' => 8000,
+                'brand' => null,
+                'description' => '高音質のレコーディング用マイク',
+                'image_path' => 'product-images/mic_6.jpg',
+                'condition' => '目立った傷や汚れなし'
+            ],
+            [
+                'name' => 'ショルダーバッグ',
+                'price' => 3500,
+                'brand' => null,
+                'description' => 'おしゃれなショルダーバッグ',
+                'image_path' => 'product-images/bag_7.jpg',
+                'condition' => 'やや傷や汚れあり'
+            ],
+            [
+                'name' => 'タンブラー',
+                'price' => 500,
+                'brand' => null,
+                'description' => '使いやすいタンブラー',
+                'image_path' => 'product-images/tumbler_8.jpg',
+                'condition' => '状態が悪い'
+            ],
+            [
+                'name' => 'コーヒーミル',
+                'price' => 4000,
+                'brand' => 'Starbacks',
+                'description' => '手動のコーヒーミル',
+                'image_path' => 'product-images/coffee_grinder_9.jpg',
+                'condition' => '良好'
+            ],
+            [
+                'name' => 'メイクセット',
+                'price' => 2500,
+                'brand' => null,
+                'description' => '便利なメイクアップセット',
+                'image_path' => 'product-images/makeup_10.jpg',
+                'condition' => '目立った傷や汚れなし'
+            ]
         ];
 
-        $brands = [
-            'ユニクロ', 'ZARA', 'H&M', 'GU', '無印良品', 'ニトリ', 'IKEA',
-            'Apple', 'Samsung', 'Sony', 'Panasonic', 'シャープ', '東芝',
-            'Nike', 'Adidas', 'Puma', 'Converse', 'Vans', 'New Balance',
-            'ルイ・ヴィトン', 'シャネル', 'グッチ', 'プラダ', 'エルメス'
-        ];
-
-        $descriptions = [
-            'とても良い状態です。お気に入りの一品でした。',
-            '新品同様の美品です。',
-            '少し使用感がありますが、まだまだ使えます。',
-            '状態良好です。大切に使ってきました。',
-            '目立った傷や汚れはありません。',
-            'やや傷や汚れがありますが、機能は問題ありません。',
-            '状態は悪いですが、まだ使えると思います。',
-            '思い出の品です。大切に扱ってください。',
-            '高級感のある一品です。',
-            'シンプルで使いやすいデザインです。',
-            'トレンドの商品です。',
-            'クラシックなデザインで長く使えます。',
-            'コンパクトで持ち運びしやすいです。',
-            '高品質な素材を使用しています。',
-            'デザイン性と機能性を兼ね備えています。'
-        ];
+        // 指定された商品データからランダムに選択
+        $selectedProduct = $this->faker->randomElement($productData);
 
         return [
-            'name' => $this->faker->randomElement($itemNames),
-            'brand' => $this->faker->optional(0.7)->randomElement($brands),
-            'description' => $this->faker->randomElement($descriptions),
-            'price' => $this->faker->numberBetween(100, 50000),
-            'condition' => $this->faker->randomElement($conditions),
-            'image_path' => null, // 後で実際の画像パスを設定
-            'seller_id' => User::factory(),
+            'name' => $selectedProduct['name'],
+            'brand' => $selectedProduct['brand'],
+            'description' => $selectedProduct['description'],
+            'price' => $selectedProduct['price'],
+            'condition' => $selectedProduct['condition'],
+            'image_path' => $selectedProduct['image_path'],
+            'seller_id' => null, // Seederで既存ユーザーを割り当て
             'buyer_id' => null,
             'sold_at' => null,
         ];

@@ -2,19 +2,19 @@
 
 namespace Database\Factories;
 
-use App\Models\Like;
-use App\Models\User;
+use App\Models\ItemCategory;
 use App\Models\Item;
+use App\Models\Category;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class LikeFactory extends Factory
+class ItemCategoryFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Like::class;
+    protected $model = ItemCategory::class;
 
     /**
      * Define the model's default state.
@@ -24,7 +24,7 @@ class LikeFactory extends Factory
     public function definition()
     {
         return [
-            // user_idとitem_idはSeederで指定
+            // item_idとcategory_idはSeederで指定
         ];
     }
 }

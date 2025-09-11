@@ -48,11 +48,7 @@ class CommentFactory extends Factory
 
         return [
             'content' => $this->faker->randomElement($commentTemplates),
-            'user_id' => User::factory(),
-            'item_id' => Item::factory(),
+            // user_idとitem_idはSeederで指定
         ];
     }
 }
-
-
-

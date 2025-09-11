@@ -48,8 +48,8 @@ class ProfileFactory extends Factory
                         $this->faker->randomElement($cities) .
                         $this->faker->streetAddress(),
             'building_name' => $this->faker->randomElement($buildingTypes) .
-                              $this->faker->lastName() .
-                              $this->faker->optional(0.7)->numberBetween(1, 9),
+            $this->faker->lastName() .
+            $this->faker->optional(0.7)->numberBetween(1, 9),
         ];
     }
 }

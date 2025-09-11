@@ -60,8 +60,11 @@ class FortifyServiceProvider extends ServiceProvider
                 return $user;
             }
 
-            return null;
-        });
+            // ログイン失敗時
+        throw ValidationException::withMessages([
+        'failed' => 'ログイン情報が登録されていません'
+        ]);
+    });
 
         Fortify::createUsersUsing(CreateNewUser::class);
 

@@ -25,7 +25,7 @@ class UserFactory extends Factory
 
         return [
             'name' => $this->faker->randomElement($japaneseNames),
-            'email' => $this->faker->unique()->safeEmail(),
+            'email' => 'test@' . str_pad($this->faker->unique()->numberBetween(1, 1000), 2, '0', STR_PAD_LEFT) . '.com',
             'email_verified_at' => now(),
             'password' => bcrypt('user_pass'),
             'remember_token' => Str::random(10),

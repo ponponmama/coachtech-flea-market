@@ -14,37 +14,17 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        // 20人のユーザーを作成
-        User::factory(20)->create()->each(function ($user) {
-            // 一部のユーザー（最初の10人）にプロフィール情報を追加
-            if ($user->id <= 10) {
-                $user->profile()->create([
-                    'postal_code' => '1234567', // ハイフンなしで保存
-                    'address' => '東京都渋谷区テスト住所' . $user->id,
-                    'building_name' => 'テストビル' . $user->id,
-                ]);
-            }
-        });
+        // 21人のユーザーを作成
+        $users = User::factory(21)->create();
 
-        // テスト用のユーザーを作成（ログイン用）
-        $testUser = User::create([
-            'name' => 'テストユーザー',
-            'email' => 'test@example.com',
-            'email_verified_at' => now(),
-            'password' => bcrypt('password123'),
-            'is_first_login' => false,
-        ]);
+        // user_idに合わせてemailを更新
+        foreach ($users as $user) {
+            $user->update([
+                'email' => 'test@' . str_pad($user->id, 2, '0', STR_PAD_LEFT) . '.com'
+            ]);
+        }
 
-        // テストユーザーにプロフィール情報を追加
-        $testUser->profile()->create([
-            'postal_code' => '1234567',
-            'address' => '東京都渋谷区テスト住所',
-            'building_name' => 'テストビル',
-        ]);
-
-        $this->command->info('20人のユーザーとテストユーザーを作成しました。');
-        $this->command->info('テストユーザーのログイン情報:');
-        $this->command->info('Email: test@example.com');
-        $this->command->info('Password: password123');
+        $this->command->info('21人のユーザーを作成しました。');
+        $this->command->info('ログイン情報: test@01.com 〜 test@21.com / user_pass');
     }
 }

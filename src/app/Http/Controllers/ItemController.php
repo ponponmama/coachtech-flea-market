@@ -78,8 +78,8 @@ class ItemController extends Controller
 
         // 既にいいねしているかチェック
         $existingLike = Like::where('user_id', $user->id)
-                           ->where('item_id', $itemId)
-                           ->first();
+            ->where('item_id', $itemId)
+            ->first();
 
         if ($existingLike) {
             // いいねを削除
