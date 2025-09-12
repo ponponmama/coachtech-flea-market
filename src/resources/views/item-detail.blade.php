@@ -39,16 +39,20 @@
                             </p>
                             <div class="item-engagement">
                                 <div class="engagement-item">
-                                    <button class="like-button" data-item-id="{{ $item->id }}"
+                                    <button
+                                        class="like-button {{ Auth::check() && $item->likes->where('user_id', Auth::id())->count() > 0 ? 'liked' : '' }}"
+                                        data-item-id="{{ $item->id }}"
                                         data-liked="{{ Auth::check() && $item->likes->where('user_id', Auth::id())->count() > 0 ? 'true' : 'false' }}">
-                                        <img src="{{ asset('images/star-icon.png') }}" alt="いいね" class="engagement-icon">
+                                        <img src="{{ asset('images/star-icon.png') }}" alt="いいね"
+                                            class="engagement-icon">
                                         <span class="engagement-count">
                                             {{ $item->likes->count() }}
                                         </span>
                                     </button>
                                 </div>
                                 <div class="engagement-item">
-                                    <img src="{{ asset('images/comment-icon.png') }}" alt="コメント" class="engagement-icon">
+                                    <img src="{{ asset('images/comment-icon.png') }}" alt="コメント"
+                                        class="engagement-icon">
                                     <span class="engagement-count">{{ $item->comments->count() }}</span>
                                 </div>
                             </div>
@@ -91,7 +95,8 @@
                                 <div class="comment-user">
                                     <span class="profile-image">
                                         @if ($comment->user->profile_image)
-                                            <img src="{{ \Illuminate\Support\Facades\Storage::url($comment->user->profile_image) }}" alt="プロフィール画像" class="profile-image-holder">
+                                            <img src="{{ \Illuminate\Support\Facades\Storage::url($comment->user->profile_image) }}"
+                                                alt="プロフィール画像" class="profile-image-holder">
                                         @endif
                                     </span>
                                     <span class="user-name">
@@ -109,9 +114,12 @@
                             </p>
                             <form action="{{ route('item.comment', $item->id) }}" method="POST" class="comment-form">
                                 @csrf
-                                <textarea name="comment" class="comment-input"></textarea>
+                                <p class="textarea-wrapper">
+                                    <textarea name="comment" class="comment-input"></textarea>
+                                    <span class="custom-resize-handle"></span>
+                                </p>
                                 <p class="comment-submit-button-container">
-                                    <button type="submit" class="comment-submit-button">
+                                    <button type="submit" class="comment-submit-button button">
                                         コメントを送信する
                                     </button>
                                 </p>
