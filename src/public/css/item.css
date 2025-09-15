@@ -1,13 +1,16 @@
 /* 商品詳細全体画面 */
-.item-detail-section {
+.content-container {
+    width: 100%;
+    height: 100%;
     display: flex;
-    margin: 95px 66px;
+    flex-direction: row;
+    margin: 95px 66px 100px 66px;
 }
 
 /* 左側：商品画像全体 */
 .item-image-section {
     flex: 0 0 690px;
-    margin-top: 36px;
+    padding: 36px 45px;
 }
 
 /* イメージplaceholder */
@@ -20,7 +23,6 @@
     align-items: center;
     justify-content: center;
     position: relative;
-    margin-left: 45px;
 }
 
 /* イメージ */
@@ -40,27 +42,21 @@
 }
 
 /* 右側全体の親要素 */
-.item-info-section {
+.product-description-area {
     width: 690px;
     flex: 1;
     display: flex;
     flex-direction: column;
-    align-items: left;
     text-align: left;
-}
-
-/* 商品詳細情報の親要素 */
-.item-info-section-container {
-    width: 570px;
-    height: 100%;
-    margin-left: 65px;
+    box-sizing: border-box;
 }
 
 /* 商品概要 */
-.item-main-section {
-    width: 100%;
+.item-info-section {
+    width: 570px;
     display: flex;
     flex-direction: column;
+    margin: 0 55px 0 65px;
 }
 
 /* 商品概要ヘッダー */
@@ -155,16 +151,8 @@
     align-items: center;
 }
 
-.like-button:hover {
-    background-color: #F0F0F0;
-}
-
 .like-button.liked .engagement-icon {
-    filter: hue-rotate(320deg) saturate(2) brightness(1.2);
-}
-
-.like-button.liked .engagement-count {
-    color: #FF5555;
+    filter: brightness(0) saturate(100%) invert(27%) sepia(51%) saturate(2878%) hue-rotate(346deg) brightness(104%) contrast(97%);
 }
 
 /* 購入ボタン親要素 */
@@ -175,7 +163,6 @@
     justify-content: center;
     align-items: center;
 }
-
 
 /* 商品説明 */
 .item-description-section {
@@ -237,7 +224,6 @@
 
 /* カテゴリタグ の親要素 */
 .category-tags {
-    width: 150px;
     height: 30px;
     display: flex;
     gap: 22.44px;
@@ -247,14 +233,16 @@
 
 /* カテゴリーtag */
 .category-tag {
-    width: 100%;
+    min-width: 101.99px;
     background-color: rgba(217, 217, 217, 1);
     color: rgba(0, 0, 0, 1);
     border-radius: 15px;
     font-size: 20px;
-    line-height: 24.83px;
+    line-height: 30px;
     font-weight: 400;
     text-align: center;
+    padding: 0 20.4px;
+    box-sizing: border-box;
 }
 
 /* conditionの親要素 */
@@ -286,10 +274,10 @@
 /* コメントセクション */
 .comments-section {
     width: 570px;
-    min-height: 743px;
     font-size: 36px;
     color: rgba(0, 0, 0, 1);
     line-height: 100px;
+    margin-bottom: 19px;
 }
 
 /* コメントtitle */
@@ -304,7 +292,9 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    min-height: 200px;
+    max-height: 200px;
+    margin-bottom: 19px;
+    overflow-y: auto;
 }
 
 /* コメントuserの親要素 */
@@ -337,6 +327,8 @@
 
 /* コメントuser名 */
 .user-name {
+    width: 482px;
+    height: 70px;
     font-size: 30px;
     line-height: 70px;
     color: rgba(0, 0, 0, 1);
@@ -353,7 +345,7 @@
     font-weight: 300;
     border-radius: 5px;
     background: rgba(229, 229, 229, 1);
-    margin-bottom: 41px;
+    margin-bottom: 19px;
 }
 
 /* コメント投稿フォームの親要素 */
@@ -382,7 +374,7 @@
     padding: 15px;
     border: 2px solid rgba(95, 95, 95, 1);
     border-radius: 5px;
-    font-size: 16px;
+    font-size: 20px;
     resize: both;
     font-family: inherit;
     box-sizing: border-box;
@@ -403,7 +395,8 @@
     position: relative;
     display: block;
     width: 100%;
-    margin: 0;
+    height: 246px;
+    margin-bottom: 26px;
     padding: 0;
 }
 
@@ -453,17 +446,16 @@
     transform-origin: right bottom;
 }
 
-/* コメント投稿フォームsubmitボタンの親要素 */
+/* コメント投稿フォームsubmitボタン&購入の親要素 */
 .comment-submit-button-container {
     width: 100%;
     height: 100px;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 22px;
 }
 
-/* 購入ボタン */
+/* 購入ボタン&コメント投稿フォームsubmitボタン */
 .purchase-link,
 .comment-submit-button {
     display: block;
@@ -484,8 +476,7 @@
     font-size: 25px;
 }
 
-
-.purchase-button:hover,
+.purchase-link:hover,
 .comment-submit-button:hover {
     background-color: rgba(255, 255, 255, 1);
     text-decoration: none;

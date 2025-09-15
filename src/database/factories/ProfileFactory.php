@@ -43,7 +43,7 @@ class ProfileFactory extends Factory
         ];
 
         return [
-            'postal_code' => $this->faker->regexify('[0-9]{3}-[0-9]{4}'),
+            'postal_code' => sprintf('%03d-%04d', $this->faker->numberBetween(100, 999), $this->faker->numberBetween(1000, 9999)),
             'address' => $this->faker->randomElement($prefectures) .
                         $this->faker->randomElement($cities) .
                         $this->faker->streetAddress(),

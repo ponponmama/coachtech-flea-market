@@ -7,66 +7,82 @@
 
 @section('content')
     <div class="content-container">
-        <h1 class="content-title">商品購入画面</h1>
-
+        <!-- 左側：商品情報・支払い・配送先 -->
         <div class="purchase-section">
-            <!-- 左側：商品情報・支払い・配送先 -->
-            <div class="purchase-main-section">
-                <!-- 商品情報 -->
-                <div class="product-info-section">
+            <div class="product-info-section">
+                <div class="info-group">
                     <div class="product-image-container">
-                        @if ($item->image_path)
-                            <img src="{{ asset('storage/' . $item->image_path) }}" alt="{{ $item->name }}"
-                                class="product-image">
-                        @else
-                            <div class="product-image-placeholder">商品画像</div>
-                        @endif
+                        <img src="{{ asset('storage/' . $item->image_path) }}" alt="{{ $item->name }}" class="product-image">
                     </div>
                     <div class="product-details">
-                        <p class="product-name">{{ $item->name }}</p>
-                        <p class="product-price">¥{{ number_format($item->price) }}</p>
+                        <p class="product-name">
+                            {{ $item->name }}
+                        </p>
+                        <p class="product-price">
+                            <span class="product-price-text">¥</span>
+                            {{ number_format($item->price) }}
+                        </p>
                     </div>
                 </div>
-
-                <!-- 支払い方法 -->
-                <div class="payment-section">
-                    <p class="section-title">支払い方法</p>
-                    <div class="form-group">
+                <p class="product-border-line"></p>
+            </div>
+            <div class="payment-section">
+                <div class="product-group">
+                    <label class="form-label" for="payment_method">支払い方法</label>
+                    <div class="select-wrapper">
                         <select name="payment_method" id="payment_method" class="form-select">
-                            <option value="">選択してください</option>
-                            <option value="convenience">コンビニ支払い</option>
+                            <option value="" disabled hidden>選択してください</option>
+                            <option value="convenience">コンビニ払い</option>
                             <option value="credit">カード支払い</option>
                         </select>
                     </div>
+                    <p class="form__error">
+                        @error('payment_method')
+                            {{ $message }}
+                        @enderror
+                    </p>
                 </div>
-
-                <!-- 配送先 -->
-                <div class="delivery-section">
-                    <div class="delivery-header">
-                        <p class="section-title">配送先</p>
-                        <a href="#" class="change-link">変更する</a>
-                    </div>
-                    <div class="delivery-address">
-                        <p class="postal-code">〒 XXX-YYYY</p>
-                        <p class="address-text">ここには住所と建物が入ります</p>
-                    </div>
+                <p class="product-border-line"></p>
+            </div>
+            <div class="product-group">
+                <div class="delivery-header">
+                    <p class="section-title">
+                        配送先
+                    </p>
+                    <a href="#" class="change-link">変更する</a>
+                </div>
+                <div class="delivery-address">
+                    <p class="postal-code">
+                        〒 {{ $defaultAddress['postal_code'] }}
+                    </p>
+                    <p class="address-text">
+                        {{ $defaultAddress['address'] }}
+                    </p>
                 </div>
             </div>
-
-            <!-- 右側：注文サマリー -->
-            <div class="order-summary-section">
-                <div class="order-summary-box">
-                    <div class="summary-row">
-                        <span class="summary-label">商品代金</span>
-                        <span class="summary-value">¥{{ number_format($item->price) }}</span>
-                    </div>
-                    <div class="summary-row">
-                        <span class="summary-label">支払い方法</span>
-                        <span class="summary-value" id="payment_method_display">選択してください</span>
-                    </div>
+            <p class="product-border-line"></p>
+        </div>
+        <div class="order-summary-section">
+            <div class="order-summary-box">
+                <div class="summary-row">
+                    <span class="summary-label">
+                        商品代金
+                    </span>
+                    <span class="summary-value summary-price">
+                        <span class="summary-price-text">¥</span>
+                        {{ number_format($item->price) }}
+                    </span>
                 </div>
-                <button type="button" id="purchase_button" class="purchase-button">購入する</button>
+                <div class="summary-row">
+                    <span class="summary-label">
+                        支払い方法
+                    </span>
+                    <span class="summary-value" id="payment_method_display">
+                    </span>
+                </div>
             </div>
+            <button type="button" id="purchase_button" class="purchase-button">購入する
+            </button>
         </div>
     </div>
 
@@ -87,10 +103,8 @@
                 // 購入ボタンの有効/無効を制御
                 if (selectedValue) {
                     purchaseButton.disabled = false;
-                    purchaseButton.style.opacity = '1';
                 } else {
                     purchaseButton.disabled = true;
-                    purchaseButton.style.opacity = '0.5';
                 }
             });
 
@@ -138,7 +152,6 @@
 
             // 初期状態で購入ボタンを無効化
             purchaseButton.disabled = true;
-            purchaseButton.style.opacity = '0.5';
         });
     </script>
 @endsection

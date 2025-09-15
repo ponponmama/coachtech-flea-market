@@ -1,4 +1,7 @@
 /* 商品一覧画面（トップ） */
+.content-container {
+    padding-top: 47px;
+}
 /* ナビゲーションタブ */
 .nav-tabs {
     width: 100%;
@@ -42,7 +45,6 @@
 .nav-tabs-border-line {
     width: 100%;
     border: 2px solid rgba(95, 95, 95, 1);
-    margin-bottom: 38.39px;
     display: block;
     /*position: relative;*/
     top: 0;
@@ -56,13 +58,13 @@
     height: 100%;
     display: flex;
     justify-content: flex-start;
+    padding: 76.39px 69px;
 }
 
 .product-grid {
     display: flex;
     flex-direction: row;
-    gap: 71.5px;
-    padding-left: 69px;
+    gap: 71.51px;
     flex-wrap: wrap;
 }
 

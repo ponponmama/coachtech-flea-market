@@ -20,24 +20,56 @@ class ItemCategorySeeder extends Seeder
         $items = Item::all();
         $categories = Category::all();
 
-        if ($items->isEmpty() || $categories->isEmpty()) {
-            $this->command->error('アイテムまたはカテゴリが見つかりません。先にItemSeederとCategorySeederを実行してください。');
-            return;
-        }
-
-        // 各アイテムに1-3個のカテゴリをランダムに割り当て
+        // 各アイテムに適切なカテゴリを割り当て
         foreach ($items as $item) {
-            $categoryCount = rand(1, 3);
-            $randomCategories = $categories->random($categoryCount);
+            // アイテムのカテゴリー名を取得（ItemFactoryで設定されたもの）
+            if (isset($item->category_names)) {
+                $categoryNames = $item->category_names;
+            } else {
+                // フォールバック：商品名に基づいてカテゴリーを推測
+                $categoryNames = $this->getCategoryByItemName($item->name);
+            }
 
-            foreach ($randomCategories as $category) {
-                ItemCategory::create([
-                    'item_id' => $item->id,
-                    'category_id' => $category->id,
-                ]);
+            // カテゴリー名からカテゴリーIDを取得
+            foreach ($categoryNames as $categoryName) {
+                $category = $categories->where('name', $categoryName)->first();
+                if ($category) {
+                    ItemCategory::create([
+                        'item_id' => $item->id,
+                        'category_id' => $category->id,
+                    ]);
+                }
             }
         }
 
         $this->command->info('アイテムとカテゴリの関連付けを作成しました。');
+    }
+
+    /**
+     * 商品名に基づいてカテゴリーを推測（フォールバック用）
+     */
+    private function getCategoryByItemName($itemName)
+    {
+        $categoryMapping = [
+            '腕時計' => ['アクセサリー', 'メンズ'],
+            'HDD' => ['家電'],
+            '玉ねぎ' => ['キッチン'],
+            '革靴' => ['ファッション', 'メンズ'],
+            'ノートPC' => ['家電'],
+            'マイク' => ['家電'],
+            'ショルダーバッグ' => ['ファッション', 'レディース'],
+            'タンブラー' => ['キッチン'],
+            'コーヒーミル' => ['キッチン'],
+            'メイクセット' => ['コスメ', 'レディース'],
+        ];
+
+        foreach ($categoryMapping as $keyword => $categories) {
+            if (strpos($itemName, $keyword) !== false) {
+                return $categories;
+            }
+        }
+
+        // デフォルト
+        return ['ファッション'];
     }
 }

@@ -149,32 +149,6 @@
     padding-right: 34px;
 }
 
-.select-wrapper {
-    position: relative;
-    display: inline-block;
-    width: 100%;
-}
-
-.select-wrapper::after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    right: 34px;
-    transform: translateY(-50%);
-    width: 0;
-    height: 0;
-    border-left: 9px solid transparent;
-    border-right: 9px solid transparent;
-    border-top: 10px solid rgba(95, 95, 95, 1);
-    pointer-events: none;
-    z-index: 1;
-}
-
-.form-select:focus {
-    border: 1.5px solid rgba(177, 177, 177, 1);
-    outline: none;
-}
-
 /* セレクトボックスのオプションスタイル */
 .form-select option {
     background: rgba(99, 103, 105, 1);

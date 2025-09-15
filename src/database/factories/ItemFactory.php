@@ -22,7 +22,7 @@ class ItemFactory extends Factory
      */
     public function definition()
     {
-        // 指定された商品データ
+        // 指定された商品データ（カテゴリーID付き）
         $productData = [
             [
                 'name' => '腕時計',
@@ -30,7 +30,8 @@ class ItemFactory extends Factory
                 'brand' => 'Rolax',
                 'description' => 'スタイリッシュなデザインのメンズ腕時計',
                 'image_path' => 'product-images/watch_1.jpg',
-                'condition' => '良好'
+                'condition' => '良好',
+                'category_ids' => ['アクセサリー', 'メンズ']
             ],
             [
                 'name' => 'HDD',
@@ -38,7 +39,8 @@ class ItemFactory extends Factory
                 'brand' => '西芝',
                 'description' => '高速で信頼性の高いハードディスク',
                 'image_path' => 'product-images/hdd_2.jpg',
-                'condition' => '目立った傷や汚れなし'
+                'condition' => '目立った傷や汚れなし',
+                'category_ids' => ['家電']
             ],
             [
                 'name' => '玉ねぎ3束',
@@ -46,7 +48,8 @@ class ItemFactory extends Factory
                 'brand' => null,
                 'description' => '新鮮な玉ねぎ3束のセット',
                 'image_path' => 'product-images/onion_3.jpg',
-                'condition' => 'やや傷や汚れあり'
+                'condition' => 'やや傷や汚れあり',
+                'category_ids' => ['キッチン']
             ],
             [
                 'name' => '革靴',
@@ -54,7 +57,8 @@ class ItemFactory extends Factory
                 'brand' => null,
                 'description' => 'クラシックなデザインの革靴',
                 'image_path' => 'product-images/shoes_4.jpg',
-                'condition' => '状態が悪い'
+                'condition' => '状態が悪い',
+                'category_ids' => ['ファッション', 'メンズ']
             ],
             [
                 'name' => 'ノートPC',
@@ -62,7 +66,8 @@ class ItemFactory extends Factory
                 'brand' => null,
                 'description' => '高性能なノートパソコン',
                 'image_path' => 'product-images/laptop_5.jpg',
-                'condition' => '良好'
+                'condition' => '良好',
+                'category_ids' => ['家電']
             ],
             [
                 'name' => 'マイク',
@@ -70,7 +75,8 @@ class ItemFactory extends Factory
                 'brand' => null,
                 'description' => '高音質のレコーディング用マイク',
                 'image_path' => 'product-images/mic_6.jpg',
-                'condition' => '目立った傷や汚れなし'
+                'condition' => '目立った傷や汚れなし',
+                'category_ids' => ['家電']
             ],
             [
                 'name' => 'ショルダーバッグ',
@@ -78,7 +84,8 @@ class ItemFactory extends Factory
                 'brand' => null,
                 'description' => 'おしゃれなショルダーバッグ',
                 'image_path' => 'product-images/bag_7.jpg',
-                'condition' => 'やや傷や汚れあり'
+                'condition' => 'やや傷や汚れあり',
+                'category_ids' => ['ファッション', 'レディース']
             ],
             [
                 'name' => 'タンブラー',
@@ -86,7 +93,8 @@ class ItemFactory extends Factory
                 'brand' => null,
                 'description' => '使いやすいタンブラー',
                 'image_path' => 'product-images/tumbler_8.jpg',
-                'condition' => '状態が悪い'
+                'condition' => '状態が悪い',
+                'category_ids' => ['キッチン']
             ],
             [
                 'name' => 'コーヒーミル',
@@ -94,7 +102,8 @@ class ItemFactory extends Factory
                 'brand' => 'Starbacks',
                 'description' => '手動のコーヒーミル',
                 'image_path' => 'product-images/coffee_grinder_9.jpg',
-                'condition' => '良好'
+                'condition' => '良好',
+                'category_ids' => ['キッチン']
             ],
             [
                 'name' => 'メイクセット',
@@ -102,12 +111,16 @@ class ItemFactory extends Factory
                 'brand' => null,
                 'description' => '便利なメイクアップセット',
                 'image_path' => 'product-images/makeup_10.jpg',
-                'condition' => '目立った傷や汚れなし'
+                'condition' => '目立った傷や汚れなし',
+                'category_ids' => ['コスメ', 'レディース']
             ]
         ];
 
         // 指定された商品データからランダムに選択
         $selectedProduct = $this->faker->randomElement($productData);
+
+        // 10%の確率で売り切れ商品にする
+        $isSold = $this->faker->boolean(10);
 
         return [
             'name' => $selectedProduct['name'],
@@ -117,8 +130,8 @@ class ItemFactory extends Factory
             'condition' => $selectedProduct['condition'],
             'image_path' => $selectedProduct['image_path'],
             'seller_id' => null, // Seederで既存ユーザーを割り当て
-            'buyer_id' => null,
-            'sold_at' => null,
+            'buyer_id' => $isSold ? $this->faker->numberBetween(1, 21) : null, // 30%の確率で売り切れ
+            'sold_at' => $isSold ? $this->faker->dateTimeBetween('-30 days', 'now') : null,
         ];
     }
 }

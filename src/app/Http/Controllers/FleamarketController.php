@@ -33,7 +33,10 @@ class FleamarketController extends Controller
 
         // 郵便番号をハイフン付きの形式に変換
         if ($profile && $profile->postal_code) {
-            $profile->postal_code_display = substr($profile->postal_code, 0, 3) . '-' . substr($profile->postal_code, 3);
+            // ハイフンがない場合のみ追加
+            $profile->postal_code_display = strpos($profile->postal_code, '-') === false
+                ? substr($profile->postal_code, 0, 3) . '-' . substr($profile->postal_code, 3)
+                : $profile->postal_code;
         }
 
         return view('mypage.profile', compact('user', 'profile'));

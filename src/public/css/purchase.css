@@ -1,25 +1,16 @@
-/* 商品購入画面 */
-.content-title {
-    width: 200px;
-    line-height: 44px;
-    font-size: 36px;
-    margin: 49px auto 43px;
-    text-align: center;
-    color: rgba(0, 0, 0, 1);
-}
-
-.purchase-section {
+.content-container {
     width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
+    height: 100%;
     display: flex;
-    gap: 60px;
-    padding: 0 20px;
+    flex-direction: row;
+    padding: 93px 80px;
+    gap: 107px;
 }
 
-/* 左側：メインセクション */
-.purchase-main-section {
-    flex: 1;
+/* 左側：商品情報・支払い・配送先セクション */
+.purchase-section {
+    width: 805px;
+    margin: 0;
     display: flex;
     flex-direction: column;
     gap: 40px;
@@ -27,55 +18,68 @@
 
 /* 商品情報セクション */
 .product-info-section {
+    flex: 1;
     display: flex;
-    gap: 30px;
-    align-items: flex-start;
+    gap: 54.47px;
 }
 
+/* 商品画像コンテナ */
 .product-image-container {
-    flex: 0 0 200px;
+    flex: 0 0 177.53px;
+    height: 177.53px;
 }
 
+/* 商品画像 */
 .product-image {
-    width: 200px;
-    height: 200px;
+    width: 100%;
+    height: 100%;
     object-fit: contain;
     object-position: center;
     border-radius: 4px;
     background-color: rgba(217, 217, 217, 1);
 }
 
-.product-image-placeholder {
-    width: 200px;
-    height: 200px;
-    background-color: rgba(217, 217, 217, 1);
-    border-radius: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: rgba(0, 0, 0, 1);
-    font-size: 16px;
+.product-border-line {
+    width: 100%;
+    height: 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 1);
+    margin: 0;
 }
 
 .product-details {
+    width: 326px;
+    height: 187px;
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 20px;
 }
 
+/* 商品名 */
 .product-name {
-    font-size: 24px;
+    font-size: 30px;
     color: rgba(0, 0, 0, 1);
     margin: 0;
-    line-height: 1.4;
+    line-height: 30px;
+    text-align: left;
+}
+
+/* ￥ */
+.product-price-text {
+    font-size: 27px;
+    line-height: 30px;
+    color: rgba(0, 0, 0, 1);
+    font-weight: 400;
 }
 
 .product-price {
-    font-size: 28px;
+    display: flex;
+    gap: 20px;
+    font-size: 32px;
+    line-height: 32px;
     color: rgba(0, 0, 0, 1);
     margin: 0;
-    font-weight: 600;
+    font-weight: 400;
 }
 
 /* 支払い方法セクション */
@@ -83,32 +87,80 @@
     width: 100%;
 }
 
+.info-group {
+    display: flex;
+    gap: 55.42px;
+}
+
+.product-info-section,
+.product-group {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    text-align: left;
+}
+
+.form-label,
 .section-title {
-    font-size: 24px;
+    display: block;
+    width: 326px;
+    font-size: 20px;
+    line-height: 85px;
     color: rgba(0, 0, 0, 1);
-    margin-bottom: 15px;
-    font-weight: 600;
+    text-align: left;
+    padding-left: 35px;
 }
 
-.form-group {
-    width: 100%;
+
+.select-wrapper {
+    position: relative;
+    display: inline-block;
+    width: 265px;
+    margin: 11px 0 11px 96px;
 }
 
+.select-wrapper::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 8px;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-left: 6.5px solid transparent;
+    border-right: 6.5px solid transparent;
+    border-top: 14px solid rgba(95, 95, 95, 1);
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* セレクトボックスの基本スタイル */
 .form-select {
-    width: 100%;
-    height: 50px;
-    padding: 0 15px;
+    width: 265px;
+    height: 31px;
+    padding-left: 5.85px;
     border: 1px solid rgba(95, 95, 95, 1);
     border-radius: 4px;
     font-size: 16px;
-    color: rgba(0, 0, 0, 1);
-    background-color: #FFFFFF;
+    color: rgba(95, 95, 95, 1);
     box-sizing: border-box;
+    appearance: none;
+    background-image: none;
+    opacity: 1;
 }
 
-.form-select:focus {
-    outline: none;
-    border-color: rgba(255, 85, 85, 1);
+/* セレクトボックスのオプションスタイル（ドロップダウンメニュー内のみ） */
+.form-select option {
+    background-color: rgba(99, 103, 105, 1);
+    color: rgba(234, 234, 234, 1);
+    padding: 8px 12px;
+    height: 40px;
+    line-height: 24px;
+    font-size: 16px;
+}
+
+.form-select option:hover {
+    background-color: rgba(85, 153, 235, 1);
 }
 
 /* 配送先セクション */
@@ -120,38 +172,41 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 15px;
+    margin-bottom: 13px;
 }
 
 .change-link {
-    color: rgba(255, 85, 85, 1);
+    width: 115px;
+    line-height: 85px;
+    color: rgba(0, 115, 204, 1);
     text-decoration: none;
-    font-size: 16px;
+    font-size: 20px;
+    font-weight: 400;
 }
 
 .change-link:hover {
     text-decoration: underline;
 }
 
+.delivery-section {
+    margin-bottom: 59px;
+}
+
 .delivery-address {
-    padding: 20px;
-    background-color: rgba(248, 248, 248, 1);
-    border-radius: 4px;
-    border: 1px solid rgba(217, 217, 217, 1);
+    display: flex;
+    flex-direction: column;
+    width: 280px;
+    height: 58px;
+    gap: 10px;
+    font-weight: 600;
+    color: rgba(0, 0, 0, 1);
+    font-size: 20px;
+    line-height: 20px;
+    text-align: left;
+    margin-left: 96px;
 }
 
-.postal-code {
-    font-size: 16px;
-    color: rgba(0, 0, 0, 1);
-    margin: 0 0 10px 0;
-}
 
-.address-text {
-    font-size: 16px;
-    color: rgba(0, 0, 0, 1);
-    margin: 0;
-    line-height: 1.5;
-}
 
 /* 右側：注文サマリーセクション */
 .order-summary-section {
@@ -162,56 +217,68 @@
 }
 
 .order-summary-box {
-    width: 100%;
-    padding: 30px;
-    border: 1px solid rgba(217, 217, 217, 1);
-    border-radius: 4px;
-    background-color: #FFFFFF;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    width: 440px;
+    height: 230px;
+    border: 1px solid rgba(0, 0, 0, 1);
+    color: rgba(0, 0, 0, 1);
 }
 
 .summary-row {
+    height: 115px;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    border: 1px solid rgba(0, 0, 0, 1);
+    box-sizing: border-box;
 }
 
 .summary-row:last-child {
-    margin-bottom: 0;
+    border-top: none;
 }
 
+.summary-payment,
 .summary-label {
-    font-size: 16px;
+    width: 220px;
+    font-size: 24px;
+    line-height: 115px;
+    text-align: center;
     color: rgba(0, 0, 0, 1);
-    font-weight: 500;
+    font-weight: 400;
 }
 
 .summary-value {
-    font-size: 16px;
+    width: 220px;
+    font-size: 24px;
+    line-height: 115px;
     color: rgba(0, 0, 0, 1);
-    font-weight: 600;
+    font-weight: 400;
 }
+
+.summary-price-text {
+    font-size: 20px;
+    line-height: 115px;
+    color: rgba(0, 0, 0, 1);
+    font-weight: 400;
+}
+
+.summary-price {
+    font-size: 28px;
+}
+
 
 .purchase-button {
     width: 100%;
     height: 60px;
+    line-height: 60px;
     background-color: rgba(255, 85, 85, 1);
-    color: #FFFFFF;
+    color: rgba(255, 255, 255, 1);
     border: none;
-    border-radius: 4px;
-    font-size: 18px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+    border-radius: 5px;
+    font-size: 26px;
+    margin-top: 66px;
 }
 
 .purchase-button:hover {
-    background-color: rgba(255, 70, 70, 1);
-}
-
-.purchase-button:active {
-    background-color: rgba(255, 60, 60, 1);
+    background-color: rgba(255, 85, 85, 0.5);
 }
 
 /* レスポンシブ対応 */
