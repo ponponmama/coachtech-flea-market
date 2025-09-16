@@ -1,81 +1,77 @@
+.content-container {
+    width: 680px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: rgba(0, 0, 0, 1);
+    padding: 48px 0;
+}
+
 /* 送付先住所変更画面 */
 .content-title {
-    width: 200px;
+    width: 180px;
     line-height: 44px;
     font-size: 36px;
-    margin: 49px auto 43px;
     text-align: center;
     color: rgba(0, 0, 0, 1);
 }
 
 .address-form-section {
     width: 100%;
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 0 20px;
 }
 
 .address-form {
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 20px;
 }
 
 .form-group {
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    margin: 34px 0 16px 0;
 }
 
 .form-label {
-    font-size: 18px;
+    width: 205px;
+    font-size: 24px;
+    line-height: 36px;
+    text-align: left;
     color: rgba(0, 0, 0, 1);
-    font-weight: 500;
-    margin-bottom: 5px;
 }
 
 .form-input {
     width: 100%;
-    height: 50px;
+    height: 45px;
     padding: 0 15px;
     border: 1px solid rgba(95, 95, 95, 1);
     border-radius: 4px;
     font-size: 16px;
     color: rgba(0, 0, 0, 1);
-    background-color: #FFFFFF;
     box-sizing: border-box;
 }
 
 .form-input:focus {
     outline: none;
-    border-color: rgba(255, 85, 85, 1);
+    color: rgba(95, 95, 95, 1);
 }
 
 .form-input::placeholder {
-    color: rgba(95, 95, 95, 0.7);
-}
-
-.form__error {
-    color: rgba(255, 85, 85, 1);
-    font-size: 14px;
-    margin: 0;
-    padding: 0;
+    color: rgba(95, 95, 95, 1);
 }
 
 .update-button {
     width: 100%;
     height: 60px;
     background-color: rgba(255, 85, 85, 1);
-    color: #FFFFFF;
+    color: rgba(255, 255, 255, 1);
     border: none;
     border-radius: 4px;
-    font-size: 18px;
-    font-weight: 600;
-    cursor: pointer;
+    font-size: 26px;
+    line-height: 60px;
     transition: background-color 0.3s ease;
-    margin-top: 20px;
+    margin-top: 77px;
 }
 
 .update-button:hover {

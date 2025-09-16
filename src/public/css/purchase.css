@@ -13,15 +13,19 @@
     margin: 0;
     display: flex;
     flex-direction: column;
-    gap: 40px;
+    box-sizing: border-box;
 }
 
 /* 商品情報セクション */
 .product-info-section {
-    flex: 1;
-    display: flex;
-    gap: 54.47px;
+    gap: 52.47px;
 }
+
+.info-group {
+    display: flex;
+    gap: 55.47px;
+}
+
 
 /* 商品画像コンテナ */
 .product-image-container {
@@ -39,6 +43,7 @@
     background-color: rgba(217, 217, 217, 1);
 }
 
+/* セクションボーダーライン */
 .product-border-line {
     width: 100%;
     height: 0;
@@ -46,6 +51,7 @@
     margin: 0;
 }
 
+/* 商品詳細 */
 .product-details {
     width: 326px;
     height: 187px;
@@ -72,6 +78,7 @@
     font-weight: 400;
 }
 
+/* 価格数字 */
 .product-price {
     display: flex;
     gap: 20px;
@@ -82,43 +89,47 @@
     font-weight: 400;
 }
 
-/* 支払い方法セクション */
-.payment-section {
-    width: 100%;
-}
-
-.info-group {
-    display: flex;
-    gap: 55.42px;
-}
-
+/* 商品情報セクション・支払い方法セクション・配送先セクション */
 .product-info-section,
+.payment-section,
+.delivery-section
+{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+/* 支払い方法セクション・配送先セクション */
 .product-group {
     display: flex;
     flex-direction: column;
     width: 100%;
     text-align: left;
+    padding-left: 35px;
+    margin-bottom: 63px;
+    box-sizing: border-box;
 }
 
-.form-label,
-.section-title {
+
+.form-label {
     display: block;
     width: 326px;
     font-size: 20px;
     line-height: 85px;
     color: rgba(0, 0, 0, 1);
     text-align: left;
-    padding-left: 35px;
 }
 
-
+/* 支払い方法セレクト▽ */
 .select-wrapper {
     position: relative;
     display: inline-block;
     width: 265px;
-    margin: 11px 0 11px 96px;
+    margin: 11px 0 11px 61px;
 }
 
+/* 支払い方法セレクト▽ */
 .select-wrapper::after {
     content: "";
     position: absolute;
@@ -168,7 +179,13 @@
     width: 100%;
 }
 
+/* 配送先グループ */
+.delivery-group {
+    margin-bottom: 59px;
+}
+
 .delivery-header {
+    width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -203,17 +220,14 @@
     font-size: 20px;
     line-height: 20px;
     text-align: left;
-    margin-left: 96px;
+    margin-left: 61px;
 }
-
-
 
 /* 右側：注文サマリーセクション */
 .order-summary-section {
-    flex: 0 0 350px;
+    flex: 0 0 440px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
 }
 
 .order-summary-box {
@@ -221,9 +235,11 @@
     height: 230px;
     border: 1px solid rgba(0, 0, 0, 1);
     color: rgba(0, 0, 0, 1);
+    box-sizing: border-box;
 }
 
 .summary-row {
+    width: 100%;
     height: 115px;
     display: flex;
     align-items: center;
@@ -235,23 +251,17 @@
     border-top: none;
 }
 
-.summary-payment,
-.summary-label {
+.summary-label,
+.summary-value {
     width: 220px;
     font-size: 24px;
     line-height: 115px;
     text-align: center;
     color: rgba(0, 0, 0, 1);
     font-weight: 400;
+    box-sizing: border-box;
 }
 
-.summary-value {
-    width: 220px;
-    font-size: 24px;
-    line-height: 115px;
-    color: rgba(0, 0, 0, 1);
-    font-weight: 400;
-}
 
 .summary-price-text {
     font-size: 20px;

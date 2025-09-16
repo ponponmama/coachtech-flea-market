@@ -44,23 +44,25 @@
                 </div>
                 <p class="product-border-line"></p>
             </div>
-            <div class="product-group">
-                <div class="delivery-header">
-                    <p class="section-title">
+            <div class="delivery-section">
+                <div class="product-group delivery-group">
+                    <div class="delivery-header">
+                        <p class="form-label">
                         配送先
-                    </p>
-                    <a href="#" class="change-link">変更する</a>
+                        </p>
+                        <a href="/purchase/address/{{ $item->id }}" class="change-link link">変更する</a>
+                    </div>
+                    <div class="delivery-address">
+                        <p class="postal-code">
+                            〒 {{ $defaultAddress['postal_code'] }}
+                        </p>
+                        <p class="address-text">
+                            {{ $defaultAddress['address'] }}
+                        </p>
+                    </div>
                 </div>
-                <div class="delivery-address">
-                    <p class="postal-code">
-                        〒 {{ $defaultAddress['postal_code'] }}
-                    </p>
-                    <p class="address-text">
-                        {{ $defaultAddress['address'] }}
-                    </p>
-                </div>
+                <p class="product-border-line"></p>
             </div>
-            <p class="product-border-line"></p>
         </div>
         <div class="order-summary-section">
             <div class="order-summary-box">
