@@ -1,12 +1,9 @@
-.body-container {
-    background-color: #FFFFFF;
+.auth-header {
+    height: 82px;
 }
 
-.main-content {
-    width: 100%;
-}
-
-.auth-container {
+.register-container,
+.login-container {
     width: 680px;
     display: flex;
     flex-direction: column;
@@ -15,24 +12,27 @@
     color: black;
 }
 
-.content-title {
-    width: 100%;
-    line-height: 47.58px;
-    font-size: 36px;
-    margin: 2% auto;
-    text-align: center;
+.register-container {
+    padding-top: 96px;
 }
 
-.auth-content {
+.content-title {
+    width: 144px;
+    line-height: 47.58px;
+    font-size: 36px;
+    text-align: center;
+    margin-bottom: 34.42px;
+}
+
+.register-form {
     width: 100%;
-    height: 100%;
 }
 
 .form-group {
     width: 100%;
     display: flex;
     flex-direction: column;
-    margin: 1% auto;
+    margin: 20px 0;
 }
 
 /* register */
@@ -40,14 +40,15 @@
     line-height: 35px;
     font-size: 24px;
     text-align: left;
-    margin-bottom: 1%;
 }
 
 .register-input{
-    line-height: 57px;
+    width: 100%;
+    height: 59px;
+    line-height: 59px;
     border-radius: 4px;
     border: 1px solid #5F5F5F;
-    padding: 0 10px;
+    padding: 0 15px;
     font-size: 24px;
     text-align: left;
     transition: border-color 0.3s ease;
@@ -102,7 +103,6 @@
     font-size: 20px;
     font-weight: 400;
     color: #0073CC;
-    margin: 3% auto;
     text-align: center;
 }
 

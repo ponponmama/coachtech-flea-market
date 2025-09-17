@@ -6,10 +6,11 @@
     align-items: center;
     justify-content: center;
     color: black;
+    padding: 59px 0;
 }
 
 .content-title {
-    width: 100%;
+    width: 299px;
     line-height: 47.58px;
     font-size: 36px;
     margin: 2% auto;

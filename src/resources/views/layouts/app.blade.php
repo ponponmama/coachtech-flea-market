@@ -15,7 +15,7 @@
 </head>
 
 <body class="body-container">
-    <header class="header-container">
+    <header class="header-container auth-header">
         <div class="header-logo">
             <img class="header-logo-image" src="{{ asset('images/logo.svg') }}" alt="COACHTECH">
         </div>

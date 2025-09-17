@@ -33,6 +33,7 @@ class VerifyEmailCustom extends Mailable
     public function build()
     {
         return $this->subject('メールアドレスの確認')
+                    ->from('noreply@coachtech-flea-market.com', 'CoachTech Flea Market')
                     ->view('emails.verify');
     }
 }

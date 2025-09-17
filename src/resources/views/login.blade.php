@@ -6,7 +6,7 @@
 @endsection
 
 @section('content')
-    <div class="auth-container">
+    <div class="login-container">
         <p class="content-title">ログイン</p>
         <div class="auth-content">
             <p class="auth-error-message">
@@ -16,9 +16,6 @@
             </p>
             <form action="{{ route('login') }}" method="POST">
                 @csrf
-                @if (request()->is('admin*'))
-                    <input type="hidden" name="admin_login" value="1">
-                @endif
                 <div class="form-group">
                     <label class="form-label" for="email">メールアドレス</label>
                     <input class="form-input" type="text" name="email" id="email" value="{{ old('email') }}"
@@ -43,9 +40,7 @@
                     <button type="submit" class="submit-button button">ログインする</button>
                 </div>
             </form>
-            @unless (request()->is('admin*'))
-                <a class="login-register-link link" href="{{ route('register') }}">会員登録はこちら</a>
-            @endunless
+            <a class="login-register-link link" href="{{ route('register') }}">会員登録はこちら</a>
         </div>
     </div>
 @endsection
