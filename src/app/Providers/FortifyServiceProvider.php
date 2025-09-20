@@ -42,6 +42,12 @@ class FortifyServiceProvider extends ServiceProvider
             return view('register');
         });
 
+        // FortifyのデフォルトLoginRequestをカスタムのものに置き換え
+        app()->bind(
+            \Laravel\Fortify\Http\Requests\LoginRequest::class,
+            \App\Http\Requests\LoginRequest::class
+        );
+
         // カスタム認証アクションを設定
         Fortify::authenticateUsing(function (Request $request) {
             // LoginRequestのバリデーションを実行
