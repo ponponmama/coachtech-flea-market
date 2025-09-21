@@ -18,7 +18,8 @@ class Purchase extends Model
         'user_id',
         'item_id',
         'payment_method',
-        'profile_id',
+        'amount',
+        'status',
         'purchased_at',
     ];
 

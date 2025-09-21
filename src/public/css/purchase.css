@@ -291,6 +291,15 @@
     background-color: rgba(255, 85, 85, 0.5);
 }
 
+.sold-button {
+    background-color: rgba(128, 128, 128, 1) !important;
+    cursor: not-allowed;
+}
+
+.sold-button:hover {
+    background-color: rgba(128, 128, 128, 1) !important;
+}
+
 /* レスポンシブ対応 */
 @media (max-width: 768px) {
     .purchase-section {

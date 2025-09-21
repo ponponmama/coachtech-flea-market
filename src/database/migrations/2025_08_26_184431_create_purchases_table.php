@@ -15,11 +15,12 @@ class CreatePurchasesTable extends Migration
     {
         Schema::create('purchases', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('item_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // 購入者
+            $table->foreignId('item_id')->constrained()->onDelete('cascade'); // 購入商品
             $table->string('payment_method'); // 支払い方法（コンビニ支払い、カード支払い）
-            $table->foreignId('profile_id')->constrained()->onDelete('cascade');
-            $table->timestamp('purchased_at');
+            $table->integer('amount'); // 決済金額
+            $table->string('status')->default('pending'); // 決済ステータス
+            $table->timestamp('purchased_at'); // 購入日時
             $table->timestamps();
         });
     }

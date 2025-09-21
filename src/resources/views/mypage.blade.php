@@ -36,22 +36,54 @@
         <p class="nav-tabs-border-line"></p>
         <div class="product-list">
             <div class="product-grid">
-                @if ($soldItems->count() > 0)
-                    @foreach ($soldItems as $item)
-                        <div class="product-item">
-                            <div class="product-image">
-                                @if ($item->image_path)
-                                    <img src="{{ asset('storage/' . $item->image_path) }}" alt="{{ $item->name }}"
-                                        class="product-image-holder">
-                                @else
-                                    <span class="product-image-placeholder">商品画像</span>
-                                @endif
+                @if ($page === 'buy')
+                    {{-- 購入した商品一覧 --}}
+                    @if ($purchasedItems->count() > 0)
+                        @foreach ($purchasedItems as $item)
+                            <div class="product-item">
+                                <div class="product-image">
+                                    @if ($item->image_path)
+                                        <img src="{{ asset('storage/' . $item->image_path) }}" alt="{{ $item->name }}"
+                                            class="product-image-holder">
+                                    @else
+                                        <span class="product-image-placeholder">商品画像</span>
+                                    @endif
+                                    @if (!is_null($item->buyer_id))
+                                        <div class="sold-badge">SOLD</div>
+                                    @endif
+                                </div>
+                                <div class="product-name">
+                                    <span class="product-name-text">{{ $item->name }}</span>
+                                </div>
                             </div>
-                            <div class="product-name">
-                                <span class="product-name-text">{{ $item->name }}</span>
+                        @endforeach
+                    @else
+                        <p>購入した商品はありません。</p>
+                    @endif
+                @else
+                    {{-- 出品した商品一覧（デフォルト） --}}
+                    @if ($soldItems->count() > 0)
+                        @foreach ($soldItems as $item)
+                            <div class="product-item">
+                                <div class="product-image">
+                                    @if ($item->image_path)
+                                        <img src="{{ asset('storage/' . $item->image_path) }}" alt="{{ $item->name }}"
+                                            class="product-image-holder">
+                                    @else
+                                        <span class="product-image-placeholder">商品画像</span>
+                                    @endif
+                                    @if (!is_null($item->buyer_id))
+                                        <div class="sold-badge">SOLD</div>
+                                    @endif
+                                </div>
+                                <div class="product-name">
+                                    <span class="product-name-text">{{ $item->name }}</span>
+                                </div>
                             </div>
-                        </div>
-                    @endforeach
+                        @endforeach
+                    @else
+                        <p>出品した商品はありません。</p>
+                    @endif
                 @endif
             </div>
         </div>

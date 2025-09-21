@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\FleamarketController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\PaymentController;
 
 use Illuminate\Support\Facades\Auth;
 
@@ -74,3 +75,22 @@ Route::post('/purchase/{item_id}', [FleamarketController::class, 'processPurchas
 // 送付先住所変更画面
 Route::get('/purchase/address/{item_id}', [FleamarketController::class, 'showAddress'])->middleware(['auth'])->name('purchase.address');
 Route::post('/purchase/address/{item_id}', [FleamarketController::class, 'updateAddress'])->middleware(['auth'])->name('purchase.address.update');
+
+
+// テスト用の簡単なルート
+Route::post('/test-payment', function() {
+    file_put_contents('/tmp/payment_debug.log', date('Y-m-d H:i:s') . " - Test route called\n", FILE_APPEND);
+    return response()->json(['message' => 'Test route working']);
+});
+
+// Stripe決済セッション作成（purchase.blade.phpのJavaScriptから呼び出し）
+Route::post('/create-payment-session', [PaymentController::class, 'createPaymentSession'])->name('payment.create-session');
+
+// 決済成功ページ
+Route::get('/payment/success', [PaymentController::class, 'success'])->name('payment.success');
+
+// 決済キャンセルページ
+Route::get('/payment/cancel', [PaymentController::class, 'cancel'])->middleware(['auth'])->name('payment.cancel');
+
+// Stripe Webhook（CSRF除外が必要）
+Route::post('/stripe/webhook', [PaymentController::class, 'webhook'])->name('stripe.webhook');

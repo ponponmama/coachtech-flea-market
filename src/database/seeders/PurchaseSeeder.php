@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\Item;
-use App\Models\Profile;
 use App\Models\Purchase;
 
 class PurchaseSeeder extends Seeder
@@ -17,13 +16,12 @@ class PurchaseSeeder extends Seeder
      */
     public function run()
     {
-        // 既存のユーザー、アイテム、プロフィールを取得
+        // 既存のユーザーとアイテムを取得
         $users = User::all();
         $items = Item::all();
-        $profiles = Profile::all();
 
-        if ($users->isEmpty() || $items->isEmpty() || $profiles->isEmpty()) {
-            $this->command->error('ユーザー、アイテム、またはプロフィールが見つかりません。先にUserSeeder、ItemSeeder、ProfileSeederを実行してください。');
+        if ($users->isEmpty() || $items->isEmpty()) {
+            $this->command->error('ユーザーまたはアイテムが見つかりません。先にUserSeeder、ItemSeederを実行してください。');
             return;
         }
 
@@ -33,23 +31,21 @@ class PurchaseSeeder extends Seeder
 
         foreach ($randomItems as $item) {
             $buyer = $users->random();
-            $buyerProfile = $profiles->where('user_id', $buyer->id)->first();
 
-            if ($buyerProfile) {
-                Purchase::create([
-                    'user_id' => $buyer->id,
-                    'item_id' => $item->id,
-                    'profile_id' => $buyerProfile->id,
-                    'payment_method' => $this->getRandomPaymentMethod(),
-                    'purchased_at' => now()->subDays(rand(1, 365)),
-                ]);
+            Purchase::create([
+                'user_id' => $buyer->id,
+                'item_id' => $item->id,
+                'payment_method' => $this->getRandomPaymentMethod(),
+                'amount' => $item->price,
+                'status' => 'completed',
+                'purchased_at' => now()->subDays(rand(1, 365)),
+            ]);
 
-                // アイテムの購入者情報を更新
-                $item->update([
-                    'buyer_id' => $buyer->id,
-                    'sold_at' => now()->subDays(rand(1, 365)),
-                ]);
-            }
+            // アイテムの購入者情報を更新
+            $item->update([
+                'buyer_id' => $buyer->id,
+                'sold_at' => now()->subDays(rand(1, 365)),
+            ]);
         }
 
         $this->command->info('購入データを作成しました。');
@@ -58,7 +54,7 @@ class PurchaseSeeder extends Seeder
     private function getRandomPaymentMethod()
     {
         $paymentMethods = [
-            'クレジットカード', '銀行振込', 'コンビニ決済', 'PayPay', 'LINE Pay', 'd払い'
+            'credit', 'convenience'
         ];
 
         return $paymentMethods[array_rand($paymentMethods)];
