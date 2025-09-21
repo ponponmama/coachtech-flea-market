@@ -99,4 +99,20 @@ class Purchase extends Model
 
         return $fullAddress;
     }
+
+    /**
+     * 商品の現在価格を取得（整合性チェック用）
+     */
+    public function getItemPriceAttribute()
+    {
+        return $this->item ? $this->item->price : null;
+    }
+
+    /**
+     * 金額の整合性をチェック
+     */
+    public function isAmountConsistent()
+    {
+        return $this->amount === $this->item_price;
+    }
 }

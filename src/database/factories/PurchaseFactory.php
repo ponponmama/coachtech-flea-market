@@ -25,13 +25,14 @@ class PurchaseFactory extends Factory
     public function definition()
     {
         $paymentMethods = [
-            'クレジットカード', '銀行振込', 'コンビニ決済', 'PayPay', 'LINE Pay', 'd払い'
+            'credit', 'convenience'
         ];
 
         return [
             'payment_method' => $this->faker->randomElement($paymentMethods),
+            'status' => 'completed',
             'purchased_at' => $this->faker->dateTimeBetween('-1 year', 'now'),
-            // user_id, item_id, profile_idはSeederで指定
+            // user_id, item_id, amountはSeederで指定（item->priceを使用）
         ];
     }
 }
