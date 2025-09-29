@@ -8,7 +8,7 @@
 @section('title', 'メール認証')
 
 @section('content')
-    <div class="auth-container">
+    <div class="content-container">
         <p class="auth-message">
             登録していただいたメールアドレスに認証メールを送付しました。<br>
             メール認証を完了してください。

@@ -35,7 +35,7 @@
                 @enderror
             </p>
             <div class="form-group">
-                <label class="form-label" for="password">
+                <label class="form-label form-label-tight" for="password">
                     パスワード
                 </label>
                 <input class="form-input" type="password" name="password" id="password" autocomplete="new-password">
@@ -46,7 +46,7 @@
                 @enderror
             </p>
             <div class="form-group form-group-margin">
-                <label class="form-label form-label-tight" for="password_confirmation">
+                <label class="form-label" for="password_confirmation">
                     確認用パスワード
                 </label>
                 <input class="form-input form-input-tight" type="password" name="password_confirmation" id="password_confirmation" autocomplete="new-password">

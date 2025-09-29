@@ -24,7 +24,7 @@
         <nav class="nav-tabs">
             <ul class="nav-tabs__list">
                 <li class="nav-tabs__item {{ $page !== 'buy' ? 'nav-tabs__item--active' : '' }}">
-                    <a href="{{ route('mypage') }}"
+                    <a href="{{ route('mypage', ['page' => 'sell']) }}"
                         class="nav-tabs__link {{ $page !== 'buy' ? 'nav-tabs__link--active' : '' }}">出品した商品</a>
                 </li>
                 <li class="nav-tabs__item {{ $page === 'buy' ? 'nav-tabs__item--active' : '' }}">

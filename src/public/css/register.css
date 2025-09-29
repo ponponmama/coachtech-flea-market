@@ -107,7 +107,7 @@
 }
 
 @media screen and (max-width: 768px) {
-    .auth-container {
+    .content-container {
         width: 90%;
     }
 

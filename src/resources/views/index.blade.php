@@ -50,9 +50,9 @@
                         </div>
                     </div>
                 @empty
-                    <div class="no-items-message">
-                        <p>商品がありません</p>
-                    </div>
+                    <p class="no-items-message">
+                        商品がありません。
+                    </p>
                 @endforelse
             </div>
         </div>

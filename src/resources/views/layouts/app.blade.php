@@ -16,45 +16,50 @@
 
 <body class="body-container">
     <header class="header-container auth-header">
-        <div class="header-logo">
-            <img class="header-logo-image" src="{{ asset('images/logo.svg') }}" alt="COACHTECH">
-        </div>
+        <img class="header-logo" src="{{ asset('images/logo.svg') }}" alt="COACHTECH">
 
-        {{-- 常に検索フォームを表示（未認証ユーザーでも使用可能） --}}
-        <div class="header-search">
-            <form class="search-form" action="{{ route('top') }}" method="GET">
-                <input type="text" class="search-input" placeholder="なにをお探しですか?" name="search"
-                    value="{{ request('search') }}">
-            </form>
-        </div>
-        {{-- ナビゲーションメニュー --}}
-        <nav class="header-nav">
-            <ul class="header-nav__list">
-                @auth
-                    {{-- ログイン済みユーザー用メニュー --}}
+        @unless (request()->routeIs('verification.notice') || request()->routeIs('login') || request()->routeIs('register'))
+            {{-- 認証関連ページ以外では検索フォームを表示 --}}
+            <div class="header-search">
+                <form class="search-form" action="{{ route('top') }}" method="GET">
+                    <input type="text" class="search-input" placeholder="なにをお探しですか?" name="search" value="{{ request('search') }}">
+                </form>
+            </div>
+            {{-- ナビゲーションメニュー --}}
+            <nav class="header-nav">
+                <ul class="header-nav__list">
+                    {{-- ログインボタン（常に表示） --}}
                     <li class="header-nav__item">
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
-                            <button type="submit" class="header-nav__link button">ログアウト</button>
-                        </form>
+                        @auth
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button type="submit" class="header-nav__link button">ログアウト</button>
+                            </form>
+                        @else
+                            <a href="{{ route('login') }}" class="header-nav__link link">ログイン</a>
+                        @endauth
                     </li>
+
+                    {{-- マイページボタン（常に表示） --}}
                     <li class="header-nav__item">
-                        <a href="{{ route('mypage') }}" class="header-nav__link link">マイページ</a>
+                        @auth
+                            <a href="{{ route('mypage') }}" class="header-nav__link link">マイページ</a>
+                        @else
+                            <a href="{{ route('login') }}" class="header-nav__link link">マイページ</a>
+                        @endauth
                     </li>
-                    <li class="header-nav__item">
-                        <a href="{{ route('sell') }}" class="header-nav__link sell-link link">出品</a>
+
+                    {{-- 出品ボタン（常に表示） --}}
+                    <li class="header-nav__item sell-link-container">
+                        @auth
+                            <a href="{{ route('sell') }}" class="header-nav__link sell-link link">出品</a>
+                        @else
+                            <a href="{{ route('login') }}" class="header-nav__link sell-link link">出品</a>
+                        @endauth
                     </li>
-                @else
-                    {{-- 未ログインユーザー用メニュー --}}
-                    <li class="header-nav__item">
-                        <a href="{{ route('login') }}" class="header-nav__link link">ログイン</a>
-                    </li>
-                    <li class="header-nav__item">
-                        <a href="{{ route('register') }}" class="header-nav__link link">会員登録</a>
-                    </li>
-                @endauth
-            </ul>
-        </nav>
+                </ul>
+            </nav>
+        @endunless
     </header>
     <main class="main-content">
         @yield('content')
