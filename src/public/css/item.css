@@ -1,10 +1,11 @@
+.main-content {
+    justify-content: flex-start;
+}
 /* 商品詳細全体画面 */
 .content-container {
-    width: 100%;
-    height: 100%;
     display: flex;
     flex-direction: row;
-    margin: 95px 66px 100px 66px;
+    padding: 95px 66px 100px 66px;
 }
 
 /* 左側：商品画像全体 */
@@ -22,7 +23,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative;
 }
 
 /* イメージ */
@@ -293,7 +293,6 @@
     flex-direction: column;
     width: 100%;
     max-height: 200px;
-    margin-bottom: 19px;
     overflow-y: auto;
 }
 
@@ -345,13 +344,14 @@
     font-weight: 300;
     border-radius: 5px;
     background: rgba(229, 229, 229, 1);
-    margin-bottom: 19px;
+    margin-bottom: 41px;
 }
 
 /* コメント投稿フォームの親要素 */
 .comment-form-section {
     width: 100%;
     min-height:422px;
+    margin-bottom: 37.4px;
 }
 
 /* コメント投稿フォームtitle */
@@ -458,7 +458,6 @@
 /* 購入ボタン&コメント投稿フォームsubmitボタン */
 .purchase-link,
 .comment-submit-button {
-    display: block;
     width: 100%;
     line-height: 56px;
     background-color: rgba(255, 85, 85, 1);
@@ -466,6 +465,7 @@
     border: none;
     border-radius: 4px;
     text-align: center;
+    margin: auto 0;
 }
 
 .purchase-link {
