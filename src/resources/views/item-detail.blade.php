@@ -30,7 +30,7 @@
                         </p>
                         <div class="item-price-section">
                             <span class="item-price">
-                                ¥{{ number_format($item->price) }}
+                                <span class="price-symbol">¥</span> {{ number_format($item->price) }}
                             </span>
                             <span class="item-price-tax">
                                 (税込)

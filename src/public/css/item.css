@@ -3,15 +3,15 @@
 }
 /* 商品詳細全体画面 */
 .content-container {
-    display: flex;
+    width: 1380px;
     flex-direction: row;
-    padding: 95px 66px 100px 66px;
+    margin: 95px auto 100px auto;
 }
 
 /* 左側：商品画像全体 */
 .item-image-section {
     flex: 0 0 690px;
-    padding: 36px 45px;
+    height: 1704.4px;
 }
 
 /* イメージplaceholder */
@@ -23,6 +23,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    margin: 36px auto;
+
 }
 
 /* イメージ */
@@ -44,28 +46,29 @@
 /* 右側全体の親要素 */
 .product-description-area {
     width: 690px;
+    height: 1704.4px;
     flex: 1;
     display: flex;
     flex-direction: column;
     text-align: left;
-    box-sizing: border-box;
 }
 
 /* 商品概要 */
 .item-info-section {
     width: 570px;
+    height: 100%;
     display: flex;
     flex-direction: column;
-    margin: 0 55px 0 65px;
+    margin: 0 55px 37.4px 65px;
 }
 
 /* 商品概要ヘッダー */
 .item-header {
     width: 100%;
+    height: 273px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    text-align: left;
 }
 
 /* 商品名 */
@@ -73,7 +76,6 @@
     width: 100%;
     font-size: 45px;
     color: rgba(0, 0, 0, 1);
-    margin: 0;
     line-height: 77px;
 }
 
@@ -90,6 +92,7 @@
 /* 価格全体の親要素 */
 .item-price-section {
     width: 100%;
+    height: 45px;
     display: flex;
     align-items: center;
     justify-content: left;
@@ -98,15 +101,19 @@
 
 /* 価格 */
 .item-price {
-    font-size: 45px;
+    display: flex;
+    align-items: center;
     line-height: 45px;
+    font-size: 45px;
     font-weight: 400;
     color: rgba(0, 0, 0, 1);
     margin-right: 6px;
 }
 
-/* 価格tax */
+/* ￥と価格tax */
+.price-symbol,
 .item-price-tax {
+    display: inline-block;
     font-size: 30px;
     font-weight: 400;
     line-height: 45px;
@@ -170,6 +177,7 @@
     flex-direction: column;
     width: 100%;
     min-height: 321px;
+    margin-left: 2px;
 }
 
 .description-section-title {
@@ -192,7 +200,7 @@
 
 /* 商品情報 */
 .item-information-section {
-    width: 570px;
+    width: 100%;
     min-height: 230px;
 }
 
@@ -217,7 +225,7 @@
 .category-info-label {
     width: 122.39px;
     line-height: 30px;
-    font-size: 18px;
+    font-size: 24px;
     color: rgba(0, 0, 0, 1);
     margin-right: 61.19px;
 }
@@ -238,7 +246,7 @@
     color: rgba(0, 0, 0, 1);
     border-radius: 15px;
     font-size: 20px;
-    line-height: 30px;
+    line-height: 24.83px;
     font-weight: 400;
     text-align: center;
     padding: 0 20.4px;
@@ -259,6 +267,7 @@
     color: rgba(0, 0, 0, 1);
     line-height: 100px;
     margin-right: 76.72px;
+    text-align: left;
 }
 
 /* condition */
@@ -274,10 +283,11 @@
 /* コメントセクション */
 .comments-section {
     width: 570px;
+    height: 743px;
     font-size: 36px;
     color: rgba(0, 0, 0, 1);
     line-height: 100px;
-    margin-bottom: 19px;
+    margin-bottom: 37.4px;
 }
 
 /* コメントtitle */
@@ -311,7 +321,7 @@
     border-radius: 50%;
     display: inline-block;
     overflow: hidden;
-    margin-right: 19px;
+    margin-right: 18px;
 }
 
 /* プロフィール画像 */
@@ -340,7 +350,7 @@
     font-size: 20px;
     color: rgba(0, 0, 0, 1);
     line-height: 70px;
-    padding-left: 15px;
+    padding-left: 14.5px;
     font-weight: 300;
     border-radius: 5px;
     background: rgba(229, 229, 229, 1);
@@ -351,7 +361,7 @@
 .comment-form-section {
     width: 100%;
     min-height:422px;
-    margin-bottom: 37.4px;
+    margin-bottom: 21px;
 }
 
 /* コメント投稿フォームtitle */
@@ -373,12 +383,12 @@
     min-height: 246px;
     padding: 15px;
     border: 2px solid rgba(95, 95, 95, 1);
+    background: rgba(217, 217, 217, 0);
     border-radius: 5px;
     font-size: 20px;
     resize: both;
     font-family: inherit;
     box-sizing: border-box;
-    background: transparent;
 }
 
 /* 標準リサイズハンドルを隠す */
@@ -408,8 +418,8 @@
 /* カスタムリサイズハンドル */
 .custom-resize-handle {
     position: absolute;
-    bottom: 37px;
-    right: 0px;
+    bottom: -4px;
+    right: -2px;
     width: 15px;
     height: 15px;
     background: transparent;
@@ -465,7 +475,6 @@
     border: none;
     border-radius: 4px;
     text-align: center;
-    margin: auto 0;
 }
 
 .purchase-link {
