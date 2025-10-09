@@ -36,8 +36,8 @@
                 <div class="product-group">
                     <label class="form-label" for="payment_method">支払い方法</label>
                     <div class="select-wrapper">
-                        <select name="payment_method" id="payment_method" class="form-select">
-                            <option value="" selected>選択してください</option>
+                        <select name="payment_method" id="payment_method" class="form-select" required>
+                            <option value="" selected disabled>選択してください</option>
                             <option value="convenience">コンビニ払い</option>
                             <option value="credit">カード支払い</option>
                         </select>
@@ -60,7 +60,8 @@
                     </div>
                     <div class="delivery-address">
                         <p class="postal-code">
-                            〒 {{ $defaultAddress['postal_code'] }}
+                            〒
+                            {{ substr($defaultAddress['postal_code'], 0, 3) }}-{{ substr($defaultAddress['postal_code'], 3) }}
                         </p>
                         <p class="address-text">
                             {{ $defaultAddress['address'] }}

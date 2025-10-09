@@ -160,6 +160,21 @@
     opacity: 1;
 }
 
+/* プレースホルダー表示（未選択時） */
+.form-select:invalid {
+    color: rgba(95, 95, 95, 1);
+}
+
+.form-select:invalid::after {
+    content: "選択してください";
+    position: absolute;
+    top: 50%;
+    left: 5.85px;
+    transform: translateY(-50%);
+    color: rgba(95, 95, 95, 1);
+    pointer-events: none;
+}
+
 /* セレクトボックスのオプションスタイル（ドロップダウンメニュー内のみ） */
 .form-select option {
     background-color: rgba(99, 103, 105, 1);
@@ -170,8 +185,24 @@
     font-size: 16px;
 }
 
-.form-select option:hover {
+.form-select option[disabled] {
+    display: none;
+}
+
+.form-select:focus {
+    outline: none;
+}
+
+.form-select option:not(:disabled):hover,
+.form-select option:not(:disabled):focus,
+.form-select option:not(:disabled):checked {
     background-color: rgba(85, 153, 235, 1);
+    color: rgba(255, 255, 255, 1);
+}
+
+.form-select option:not(:disabled) {
+    background-color: rgba(85, 153, 235, 1);
+    color: rgba(255, 255, 255, 1);
 }
 
 /* 配送先セクション */
@@ -233,9 +264,7 @@
 .order-summary-box {
     width: 440px;
     height: 230px;
-    border: 1px solid rgba(0, 0, 0, 1);
     color: rgba(0, 0, 0, 1);
-    box-sizing: border-box;
 }
 
 .summary-row {
@@ -244,6 +273,7 @@
     display: flex;
     align-items: center;
     border: 1px solid rgba(0, 0, 0, 1);
+    gap: 0;
     box-sizing: border-box;
 }
 
@@ -259,18 +289,19 @@
     text-align: center;
     color: rgba(0, 0, 0, 1);
     font-weight: 400;
-    box-sizing: border-box;
+    flex-shrink: 0;
 }
 
 
 .summary-price-text {
     font-size: 20px;
-    line-height: 115px;
     color: rgba(0, 0, 0, 1);
     font-weight: 400;
 }
 
 .summary-price {
+    display: inline-block;
+    height: 115px;
     font-size: 28px;
 }
 

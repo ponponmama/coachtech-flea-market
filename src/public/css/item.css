@@ -187,12 +187,14 @@
 /* 各title共通 */
 .description-section-title,
 .information-section-title {
+    width: 559px;
     font-size: 36px;
     color: rgba(0, 0, 0, 1);
 }
 
 /* 商品説明text */
 .item-description-text {
+    height: 247px;
     font-size: 24px;
     font-weight: 400;
     color: rgba(0, 0, 0, 1);
@@ -302,6 +304,7 @@
     display: flex;
     flex-direction: column;
     width: 100%;
+    height: 200px;
     max-height: 200px;
     overflow-y: auto;
 }
@@ -361,7 +364,6 @@
 .comment-form-section {
     width: 100%;
     min-height:422px;
-    margin-bottom: 21px;
 }
 
 /* コメント投稿フォームtitle */
@@ -375,6 +377,7 @@
 .comment-form {
     display: flex;
     flex-direction: column;
+    margin-bottom: 21px;
 }
 
 /* コメント投稿フォームinput */
