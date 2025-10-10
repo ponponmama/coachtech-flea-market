@@ -6,6 +6,8 @@
 @endsection
 
 @section('js')
+    {{-- カスタムセレクトボックスのJavaScript --}}
+    <script src="{{ asset('js/custom-select.js') }}"></script>
     <script src="{{ asset('js/sell.js') }}"></script>
 @endsection
 
@@ -67,15 +69,31 @@
                 <div class="form-group">
                     <label class="form-label" for="condition">商品の状態</label>
                     <div class="select-wrapper">
-                        <select name="condition" id="condition" class="form-select" autocomplete="off">
-                            <option value="">選択してください</option>
-                            <option value="良好" {{ old('condition') == '良好' ? 'selected' : '' }}>良好</option>
-                            <option value="目立った傷や汚れなし" {{ old('condition') == '目立った傷や汚れなし' ? 'selected' : '' }}>目立った傷や汚れなし
-                            </option>
-                            <option value="やや傷や汚れあり" {{ old('condition') == 'やや傷や汚れあり' ? 'selected' : '' }}>やや傷や汚れあり
-                            </option>
-                            <option value="状態が悪い" {{ old('condition') == '状態が悪い' ? 'selected' : '' }}>状態が悪い</option>
-                        </select>
+                        <div class="custom-select" id="custom_condition_select">
+                            <div class="custom-select-trigger">
+                                <span class="custom-select-value">選択してください</span>
+                            </div>
+                            <ul class="custom-select-options">
+                                <li class="custom-option" data-value="良好">
+                                    <span class="check-mark"></span>
+                                    <span class="option-text">良好</span>
+                                </li>
+                                <li class="custom-option" data-value="目立った傷や汚れなし">
+                                    <span class="check-mark"></span>
+                                    <span class="option-text">目立った傷や汚れなし</span>
+                                </li>
+                                <li class="custom-option" data-value="やや傷や汚れあり">
+                                    <span class="check-mark"></span>
+                                    <span class="option-text">やや傷や汚れあり</span>
+                                </li>
+                                <li class="custom-option" data-value="状態が悪い">
+                                    <span class="check-mark"></span>
+                                    <span class="option-text">状態が悪い</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- フォーム送信用の隠しinput -->
+                        <input type="hidden" name="condition" id="condition" value="{{ old('condition') }}" required>
                     </div>
                     <p class="form__error">
                         @error('condition')

@@ -131,8 +131,7 @@
     text-align: left;
 }
 
-.form-input,
-.form-select {
+.form-input {
     width: 100%;
     height: 45px;
     padding-left: 15px;
@@ -149,15 +148,137 @@
     padding-right: 34px;
 }
 
-/* セレクトボックスのオプションスタイル */
-.form-select option {
-    background: rgba(99, 103, 105, 1);
-    color: rgba(234, 234, 234, 1);
+.select-wrapper {
+    position: relative;
 }
 
-.form-select option:hover {
-    background-color: rgba(85, 153, 235, 1);
+.select-wrapper::after {
+    content: '▼';
+    position: absolute;
+    top: 50%;
+    right: 16px;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: rgba(95, 95, 95, 1);
+    width: 18px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
+
+
+/* カスタムセレクトボックス */
+.custom-select {
+    position: relative;
+    width: 100%;
+    user-select: none;
+}
+
+/* セレクトボックスのトリガー（クリック可能な部分） */
+.custom-select-trigger {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 45px;
+    padding: 0 15px;
+    border: 1px solid rgba(95, 95, 95, 1);
+    border-radius: 4px;
+    background-color: rgba(255, 255, 255, 1);
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+.custom-select-value {
+    width: 665px;
+    font-size: 16px;
+    color: rgba(95, 95, 95, 1);
+    line-height: 45px;
+}
+
+/* ドロップダウンメニュー */
+.custom-select-options {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    height: 120px;
+    margin: 4px 0 0 0;
+    padding: 0;
+    list-style: none;
+    background-color: rgba(99, 103, 105, 1);
+    border: 1.5px solid rgba(177, 177, 177, 1);
+    border-radius: 5px;
+    overflow: hidden;
+    display: none;
+    z-index: 1000;
+    box-sizing: border-box;
+}
+
+/* 開いている状態のドロップダウン */
+.custom-select.open .custom-select-options {
+    display: block;
+}
+
+/* オプション項目 */
+.custom-option {
+    display: flex;
+    align-items: center;
+    width: calc(100% - 12px);
+    height: 22px;
+    margin: 6px;
+    padding: 0 4px;
+    font-size: 12px;
+    font-weight: 600;
+    color: rgba(234, 234, 234, 1);
+    cursor: pointer;
+    transition: background-color 0.2s;
+    vertical-align: middle;
+    border-radius: 5px;
+}
+
+.check-mark {
+    width: 15.3px;
+    height: 12px;
+    margin-right: 4px;
+    opacity: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.check-mark img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.option-text {
+    flex: 1;
+}
+
+/* 選択されている項目 */
+.custom-option.selected {
+    background-color: rgba(85, 153, 235, 1);
+    color: rgba(255, 255, 255, 1);
+}
+
+.custom-option.selected .check-mark {
+    color: rgba(255, 255, 255, 1);
+}
+
+/* ホバー時（選択されていない項目のみ） */
+.custom-option:not(.selected):hover {
+    background-color: rgba(85, 153, 235, 1);
+    color: rgba(255, 255, 255, 1);
+}
+
+.custom-option:not(.selected):hover .check-mark {
+    color: rgba(255, 255, 255, 1);
+}
+
+
 
 .form-input:focus,
 .form-textarea:focus {
@@ -304,3 +425,4 @@
         font-size: 12px;
     }
 }
+

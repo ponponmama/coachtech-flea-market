@@ -6,6 +6,8 @@
 @endsection
 
 @section('js')
+    {{-- カスタムセレクトボックスのJavaScript --}}
+    <script src="{{ asset('js/custom-select.js') }}"></script>
     {{-- Stripe決済処理用のJavaScript（外部ファイル） --}}
     <script src="{{ asset('js/purchase.js') }}"></script>
 @endsection
@@ -36,11 +38,23 @@
                 <div class="product-group">
                     <label class="form-label" for="payment_method">支払い方法</label>
                     <div class="select-wrapper">
-                        <select name="payment_method" id="payment_method" class="form-select" required>
-                            <option value="" selected disabled>選択してください</option>
-                            <option value="convenience">コンビニ払い</option>
-                            <option value="credit">カード支払い</option>
-                        </select>
+                        <div class="custom-select" id="custom_payment_select">
+                            <div class="custom-select-trigger">
+                                <span class="custom-select-value">選択してください</span>
+                            </div>
+                            <ul class="custom-select-options">
+                                <li class="custom-option" data-value="convenience">
+                                    <span class="check-mark"></span>
+                                    <span class="option-text">コンビニ払い</span>
+                                </li>
+                                <li class="custom-option" data-value="credit">
+                                    <span class="check-mark"></span>
+                                    <span class="option-text">カード支払い</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- フォーム送信用の隠しinput -->
+                        <input type="hidden" name="payment_method" id="payment_method" value="" required>
                     </div>
                     <p class="form__error">
                         @error('payment_method')
