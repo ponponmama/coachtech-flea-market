@@ -182,16 +182,15 @@
     align-items: center;
     width: 100%;
     height: 45px;
-    padding: 0 15px;
     border: 1px solid rgba(95, 95, 95, 1);
     border-radius: 4px;
-    background-color: rgba(255, 255, 255, 1);
     cursor: pointer;
     box-sizing: border-box;
 }
 
 .custom-select-value {
     width: 665px;
+    padding: 0 15px;
     font-size: 16px;
     color: rgba(95, 95, 95, 1);
     line-height: 45px;
@@ -204,7 +203,7 @@
     left: 0;
     width: 100%;
     height: 120px;
-    margin: 4px 0 0 0;
+    margin: 0;
     padding: 0;
     list-style: none;
     background-color: rgba(99, 103, 105, 1);
@@ -223,14 +222,13 @@
 
 /* オプション項目 */
 .custom-option {
+    width: 667px;
     display: flex;
     align-items: center;
-    width: calc(100% - 12px);
     height: 22px;
-    margin: 6px;
-    padding: 0 4px;
-    font-size: 12px;
-    font-weight: 600;
+    margin: 4.5px 5px;
+    padding: 0 6px;
+    font-size: 14px;
     color: rgba(234, 234, 234, 1);
     cursor: pointer;
     transition: background-color 0.2s;
@@ -239,9 +237,9 @@
 }
 
 .check-mark {
-    width: 15.3px;
+    width: 15px;
     height: 12px;
-    margin-right: 4px;
+    margin: 0 11px 0 5px;
     opacity: 1;
     display: flex;
     align-items: center;
@@ -256,26 +254,26 @@
 
 .option-text {
     flex: 1;
+    width: 100%;
+    font-weight: 600;
 }
 
 /* 選択されている項目 */
 .custom-option.selected {
     background-color: rgba(85, 153, 235, 1);
-    color: rgba(255, 255, 255, 1);
 }
 
 .custom-option.selected .check-mark {
-    color: rgba(255, 255, 255, 1);
+    color: rgba(234, 234, 234, 1);
 }
 
 /* ホバー時（選択されていない項目のみ） */
 .custom-option:not(.selected):hover {
     background-color: rgba(85, 153, 235, 1);
-    color: rgba(255, 255, 255, 1);
 }
 
 .custom-option:not(.selected):hover .check-mark {
-    color: rgba(255, 255, 255, 1);
+    color: rgba(234, 234, 234, 1);
 }
 
 
