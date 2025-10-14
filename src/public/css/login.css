@@ -3,6 +3,10 @@
     height: 82px;
 }
 
+.header-logo {
+    margin: 23px 23px 23px 25px;
+}
+
 /* title含め入力フォームのコンテナ */
 .content-container {
     width: 680px;

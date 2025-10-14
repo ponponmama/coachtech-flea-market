@@ -49,11 +49,17 @@ li {
     align-items: center;
 }
 
+.header-logo-container {
+    width: 370px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    margin-left: 40px;
+}
+
 .header-logo {
     width: 370px;
     height: 36px;
-    vertical-align: middle;
-    margin-left: 36px;
 }
 
 .header-search {
@@ -62,6 +68,7 @@ li {
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 15px 32px 15px 31px;
     margin-left: 65px;
 }
 
@@ -99,21 +106,23 @@ li {
     font-size: 24px;
     font-weight: 400;
     margin-left: 11px;
-
 }
 
 .header-nav__list {
     width: 100%;
+    height: 100%;
     display: flex;
     justify-content: flex-end;
     align-items: center;
     margin: 0;
     list-style: none;
+    margin-left: 37px;
     gap: 9px;
 }
 
 .header-nav__item {
     width: 135px;
+    line-height: 47px;
     text-align: center;
 }
 

@@ -312,7 +312,7 @@
     height: 32px;
     border: 2px solid rgba(255, 86, 85, 1);
     color: rgba(255, 86, 85, 1);
-    background-color: #FFFFFF;
+    /*background-color: #FFFFFF;*/
     border-radius: 20px;
     box-sizing: border-box;
     margin: 16px 6px;
