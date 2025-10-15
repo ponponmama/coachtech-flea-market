@@ -82,7 +82,9 @@ class ItemsIndexTest extends TestCase
      */
     public function test_index_hides_items_listed_by_authenticated_user()
     {
+        /** @var User $me */
         $me = User::factory()->create();
+        /** @var User $other */
         $other = User::factory()->create();
 
         $myItem = Item::factory()->create(['name' => '自分の出品', 'seller_id' => $me->id]);
