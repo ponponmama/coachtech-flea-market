@@ -17,7 +17,7 @@
 <body class="body-container">
     <header class="header-container auth-header">
         <div class="header-logo-container">
-            <img class="header-logo" src="{{ asset('images/logo.png') }}" alt="COACHTECH">
+            <img class="header-logo" src="{{ asset('images/logo.svg') }}" alt="COACHTECH">
         </div>
         @unless (request()->routeIs('verification.notice') || request()->routeIs('login') || request()->routeIs('register'))
             {{-- 認証関連ページ以外では検索フォームを表示 --}}

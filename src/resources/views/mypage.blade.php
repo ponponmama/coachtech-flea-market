@@ -52,9 +52,7 @@
                                         <div class="sold-badge">SOLD</div>
                                     @endif
                                 </div>
-                                <div class="product-name">
-                                    <span class="product-name-text">{{ $item->name }}</span>
-                                </div>
+                                <span class="product-name-text">{{ $item->name }}</span>
                             </div>
                         @endforeach
                     @else
@@ -76,9 +74,7 @@
                                         <div class="sold-badge">SOLD</div>
                                     @endif
                                 </div>
-                                <div class="product-name">
-                                    <span class="product-name-text">{{ $item->name }}</span>
-                                </div>
+                                <span class="product-name-text">{{ $item->name }}</span>
                             </div>
                         @endforeach
                     @else
