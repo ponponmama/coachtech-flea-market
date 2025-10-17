@@ -105,25 +105,25 @@ class FleamarketController extends Controller
         if ($page === 'buy') {
             // PG11: プロフィール画面_購入した商品一覧
             $purchasedItems = Item::where('buyer_id', $user->id)
-                ->select('id', 'name', 'image_path', 'sold_at')
+                ->select('id', 'name', 'image_path', 'sold_at', 'buyer_id')
                 ->latest()
                 ->get();
             $soldItems = collect();
         } elseif ($page === 'sell') {
             // PG12: プロフィール画面_出品した商品一覧
             $soldItems = Item::where('seller_id', $user->id)
-                ->select('id', 'name', 'image_path', 'sold_at')
+                ->select('id', 'name', 'image_path', 'sold_at', 'buyer_id')
                 ->latest()
                 ->get();
             $purchasedItems = collect();
         } else {
             // デフォルト表示（両方表示）
             $soldItems = Item::where('seller_id', $user->id)
-                ->select('id', 'name', 'image_path', 'sold_at')
+                ->select('id', 'name', 'image_path', 'sold_at', 'buyer_id')
                 ->latest()
                 ->get();
             $purchasedItems = Item::where('buyer_id', $user->id)
-                ->select('id', 'name', 'image_path', 'sold_at')
+                ->select('id', 'name', 'image_path', 'sold_at', 'buyer_id')
                 ->latest()
                 ->get();
         }

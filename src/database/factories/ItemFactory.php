@@ -130,8 +130,8 @@ class ItemFactory extends Factory
             'condition' => $selectedProduct['condition'],
             'image_path' => $selectedProduct['image_path'],
             'seller_id' => null, // Seederで既存ユーザーを割り当て
-            'buyer_id' => $isSold ? $this->faker->numberBetween(1, 21) : null, // 30%の確率で売り切れ
-            'sold_at' => $isSold ? $this->faker->dateTimeBetween('-30 days', 'now') : null,
+            'buyer_id' => $isSold ? 2 : null, // 固定の購入者ID
+            'sold_at' => $isSold ? '2024-01-01 12:00:00' : null, // 固定の売却日時
         ];
     }
 }
