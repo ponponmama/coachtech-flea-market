@@ -36,7 +36,7 @@
 }
 
 .user-name {
-    width: 250px;
+    width: 350px;
     height: 65px;
     font-size: 36px;
     line-height: 65px;
@@ -54,7 +54,7 @@
     font-size: 20px;
     text-align: center;
     padding: 0 38px;
-    margin-left: 250px;
+    margin-left: 150px;
     color: rgba(255, 85, 85, 1);
     background-color: transparent;
     display: flex;

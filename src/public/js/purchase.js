@@ -16,7 +16,13 @@ document.addEventListener('DOMContentLoaded', function() {
     // 支払い方法の変更を監視
     paymentMethodSelect.addEventListener('change', function() {
         const selectedValue = this.value;
-        const selectedText = this.options[this.selectedIndex].text;
+
+        // カスタムセレクトボックスから選択されたテキストを取得
+        const customSelect = document.getElementById('custom_payment_select');
+        const selectedOption = customSelect.querySelector('.custom-option.selected .option-text');
+        const selectedText = selectedOption ? selectedOption.textContent : '';
+
+        console.log('支払い方法変更:', selectedValue, selectedText);
 
         // 小計画面の支払い方法表示を更新
         paymentMethodDisplay.textContent = selectedText;

@@ -57,6 +57,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 // 隠しinputの値を更新
                 if (hiddenInput) {
                     hiddenInput.value = this.getAttribute('data-value');
+
+                    // changeイベントを手動で発火
+                    const changeEvent = new Event('change', { bubbles: true });
+                    hiddenInput.dispatchEvent(changeEvent);
                 }
 
                 // 0.5秒後にセレクトボックスを閉じる
