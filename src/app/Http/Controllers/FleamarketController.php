@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
-use App\Http\Requests\UpdateProfileRequest;
+use App\Http\Requests\ProfileRequest;
 use App\Http\Requests\ExhibitionRequest;
 use App\Models\User;
 use App\Models\Item;
@@ -45,7 +45,7 @@ class FleamarketController extends Controller
     /**
      * プロフィールを更新
      */
-    public function updateProfile(UpdateProfileRequest $request)
+    public function updateProfile(ProfileRequest $request)
     {
         /** @var User $user */
         $user = Auth::user();
@@ -279,8 +279,12 @@ class FleamarketController extends Controller
         $user = Auth::user();
         $item = Item::findOrFail($item_id);
 
-        // 現在の配送先住所を取得（実装予定）
-        $currentAddress = null; // アイテムに紐づく配送先住所
+        // 現在の配送先住所を取得（ユーザーのプロフィールから）
+        $currentAddress = $user->profile ? [
+            'postal_code' => $user->profile->postal_code,
+            'address' => $user->profile->address,
+            'building' => $user->profile->building_name,
+        ] : null;
 
         return view('purchase.address', compact('item', 'currentAddress'));
     }
@@ -290,6 +294,7 @@ class FleamarketController extends Controller
      */
     public function updateAddress(Request $request, $item_id)
     {
+        $user = Auth::user();
         $item = Item::findOrFail($item_id);
 
         // AddressRequestのバリデーションを使用
@@ -297,8 +302,22 @@ class FleamarketController extends Controller
         $addressRequest->merge($request->all());
         $addressRequest->validate($addressRequest->rules(), $addressRequest->messages());
 
-        // アイテムに配送先住所を紐づける処理（実装予定）
-        // テーブル内では各アイテムに送付先住所が紐づいている
+        // ユーザーのプロフィール住所を更新
+        if ($user->profile) {
+            $user->profile->update([
+                'postal_code' => $request->postal_code,
+                'address' => $request->address,
+                'building_name' => $request->building,
+            ]);
+        } else {
+            // プロフィールが存在しない場合は作成
+            \App\Models\Profile::create([
+                'user_id' => $user->id,
+                'postal_code' => $request->postal_code,
+                'address' => $request->address,
+                'building_name' => $request->building,
+            ]);
+        }
 
         return redirect('/purchase/' . $item_id)->with('success', '送付先住所を更新しました。');
     }

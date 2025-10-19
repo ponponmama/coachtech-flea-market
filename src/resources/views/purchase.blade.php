@@ -36,7 +36,7 @@
             </div>
             <div class="payment-section">
                 <div class="product-group">
-                    <label class="form-label" for="payment_method">支払い方法</label>
+                    <span class="form-label">支払い方法</span>
                     <div class="select-wrapper">
                         <div class="custom-select" id="custom_payment_select">
                             <div class="custom-select-trigger">

@@ -13,6 +13,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const paymentMethodDisplay = document.getElementById('payment_method_display');
     const purchaseButton = document.getElementById('purchase_button');
 
+    // 購入ボタンが存在しない場合（売り切れ商品など）は処理を終了
+    if (!purchaseButton) {
+        console.log('購入ボタンが見つかりません（売り切れ商品の可能性）');
+        return;
+    }
+
     // 支払い方法の変更を監視
     paymentMethodSelect.addEventListener('change', function() {
         const selectedValue = this.value;
@@ -100,9 +106,13 @@ document.addEventListener('DOMContentLoaded', function() {
     // 初期状態の設定
     // デフォルトで「選択してください」が表示されているので、購入ボタンを無効化
     const initialSelectedValue = paymentMethodSelect.value;
-    const initialSelectedText = paymentMethodSelect.options[paymentMethodSelect.selectedIndex].text;
 
     if (initialSelectedValue) {
+        // カスタムセレクトボックスから選択されたテキストを取得
+        const customSelect = document.getElementById('custom_payment_select');
+        const selectedOption = customSelect.querySelector('.custom-option.selected .option-text');
+        const initialSelectedText = selectedOption ? selectedOption.textContent : '';
+
         paymentMethodDisplay.textContent = initialSelectedText;
         purchaseButton.disabled = false;
     } else {
