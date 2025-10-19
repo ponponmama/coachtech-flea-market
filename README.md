@@ -126,7 +126,7 @@ COACHTECH フリマ
 1. Github リポジトリのクローン
 
 ```bash
-git clone https://github.com/ponponmama/attendance-erika-hara.git
+git clone https://github.com/ponponmama/coachtech-flea-market.git
 ```
 
 ```bash
