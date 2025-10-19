@@ -107,7 +107,7 @@ COACHTECH フリマ
 
 ### ER 図
 
-![Attendance Diagram](attendance.drawio.png)
+![Attendance Diagram](fleamarket.drawio.png)
 
 ### 環境構築
 
