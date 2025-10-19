@@ -130,7 +130,7 @@ git clone https://github.com/ponponmama/coachtech-flea-market.git
 ```
 
 ```bash
-cd attendance-erika-hara
+cd coachtech-flea-market
 ```
 
 2. 必要なパッケージのインストール
