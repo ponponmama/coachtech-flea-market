@@ -168,17 +168,7 @@ chmod +x setup.sh
 - 以下のフォルダが作成されます
 
 ```
-      bootstrap/cache \
-      storage \
-      storage/framework/cache \
-      storage/framework/cache/data \
-      storage/framework/sessions \
-      storage/framework/testing \
-      storage/framework/views \
-      storage/logs \
-      storage/logs/app \
-      storage/logs/app/public \
-      tests/Unit
+      storage/app/public/profile-images
 ```
 
 <br>
