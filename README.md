@@ -26,7 +26,6 @@ COACHTECH フリマ
 
 ### 機能紹介
 
-
 - ユーザー登録
 
 <p align="center">
@@ -38,7 +37,6 @@ COACHTECH フリマ
 <p align="center">
     <img src="readme_md_images/email_verify.png" alt="メール認証誘導画面">
 </p>
-
 
 - ログイン
 
@@ -52,16 +50,16 @@ COACHTECH フリマ
     <img src="readme_md_images/index_etc.png" alt="商品一覧画面">
 </p>
 
--  商品詳細画面-ログイン後
-
-<p align="center">
-    <img src="readme_md_images/item_view.png" alt="商品詳細画面">
-</p>
-
-- プロフィール設定画面_初回ログイン時
+- プロフィール設定画面\_初回ログイン時
 
 <p align="center">
     <img src="readme_md_images/profile.png" alt="プロフィール設定画面">
+</p>
+
+- 商品詳細画面-ログイン後
+
+<p align="center">
+    <img src="readme_md_images/item_view.png" alt="商品詳細画面">
 </p>
 
 - 商品出品画面
@@ -94,7 +92,6 @@ COACHTECH フリマ
     <img src="readme_md_images/purchase_address.png" alt="プロフィール画面">
 </p>
 
-
 ### 開発言語・フレームワーク
 
 - **開発言語**: PHP
@@ -114,7 +111,7 @@ COACHTECH フリマ
 
 ### 環境構築
 
-- **PHP**: 8.1.33
+- **PHP**: 8.3.6 (ホスト) / 8.1.33 (コンテナ)
 - **MySQL**: 8.0.26
 - **Composer**: 2.8.11
 - **Docker**: 28.5.1
