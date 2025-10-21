@@ -58,7 +58,7 @@
     height: 100%;
     display: flex;
     justify-content: flex-start;
-    margin: 76.39px 69px;
+    margin: 76px 69px;
     box-sizing: border-box;
 }
 
@@ -75,7 +75,7 @@
     text-align: center;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
     margin-right: 70px;
-    margin-bottom: 71.5px;
+    margin-bottom: 76.61px;
 }
 
 .product-item:nth-child(4n) {
@@ -133,14 +133,14 @@
 /* SOLDバッジ */
 .sold-badge {
     position: absolute;
-    top: 10px;
-    right: 10px;
-    background-color: #FF5555;
-    color: #FFFFFF;
-    padding: 5px 10px;
+    top: 0;
+    right: 0;
+    background-color: rgba(255, 0, 0, 1);
+    color: rgba(217, 217, 217, 1);
+    padding: 10px;
     border-radius: 4px;
-    font-size: 14px;
-    font-weight: 600;
+    font-size: 25px;
+    font-weight: 400;
     z-index: 1;
 }
 
@@ -186,14 +186,24 @@
 }
 
 /* レスポンシブ対応 */
-@media screen and (max-width: 768px) {
-    .top-container {
-        padding: 10px;
+@media screen and (min-width: 769px) and (max-width: 1280px) {
+
+    .product-list {
+        width: 90%;
+        margin: 2.5% auto;
     }
 
     .product-grid {
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 20px;
+        justify-content: space-evenly;
+        gap: 25px;
+    }
+
+    .product-item {
+        margin: 0;
+    }
+
+    .nav-tabs__list {
+        margin-left: 50px;
     }
 
     .nav-tabs__item {
@@ -201,9 +211,61 @@
     }
 
     .nav-tabs__link {
-        font-size: 14px;
         padding: 10px 0;
     }
 }
 
+@media screen and (min-width: 541px) and (max-width: 768px) {
+    .content-container {
+        padding: 10px;
+    }
+
+    .product-list {
+        width: 90%;
+        margin: 2.5% auto;
+    }
+
+    .product-grid {
+        justify-content: space-evenly;
+        gap: 20px;
+    }
+
+    .product-item {
+        margin: 0;
+    }
+}
+
+@media screen and (max-width: 540px) {
+    .content-container {
+        padding: 10px;
+    }
+
+    .nav-tabs__list {
+        justify-content: center;
+        margin: 0;
+    }
+
+    .nav-tabs__item {
+        text-align: center;
+        margin: 10px;
+    }
+
+    .nav-tabs__link {
+        justify-content: center;
+    }
+
+    .product-list {
+        width: 90%;
+        margin: 2.5% auto;
+    }
+
+    .product-grid {
+        justify-content: space-evenly;
+        gap: 20px;
+    }
+
+    .product-item {
+        margin: 0;
+    }
+}
 

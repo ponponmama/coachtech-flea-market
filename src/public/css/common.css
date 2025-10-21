@@ -32,7 +32,7 @@ li {
 }
 
 .body-container {
-    width: 100%;
+    width: 100vw;
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -204,65 +204,105 @@ li {
     margin-bottom: 7%;
 }
 
-@media screen and (max-width: 540px) {
+@media screen and (min-width: 769px) and (max-width: 1280px) {
     .header-container {
+        width: 100%;
+        height: auto;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .header-logo-container {
+        width: 30%;
+        margin-left: 15px;
+    }
+
+    .header-logo {
+        width: 100%;
+    }
+
+    .header-search {
+        width: 33%;
+        padding: 10px;
+        margin: auto 10px;
+    }
+
+    .search-input {
+        font-size: 18px;
+        padding: 10px;
+    }
+
+    .header-nav {
+        width: 37%;
+    }
+
+    .header-nav__list {
+        margin-left: 10px;
+    }
+
+    .header-nav__link,
+    .header-nav__link.button {
+        font-size: 18px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .header-container {
+        width: 100%;
+        height: auto;
         flex-direction: column;
         justify-content: center;
         align-items: center;
     }
 
-    .header-logo {
-        width: 90%;
-        text-align: center;
-        margin: 1% auto;
-        padding: 0;
+    .header-logo-container{
+        width: 100%;
+        margin: 0;
+        padding: 20px;
     }
 
-    .header-logo-image {
-        width: 300px;
+        .header-logo {
+        width: 50%;
+    }
+
+    .header-search,
+    .header-nav {
+        width: 100%;
+        margin: 0;
+        padding: 20px;
+
     }
 
     .header-nav {
-        width: 100%;
-        text-align: center;
-        padding: 0;
+        justify-content: space-evenly;
+        align-items: center;
+        padding: 10px 20px;
     }
 
     .header-nav__list {
+        margin: 0;
         justify-content: center;
     }
 
-    .header-nav__item {
-        margin-left: 0;
-        margin-right: 10px;
+    .header-nav__link,
+    .header-nav__link.button {
+        font-size: 18px;
     }
 
-    .header-nav__item:last-child {
-        margin-right: 0;
+    .sell-link-container {
+        margin:  0 10px;
     }
-
-    .header-nav__link {
-        font-size: 16px;
-    }
-
 }
 
-@media screen and (min-width: 541px) and (max-width: 1280px) {
+@media screen and (max-height: 720px) {
+    .header-logo-container {
+        width: 30%;
+        margin-left: 15px;
+    }
+
     .header-logo {
-        width: 40%;
-    }
-
-    .header-logo-image {
-        height: 25px;
-    }
-
-    .header-nav {
-        width: 60%;
-    }
-
-    .header-nav__link {
-        font-size: 16px;
+        width: 80%;
+        margin: 0 auto;
     }
 }
-
 
