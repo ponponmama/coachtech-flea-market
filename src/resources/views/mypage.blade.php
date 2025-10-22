@@ -48,9 +48,7 @@
                                     @else
                                         <span class="product-image-placeholder">商品画像</span>
                                     @endif
-                                    @if (!is_null($item->buyer_id))
-                                        <div class="sold-badge">SOLD</div>
-                                    @endif
+                                    {{-- 購入した商品にはSOLDバッジを表示しない --}}
                                 </div>
                                 <span class="product-name-text">{{ $item->name }}</span>
                             </div>

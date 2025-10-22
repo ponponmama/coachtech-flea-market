@@ -148,6 +148,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
 }
 
 .product-image-placeholder {
@@ -171,6 +172,20 @@
     border-radius: 4px;
 }
 
+/* SOLDバッジ */
+.sold-badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: rgba(255, 0, 0, 1);
+    color: rgba(217, 217, 217, 1);
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 25px;
+    font-weight: 400;
+    z-index: 1;
+}
+
 .product-name-text {
     display: inline-block;
     width: 100%;
@@ -182,24 +197,182 @@
 }
 
 /* レスポンシブ対応 */
-@media screen and (max-width: 768px) {
-    .top-container {
-        padding: 10px;
+@media screen and (min-width: 1024px) and (max-width: 1280px) {
+    .content-container {
+        padding-top: 20px;
     }
 
-    .product-grid {
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 20px;
+    .profile-image-section{
+        width: 90%;
+        height: auto;
+        margin: 10px auto;
+    }
+
+    .profile-image-container {
+        width: 100%;
+        height: 100%;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .user-name {
+        width: 30%;
+        line-height: 65px;
+        text-align: center;
+        margin-left: 20px;
+        font-size: 30px;
+    }
+
+    .profile-edit-button {
+        width: 40%;
+        font-size: 24px;
+        line-height: 65px;
+        text-align: center;
+        padding: 0 20px;
+        margin-left: 30px;
+    }
+
+    .nav-tabs {
+        padding-left: 30px;
+    }
+
+    .nav-tabs__list {
+        margin-left: 50px;
     }
 
     .nav-tabs__item {
         margin-right: 20px;
     }
 
-    .nav-tabs__link {
-        font-size: 14px;
-        padding: 10px 0;
+    .product-list {
+        width: 92%;
+        margin: 0 auto;
+    }
+
+    .product-grid {
+        justify-content: flex-start;
+        padding-left: 0;
+        gap: 25px;
+    }
+
+}
+
+@media screen and (min-width: 541px) and (max-width: 1023px) {
+    .content-container {
+        padding-top: 20px;
+    }
+
+    .profile-image-section{
+        width: 90%;
+        height: auto;
+        margin: 10px auto;
+    }
+
+    .profile-image-container {
+        width: 100%;
+        height: 100%;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .user-name {
+        width: 20%;
+        font-size: 20px;
+        line-height: 65px;
+        text-align: center;
+    }
+
+    .profile-edit-button {
+        width: 35%;
+        font-size: 18px;
+        line-height: 65px;
+        text-align: center;
+        padding: 0 20px;
+        margin-left: 30px;
+    }
+
+    .nav-tabs {
+        padding-left: 30px;
+    }
+
+    .nav-tabs__list {
+        margin-left: 50px;
+    }
+
+    .nav-tabs__item {
+        margin-right: 20px;
+    }
+
+    .product-list {
+        width: 90%;
+        margin: 2.5% auto;
+    }
+
+    .product-grid {
+        justify-content: space-between;
+        padding-left: 0;
     }
 }
 
+@media screen and (max-width: 540px) {
+    .content-container {
+        padding-top: 20px;
+    }
+
+    .profile-image-section{
+        width: 90%;
+        height: auto;
+        margin: 10px auto;
+    }
+
+    .profile-image-container {
+        width: 100%;
+        height: 100%;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .user-name {
+        width: 100%;
+        font-size: 20px;
+        line-height: 65px;
+        text-align: center;
+        margin: 0;
+    }
+
+    .profile-edit-button {
+        width: 100%;
+        font-size: 18px;
+        line-height: 65px;
+        text-align: center;
+        padding: 0 20px;
+        margin: 10px auto;
+    }
+
+    .nav-tabs {
+        width: 100%;
+        padding: 0;
+        margin: 0;
+    }
+
+    .nav-tabs__list {
+        margin: auto;
+    }
+
+    .nav-tabs__item {
+        margin-right: 20px;
+    }
+
+    .product-list {
+        width: 90%;
+        margin: 2.5% auto;
+    }
+
+    .product-grid {
+        justify-content: center;
+        padding-left: 0;
+        gap: 20px;
+    }
+}
 

@@ -122,7 +122,7 @@
                         autocomplete="off">
                 </div>
                 <div class="form-group">
-                    <label class="form-label label-description" for="description">商品の説明</label>
+                    <span class="form-label label-description">商品の説明</span>
                     <textarea name="description" id="description" class="form-textarea" rows="5" autocomplete="off">{{ old('description') }}</textarea>
                     <p class="form__error">
                         @error('description')

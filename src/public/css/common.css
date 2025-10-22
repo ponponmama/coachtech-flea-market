@@ -244,6 +244,10 @@ li {
     .header-nav__link.button {
         font-size: 18px;
     }
+
+    .form__error {
+        margin: 4px;
+    }
 }
 
 @media screen and (max-width: 768px) {
@@ -270,7 +274,6 @@ li {
         width: 100%;
         margin: 0;
         padding: 20px;
-
     }
 
     .header-nav {
@@ -304,5 +307,29 @@ li {
         width: 80%;
         margin: 0 auto;
     }
+
+    .form__error {
+        margin: 4px;
+    }
 }
+
+@media screen and (max-width: 540px) {
+    .header-logo-container,
+    .header-search,
+    .header-nav {
+        width: 100%;
+        margin: 0;
+        padding: 20px;
+    }
+
+    .header-logo {
+        width: 80%;
+        margin: 0 auto;
+    }
+
+    .form__error {
+        margin: 4px;
+    }
+}
+
 

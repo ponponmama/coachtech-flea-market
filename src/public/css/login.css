@@ -110,8 +110,116 @@
     margin-top: 18.49px;
 }
 
+@media screen and (min-width: 769px) and (max-width: 1280px) {
+    .header-logo-container {
+        width: 80%;
+        margin: 0 auto;
+        padding: 10px;
+    }
+
+    .header-logo {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+}
+
 @media screen and (max-width: 768px) {
-    .auth-container {
+    .content-container {
         width: 90%;
+        margin: 5% auto;
+    }
+
+    .header-logo-container {
+        width: 60%;
+        margin: 0 auto;
+        padding: 10px;
+    }
+
+    .header-logo {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    .form-title {
+        margin: 10px;
+        font-size: 28px;
+        line-height: 30px;
+    }
+
+    .form-group {
+        margin-bottom: 10px;
+    }
+
+    .submit-button {
+        margin-top: 15px;
+    }
+
+    .login-link {
+        margin-top: 10px;
     }
 }
+
+@media screen and (max-width: 1280px) and (min-height: 600px) and (max-height: 844px) {
+    .header-logo-container {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    .header-logo {
+        width: 100%;
+        margin: 0;
+        padding: 5px;
+    }
+
+    .content-container {
+        margin: 10% auto;
+    }
+
+    .auth-header {
+        padding: 5px;
+    }
+
+    .form-title {
+        margin: 10px;
+        font-size: 24px;
+        line-height: 30px;
+    }
+
+    .form-group {
+        margin-bottom: 10px;
+        font-size: 18px;
+    }
+
+    .form-label {
+        height: 25px;
+        line-height: 25px;
+    }
+
+    .form-input {
+        height: 35px;
+        line-height: 35px;
+        font-size: 18px;
+    }
+
+    .submit-button {
+        margin-top: 10px;
+        height: 40px;
+        line-height: 40px;
+        font-size: 24px;
+
+        margin-top: 10px;
+    }
+
+    .login-link {
+        margin-top: 5px;
+    }
+
+}
+
+
+
+

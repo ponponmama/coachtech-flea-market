@@ -216,10 +216,6 @@
 }
 
 @media screen and (min-width: 541px) and (max-width: 768px) {
-    .content-container {
-        padding: 10px;
-    }
-
     .product-list {
         width: 90%;
         margin: 2.5% auto;
@@ -237,7 +233,7 @@
 
 @media screen and (max-width: 540px) {
     .content-container {
-        padding: 10px;
+        padding-top: 20px;
     }
 
     .nav-tabs__list {
