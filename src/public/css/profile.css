@@ -148,9 +148,223 @@
     margin-top: 24px;
 }
 
-@media screen and (max-width: 768px) {
-    .auth-container {
-        width: 90%;
+/* レスポンシブ対応 */
+@media screen and (min-width: 768px) and (max-width: 1280px) {
+    .content-container {
+        width: 100%;
+        padding-top: 40px;
+        margin: 0 auto;
+    }
+
+    .profile-content {
+        width: 60%;
+        margin: 0 auto;
+    }
+
+    .profile-image-container {
+        justify-content: center;
+    }
+}
+
+@media screen and (max-height: 720px) {
+    .content-container {
+        width: 100%;
+        padding-top: 20px;
+        margin: 0 auto;
+    }
+
+    .content-title {
+        margin: 0 auto 10px;
+        font-size: 30px;
+        line-height: 35px;
+    }
+
+    .profile-content {
+        width: 60%;
+        margin: 0 auto;
+    }
+
+    .profile-image-section {
+        height: 120px;
+        margin-bottom: 10px;
+    }
+
+    .profile-image-container {
+        justify-content: space-evenly;
+    }
+
+    .profile-image-placeholder {
+        width: 120px;
+        height: 120px;
+    }
+
+    .profile-image-button {
+        font-size: 18px;
+        line-height: 35px;
+        padding: 5px;
+        margin-left: 10px;
+    }
+
+    .form__error {
+        margin: 0;
+        margin-bottom: 4px;
+    }
+
+    .form-group {
+        height: auto;
+        margin-bottom: 10px;
+        font-size: 18px;
+    }
+
+    .profile-label {
+        height: 25px;
+        line-height: 25px;
+        font-size: 18px;
+    }
+
+    .profile-input {
+        height: 35px;
+        line-height: 35px;
+        font-size: 18px;
+    }
+
+    .profile-button {
+        margin-top: 10px;
+        height: 40px;
+        line-height: 40px;
+        font-size: 24px;
+    }
+}
+
+@media screen and (min-width: 540px) and (max-width: 767px) {
+    .content-container {
+        width: 100%;
+        padding-top: 20px;
+        margin: 0 auto;
+    }
+
+    .content-title {
+        margin: 0 auto 10px;
+        font-size: 30px;
+        line-height: 44px;
+    }
+
+    .profile-content {
+        width: 80%;
+        margin: 0 auto;
+    }
+
+    .profile-image-section {
+        margin-bottom: 10px;
+    }
+
+    .profile-image-container {
+        justify-content: center;
+    }
+
+    .form__error {
+        margin: 0;
+        margin-bottom: 4px;
+    }
+
+
+    .form-group {
+        height: auto;
+        margin-bottom: 10px;
+        font-size: 18px;
+    }
+
+    .profile-label {
+        height: 25px;
+        line-height: 25px;
+        font-size: 18px;
+    }
+
+    .profile-input {
+        height: 35px;
+        line-height: 35px;
+        font-size: 18px;
+    }
+
+    .profile-button {
+        margin-top: 10px;
+        height: 40px;
+        line-height: 40px;
+        font-size: 24px;
+    }
+}
+
+@media screen and (max-width: 539px) {
+    .content-container {
+        width: 100%;
+        height: 100%;
+        padding-top: 20px;
+        margin: 0 auto;
+    }
+
+    .content-title {
+        margin: 0 auto 10px;
+        font-size: 30px;
+        line-height: 44px;
+    }
+
+    .profile-content {
+        width: 80%;
+        margin: 0 auto;
+    }
+
+    .profile-image-section {
+        width: 100%;
+        height: 100px;
+        margin-bottom: 20px;
+    }
+
+    .profile-image-container {
+        justify-content: space-between;
+    }
+
+    .profile-image-placeholder {
+        width: 100px;
+        height: 100px;
+    }
+
+    .profile-image-button {
+        font-size: 18px;
+        line-height: 35px;
+        padding: 5px;
+        margin-left: 10px;
+    }
+
+    .form__error {
+        margin: 0;
+        margin-bottom: 4px;
+    }
+
+
+    .form-group {
+        height: auto;
+        margin-bottom: 10px;
+        font-size: 18px;
+    }
+
+    .profile-label {
+        height: 25px;
+        line-height: 25px;
+        font-size: 18px;
+    }
+
+    .profile-input {
+        height: 35px;
+        line-height: 35px;
+        font-size: 18px;
+    }
+
+    .profile-button {
+        margin-top: 10px;
+        height: 40px;
+        line-height: 40px;
+        font-size: 24px;
     }
 
 }
+

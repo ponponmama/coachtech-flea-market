@@ -14,13 +14,11 @@
 @section('content')
     <div class="content-container">
         <h1 class="content-title">商品の出品</h1>
-
         @if (session('error'))
             <div class="alert alert-danger">
                 {{ session('error') }}
             </div>
         @endif
-
         @if (session('success'))
             <div class="alert alert-success">
                 {{ session('success') }}
@@ -70,10 +68,11 @@
                     <label class="form-label" for="condition">商品の状態</label>
                     <div class="select-wrapper">
                         <div class="custom-select" id="custom_condition_select">
-                            <div class="custom-select-trigger">
+                            <div class="custom-select-trigger" tabindex="0" role="combobox" aria-expanded="false"
+                                aria-haspopup="listbox">
                                 <span class="custom-select-value">選択してください</span>
                             </div>
-                            <ul class="custom-select-options">
+                            <ul class="custom-select-options" role="listbox">
                                 <li class="custom-option" data-value="良好">
                                     <span class="check-mark"></span>
                                     <span class="option-text">良好</span>
@@ -93,14 +92,15 @@
                             </ul>
                         </div>
                         <!-- フォーム送信用の隠しinput -->
-                        <input type="hidden" name="condition" id="condition" value="{{ old('condition') }}" required>
+                        <input type="text" name="condition" id="condition" value="{{ old('condition') }}" required
+                            class="hidden-input">
                     </div>
-                    <p class="form__error">
-                        @error('condition')
-                            {{ $message }}
-                        @enderror
-                    </p>
                 </div>
+                <p class="form__error">
+                    @error('condition')
+                        {{ $message }}
+                    @enderror
+                </p>
             </div>
             <div class="form-section">
                 <div class="form-section-title-container">
@@ -122,7 +122,7 @@
                         autocomplete="off">
                 </div>
                 <div class="form-group">
-                    <span class="form-label label-description">商品の説明</span>
+                    <label class="form-label label-description" for="description">商品の説明</label>
                     <textarea name="description" id="description" class="form-textarea" rows="5" autocomplete="off">{{ old('description') }}</textarea>
                     <p class="form__error">
                         @error('description')

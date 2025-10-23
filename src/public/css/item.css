@@ -176,7 +176,7 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    min-height: 321px;
+    height: 321px;
     margin-left: 2px;
 }
 
@@ -363,7 +363,7 @@
 /* コメント投稿フォームの親要素 */
 .comment-form-section {
     width: 100%;
-    min-height:422px;
+    height:422px;
 }
 
 /* コメント投稿フォームtitle */
@@ -383,7 +383,7 @@
 /* コメント投稿フォームinput */
 .comment-input {
     width: 100%;
-    min-height: 246px;
+    height: 246px;
     padding: 15px;
     border: 2px solid rgba(95, 95, 95, 1);
     background: rgba(217, 217, 217, 0);
@@ -496,26 +496,228 @@
 }
 
 /* レスポンシブ対応 */
-@media screen and (max-width: 768px) {
-    .item-detail-section {
+@media screen and (min-width: 768px) and (max-width: 1280px) {
+    .content-container {
+        width: 100%;
         flex-direction: column;
-        padding: 10px;
+        padding-top: 20px;
+        margin: 0 auto;
     }
 
     .item-image-section {
         flex: none;
+        width: 600px;
+        height: 600px;
+        margin: 30px auto;
+    }
+
+    .item-image-placeholder {
+        margin: 0;
+    }
+
+    .product-description-area {
+        width: 60%;
+        height: auto;
+        margin: 0 auto;
+        justify-content: center;
+    }
+
+    .item-info-section,
+    .item-information-section,
+    .comments-section,
+    .comment-form-section {
+        width: 100%;
+        margin: 0;
+    }
+}
+
+@media screen and (min-width: 540px) and (max-width: 767px) {
+    .content-container {
+        width: 100%;
+        flex-direction: column;
+        padding-top: 20px;
+        margin: 0 auto;
+    }
+
+    .item-image-section {
+        flex: none;
+        width: 80%;
+        height: auto;
+        margin: 30px auto;
     }
 
     .item-image-placeholder {
         width: 100%;
-        height: 300px;
+        height: 100%;
+        margin: 0;
     }
 
-    .item-name {
-        font-size: 28px;
+    .product-description-area {
+        width: 80%;
+        height: auto;
+        margin: 0 auto;
+        justify-content: center;
     }
 
+    .item-info-section,
+    .item-information-section,
+    .comments-section,
+    .comment-form-section {
+        width: 100%;
+        margin: 0;
+    }
+
+    .item-header,
+    .item-description-section {
+        width: 100%;
+        height: auto;
+    }
+
+    .item-price-section {
+        justify-content: center;
+    }
+
+    .item-name,
     .item-price {
+        font-size: 36px;
+        line-height: 40px;
+        padding-left: 20px;
+    }
+
+    .item-brand {
+        padding-left: 20px;
+    }
+
+    .price-symbol, .item-price-tax {
+        font-size: 20px;
+        line-height: 35px;
+    }
+
+    .description-section-title, .information-section-title, .comments-section-title {
+        width: 100%;
+        font-size: 30px;
+        line-height: 34px;
+        margin-bottom: 10px;
+    }
+
+    .user-name {
+        width: 70%;
+    }
+}
+
+@media screen and (max-width: 539px) {
+    .content-container {
+        width: 100%;
+        flex-direction: column;
+        padding-top: 20px;
+        margin: 0 auto;
+    }
+
+    .item-image-section {
+        flex: none;
+        width: 80%;
+        height: auto;
+        margin: 30px auto;
+    }
+
+    .item-image-placeholder {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+    }
+
+    .product-description-area {
+        width: 80%;
+        height: auto;
+        margin: 0 auto;
+        justify-content: center;
+    }
+
+    .item-info-section,
+    .item-information-section,
+    .comments-section,
+    .comment-form-section {
+        width: 100%;
+        margin: 0;
+    }
+
+    .item-header,
+    .item-description-section {
+        width: 100%;
+        height: auto;
+    }
+
+    .item-price-section {
+        justify-content: center;
+    }
+
+    .item-name,
+    .item-price {
+        font-size: 32px;
+        line-height: 40px;
+        padding-left: 20px;
+    }
+
+    .item-brand {
+        padding-left: 20px;
+    }
+
+    .price-symbol, .item-price-tax {
+        font-size: 20px;
+        line-height: 35px;
+    }
+
+    .category-info-item,
+    .condition-info-item {
+        flex-direction: column;
+        margin: 10px 0
+    }
+
+    .category-info-label,
+    .condition-info-label {
+        width: 70%;
+        height: auto;
+        font-size: 18px;
+        line-height: 30px;
+        margin: 0;
+    }
+
+    .item-description-text,
+    .info-value {
+        height: auto;
+        font-size: 18px;
+        line-height: 30px;
+    }
+
+    .category-tag {
+        font-size: 18px;
+        line-height: 20px;
+        padding: 0 10px;
+    }
+
+    .description-section-title, .information-section-title, .comments-section-title,
+    .form-title {
+        width: 100%;
+        font-size: 22px;
+        line-height: 35px;
+        margin: 10px 0;
+    }
+
+    .user-name {
+        width: 60%;
+        font-size: 22px;
+    }
+
+    .comment-content {
+        padding: 4px 10px;
+        font-size: 16px;
+        line-height: 20px;
+    }
+
+    .purchase-link, .comment-submit-button {
+        margin-top: 10px;
+        height: 40px;
+        line-height: 40px;
         font-size: 24px;
     }
 }

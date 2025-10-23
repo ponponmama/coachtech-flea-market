@@ -153,18 +153,24 @@
 }
 
 .select-wrapper::after {
-    content: '▼';
+    content: '';
     position: absolute;
     top: 50%;
     right: 16px;
     transform: translateY(-50%);
     pointer-events: none;
-    color: rgba(95, 95, 95, 1);
     width: 18px;
     height: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    background-image: url('/images/Polygon1.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.hidden-input {
+    position: absolute;
+    left: -9999px;
+    opacity: 0;
 }
 
 
@@ -453,7 +459,7 @@
 }
 
 @media screen and (max-width: 540px) {
-        .content-container {
+    .content-container {
         padding-top: 10px;
     }
 
@@ -463,7 +469,6 @@
         line-height: 44px;
         margin: 20px auto;
         text-align: center;
-        font-size: 30px;
     }
 
     .sell-form {
@@ -496,6 +501,9 @@
     }
 
     .submit-button {
-        margin: 10px auto 50px;
+        margin-top: 10px;
+        height: 40px;
+        line-height: 40px;
+        font-size: 24px;
     }
 }

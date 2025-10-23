@@ -131,17 +131,18 @@
 
 /* 支払い方法セレクト▽ */
 .select-wrapper::after {
-    content: "";
+    content: '';
     position: absolute;
     top: 50%;
     right: 8px;
     transform: translateY(-50%);
-    width: 0;
-    height: 0;
-    border-left: 6.5px solid transparent;
-    border-right: 6.5px solid transparent;
-    border-top: 14px solid rgba(95, 95, 95, 1);
     pointer-events: none;
+    width: 18px;
+    height: 20px;
+    background-image: url('/images/Polygon 1.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
     z-index: 1;
 }
 
@@ -341,7 +342,6 @@
     flex-shrink: 0;
 }
 
-
 .summary-price-text {
     font-size: 20px;
     color: rgba(0, 0, 0, 1);
@@ -353,7 +353,6 @@
     height: 115px;
     font-size: 28px;
 }
-
 
 .purchase-button {
     width: 100%;
@@ -381,7 +380,7 @@
 }
 
 /* レスポンシブ対応 */
-@media (max-width: 768px) {
+@media screen and (min-width: 1024px) and (max-width: 1280px) {
     .purchase-section {
         flex-direction: column;
         gap: 30px;
@@ -400,4 +399,10 @@
         flex: none;
         align-self: center;
     }
+}
+
+@media screen and (min-width: 541px) and (max-width: 1023px) {}
+
+@media screen and (max-width: 540px) {
+
 }
