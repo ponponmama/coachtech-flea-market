@@ -13,8 +13,6 @@
                     @if ($user->profile && $user->profile->profile_image_path)
                         <img src="{{ asset('storage/' . $user->profile->profile_image_path) }}" alt="プロフィール画像"
                             class="profile-image-holder">
-                    @else
-                        <span class="profile-image-placeholder">画像</span>
                     @endif
                 </div>
                 <span class="user-name">{{ $user->name }}</span>

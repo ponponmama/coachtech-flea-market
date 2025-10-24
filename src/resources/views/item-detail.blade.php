@@ -125,6 +125,11 @@
                                 <textarea name="comment" class="comment-input"></textarea>
                                 <span class="custom-resize-handle"></span>
                             </div>
+                            <p class="form__error">
+                                @error('comment')
+                                    {{ $message }}
+                                @enderror
+                            </p>
                             <div class="comment-submit-button-container">
                                 <button type="submit" class="comment-submit-button button">
                                     コメントを送信する

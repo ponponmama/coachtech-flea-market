@@ -92,7 +92,7 @@
                             </ul>
                         </div>
                         <!-- フォーム送信用の隠しinput -->
-                        <input type="text" name="condition" id="condition" value="{{ old('condition') }}" required
+                        <input type="text" name="condition" id="condition" value="{{ old('condition') }}"
                             class="hidden-input">
                     </div>
                 </div>
@@ -108,7 +108,7 @@
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="name">商品名</label>
-                    <input type="text" name="name" id="name" class="form-input" value="{{ old('name') }}"
+                    <input type="text" name="name" id="name" class="form-input" value=""
                         autocomplete="off">
                     <p class="form__error">
                         @error('name')

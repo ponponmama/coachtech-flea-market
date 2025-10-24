@@ -416,9 +416,13 @@
     }
 
     .sell-form {
-        width: 70%;
+        width: 50%;
         margin: 0 auto;
         padding: 0;
+    }
+
+    .submit-button {
+        margin: 41px 0 76px;
     }
 }
 
@@ -436,7 +440,7 @@
     }
 
     .sell-form {
-        width: 70%;
+        width: 60%;
         margin: 0 auto;
         padding: 0;
     }
@@ -454,7 +458,7 @@
     }
 
     .submit-button {
-        margin: 20px auto 60px;
+        margin: 20px auto 50px;
     }
 }
 
@@ -472,7 +476,7 @@
     }
 
     .sell-form {
-        width: 90%;
+        width: 80%;
         margin: 0 auto;
         padding: 0;
     }

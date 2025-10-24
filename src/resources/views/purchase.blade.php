@@ -54,7 +54,7 @@
                             </ul>
                         </div>
                         <!-- フォーム送信用の隠しinput -->
-                        <input type="hidden" name="payment_method" id="payment_method" value="" required>
+                        <input type="hidden" name="payment_method" id="payment_method" value="">
                     </div>
                     <p class="form__error">
                         @error('payment_method')

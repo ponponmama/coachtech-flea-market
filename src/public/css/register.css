@@ -6,14 +6,13 @@
 /* title含め入力フォームのコンテナ */
 .content-container {
     width: 680px;
-    display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
     color: rgba(0, 0, 0, 1);
+    margin-top: 96px;
 }
 
-/* title共通のstyle */
+/* titleのstyle */
 .form-title {
     width: 144px;
     font-size: 36px;
@@ -22,7 +21,7 @@
     margin-bottom: 36.42px;
 }
 
-/* form共通のstyle */
+/* formのstyle */
 .register-form {
     width: 100%;
 }
@@ -74,16 +73,6 @@
     outline: none;
 }
 
-/* loginとregister共通*/
-.auth-error-message {
-    line-height: 18px;
-    min-height: 18px;
-    color: red;
-    font-size: 16px;
-    text-align: center;
-    width: 100%;
-}
-
 /* button共通のstyle */
 .submit-button {
     width: 100%;
@@ -107,7 +96,14 @@
     margin-top: 18.49px;
 }
 
+/* レスポンシブ対応 */
 @media screen and (min-width: 769px) and (max-width: 1280px) {
+    .content-container {
+        width: 60%;
+        margin: 5% auto;
+        padding: 20px;
+    }
+
     .header-logo-container {
         width: 80%;
         margin: 0 auto;
@@ -120,16 +116,20 @@
         padding: 0;
     }
 
+        .submit-button {
+        margin-top: 40px;
+    }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (min-width: 541px) and (max-width: 768px) {
     .content-container {
-        width: 90%;
+        width: 60%;
         margin: 5% auto;
+        padding: 20px;
     }
 
     .header-logo-container {
-        width: 60%;
+        width: 80%;
         margin: 0 auto;
         padding: 10px;
     }
@@ -159,61 +159,31 @@
     }
 }
 
-@media screen and (max-width: 1280px) and (min-height: 600px) and (max-height: 844px) {
+@media screen and (max-width: 540px) {
+    .content-container {
+        width: 80%;
+        margin: 28px auto;
+    }
+
     .header-logo-container {
-        width: 100%;
-        margin: 0;
-        padding: 0;
+        width: 60%;
+        margin: 0 auto;
+        padding: 10px;
     }
 
     .header-logo {
         width: 100%;
         margin: 0;
-        padding: 5px;
-    }
-
-    .content-container {
-        margin: 10% auto;
-    }
-
-    .auth-header {
-        padding: 5px;
+        padding: 0;
     }
 
     .form-title {
-        margin: 10px;
-        font-size: 24px;
-        line-height: 30px;
-    }
-
-    .form-group {
-        margin-bottom: 10px;
-        font-size: 18px;
-    }
-
-    .form-label {
-        height: 25px;
-        line-height: 25px;
-    }
-
-    .form-input {
-        height: 35px;
-        line-height: 35px;
-        font-size: 18px;
+        font-size: 30px;
     }
 
     .submit-button {
-        margin-top: 10px;
-        height: 40px;
-        line-height: 40px;
-        font-size: 24px;
-
-        margin-top: 10px;
+        margin-top: 20px;
     }
-
-    .register-link {
-        margin-top: 5px;
-    }
-
 }
+
 
