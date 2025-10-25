@@ -176,22 +176,19 @@ li {
     flex: 1;
 }
 
-
-
 .form__error {
     line-height: 18px;
     height: 18px;
-    color: red;
+    color: rgba(255, 0, 0, 1);
     font-size: 16px;
 }
 
 .alert-success {
-    width: 100%;
+    min-height: 18px;
     line-height: 18px;
-    color: black;
+    color: rgba(0, 115, 204, 1);
     font-size: 16px;
-    letter-spacing: 0.15em;
-    margin-bottom: 2%;
+    margin: 8px 0;
 }
 
 .title-container {

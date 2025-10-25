@@ -47,8 +47,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const selectedPaymentMethod = paymentMethodSelect.value;
         console.log('選択された支払い方法:', selectedPaymentMethod);
 
+        // バリデーションチェック
         if (!selectedPaymentMethod) {
-            alert('支払い方法を選択してください。');
+            // フォーム送信でサーバー側バリデーションを実行
+            document.querySelector('.purchase-form').submit();
             return;
         }
 

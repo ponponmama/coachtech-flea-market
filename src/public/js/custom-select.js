@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const valueDisplay = customSelect.querySelector('.custom-select-value');
 
         // 隠しinputを取得（セレクトボックスの近くにあるinput要素を探す）
-        const hiddenInput = customSelect.parentElement.querySelector('input[name="condition"]');
+        const hiddenInput = customSelect.parentElement.querySelector('input[type="hidden"], input[type="text"].hidden-input');
 
         // セレクトボックスを開閉
         trigger.addEventListener('click', function(e) {

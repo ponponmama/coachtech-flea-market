@@ -137,7 +137,6 @@
     border-radius: 5px;
     border: none;
     font-size: 26px;
-    transition: all 0ms;
     margin-top: 24px;
 }
 
@@ -266,7 +265,6 @@
     .form-group {
         height: auto;
         margin-bottom: 10px;
-        font-size: 18px;
     }
 
     .profile-label {

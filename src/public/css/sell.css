@@ -237,7 +237,6 @@
     font-size: 14px;
     color: rgba(234, 234, 234, 1);
     cursor: pointer;
-    transition: background-color 0.2s;
     vertical-align: middle;
     border-radius: 5px;
 }

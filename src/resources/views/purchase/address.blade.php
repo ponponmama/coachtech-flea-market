@@ -13,7 +13,8 @@
                 @csrf
                 <div class="form-group">
                     <label class="form-label" for="postal_code">郵便番号</label>
-                    <input type="text" name="postal_code" id="postal_code" class="form-input" value="{{ old('postal_code', $currentAddress['postal_code'] ?? '') }}" autocomplete="postal-code">
+                    <input type="text" name="postal_code" id="postal_code" class="form-input"
+                        value="{{ old('postal_code', $currentAddress['postal_code'] ?? '') }}" autocomplete="postal-code">
                 </div>
                 <p class="form__error">
                     @error('postal_code')
@@ -22,7 +23,8 @@
                 </p>
                 <div class="form-group">
                     <label class="form-label" for="address">住所</label>
-                    <input type="text" name="address" id="address" class="form-input" value="{{ old('address', $currentAddress['address'] ?? '') }}" autocomplete="address-line1">
+                    <input type="text" name="address" id="address" class="form-input"
+                        value="{{ old('address', $currentAddress['address'] ?? '') }}" autocomplete="address-line1">
                 </div>
                 <p class="form__error">
                     @error('address')
@@ -31,7 +33,8 @@
                 </p>
                 <div class="form-group">
                     <label class="form-label" for="building">建物名</label>
-                    <input type="text" name="building" id="building" class="form-input" value="{{ old('building', $currentAddress['building'] ?? '') }}" autocomplete="address-line2">
+                    <input type="text" name="building" id="building" class="form-input"
+                        value="{{ old('building', $currentAddress['building'] ?? '') }}" autocomplete="address-line2">
                 </div>
                 <p class="form__error">
                     @error('building')

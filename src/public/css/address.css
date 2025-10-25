@@ -50,7 +50,6 @@
     border-radius: 4px;
     font-size: 16px;
     color: rgba(0, 0, 0, 1);
-    box-sizing: border-box;
 }
 
 .form-input:focus {
@@ -71,7 +70,6 @@
     border-radius: 4px;
     font-size: 26px;
     line-height: 60px;
-    transition: background-color 0.3s ease;
     margin-top: 77px;
 }
 
@@ -84,23 +82,91 @@
 }
 
 /* レスポンシブ対応 */
-@media (max-width: 768px) {
+@media screen and (min-width: 769px) and (max-width: 1280px) {
+    .content-container {
+        padding-top: 40px;
+    }
+
+    .content-title {
+        margin-bottom: 23px;
+    }
+}
+
+@media screen and (min-width: 541px) and (max-width: 1023px) {
+    .content-container {
+        padding-top: 20px;
+    }
+
+    .content-title {
+        margin: 0 auto 10px;
+        font-size: 30px;
+        line-height: 44px;
+    }
+
     .address-form-section {
         padding: 0 15px;
     }
 
-    .content-title {
-        font-size: 28px;
-        margin: 30px auto 30px;
+    .form-group {
+        height: auto;
+        margin-bottom: 10px;
+        font-size: 18px;
+    }
+
+    .form-label {
+        height: 25px;
+        line-height: 25px;
+        font-size: 18px;
     }
 
     .form-input {
-        height: 45px;
-        font-size: 14px;
+        height: 35px;
+        line-height: 35px;
+        font-size: 18px;
     }
 
     .update-button {
-        height: 50px;
-        font-size: 16px;
+        margin-top: 10px;
+        height: 40px;
+        line-height: 40px;
+        font-size: 24px;
+    }
+}
+
+@media screen and (max-width: 540px) {
+    .content-container {
+        width: 100%;
+        padding-top: 20px;
+    }
+
+    .content-title {
+        width: 100%;
+        margin: 0 auto 10px;
+        font-size: 30px;
+        line-height: 44px;
+    }
+
+    .form-group {
+        height: auto;
+        margin-bottom: 10px;
+    }
+
+    .form-label {
+        height: 25px;
+        line-height: 25px;
+        font-size: 17px;
+    }
+
+    .form-input {
+        height: 35px;
+        line-height: 35px;
+        font-size: 17px;
+    }
+
+    .update-button {
+        margin-top: 10px;
+        height: 40px;
+        line-height: 40px;
+        font-size: 24px;
     }
 }

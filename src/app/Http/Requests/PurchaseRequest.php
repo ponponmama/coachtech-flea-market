@@ -22,8 +22,8 @@ class PurchaseRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'payment_method' => 'required|string|in:credit_card,bank_transfer,convenience_store',
-            'shipping_address' => 'required|string',
+            'payment_method' => 'required|in:convenience,credit',
+            'shipping_address' => 'required',
         ];
     }
 
@@ -35,9 +35,8 @@ class PurchaseRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'payment_method.required' => '支払い方法は必須です。',
-            'payment_method.in' => '有効な支払い方法を選択してください。',
-            'shipping_address.required' => '配送先は必須です。',
+            'payment_method.required' => '支払い方法を選択してください。',
+            'shipping_address.required' => '配送先を入力してください。',
         ];
     }
 }

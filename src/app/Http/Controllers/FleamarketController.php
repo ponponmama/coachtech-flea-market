@@ -279,12 +279,20 @@ class FleamarketController extends Controller
         $user = Auth::user();
         $item = Item::findOrFail($item_id);
 
-        // 現在の配送先住所を取得（ユーザーのプロフィールから）
-        $currentAddress = $user->profile ? [
-            'postal_code' => $user->profile->postal_code,
-            'address' => $user->profile->address,
-            'building' => $user->profile->building_name,
-        ] : null;
+        // 現在の配送先住所を取得（プロフィールは必ず存在する）
+        $profile = $user->profile;
+
+        // 郵便番号をハイフン付きの形式に変換
+        $postalCodeDisplay = $profile->postal_code;
+        if ($postalCodeDisplay && strpos($postalCodeDisplay, '-') === false) {
+            $postalCodeDisplay = substr($postalCodeDisplay, 0, 3) . '-' . substr($postalCodeDisplay, 3);
+        }
+
+        $currentAddress = [
+            'postal_code' => $postalCodeDisplay,
+            'address' => $profile->address,
+            'building' => $profile->building_name,
+        ];
 
         return view('purchase.address', compact('item', 'currentAddress'));
     }
@@ -292,33 +300,21 @@ class FleamarketController extends Controller
     /**
      * 送付先住所を更新（FN024: 配送先変更機能）
      */
-    public function updateAddress(Request $request, $item_id)
+    public function updateAddress(\App\Http\Requests\AddressRequest $request, $item_id)
     {
         $user = Auth::user();
         $item = Item::findOrFail($item_id);
 
-        // AddressRequestのバリデーションを使用
-        $addressRequest = new \App\Http\Requests\AddressRequest();
-        $addressRequest->merge($request->all());
-        $addressRequest->validate($addressRequest->rules(), $addressRequest->messages());
+        // 郵便番号からハイフンを除去（データベースにはハイフンなしで保存）
+        $postalCode = str_replace('-', '', $request->postal_code);
 
         // ユーザーのプロフィール住所を更新
-        if ($user->profile) {
-            $user->profile->update([
-                'postal_code' => $request->postal_code,
-                'address' => $request->address,
-                'building_name' => $request->building,
-            ]);
-        } else {
-            // プロフィールが存在しない場合は作成
-            \App\Models\Profile::create([
-                'user_id' => $user->id,
-                'postal_code' => $request->postal_code,
-                'address' => $request->address,
-                'building_name' => $request->building,
-            ]);
-        }
+        $user->profile->update([
+            'postal_code' => $postalCode,
+            'address' => $request->address,
+            'building_name' => $request->building,
+        ]);
 
-        return redirect('/purchase/' . $item_id)->with('success', '送付先住所を更新しました。');
+        return redirect('/purchase/' . $item_id)->with('address_updated', '送付先住所を更新しました。');
     }
 }
