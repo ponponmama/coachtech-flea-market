@@ -112,8 +112,11 @@
 @media screen and (min-width: 769px) and (max-width: 1280px) {
     .content-container {
         width: 60%;
-        margin: 5% auto;
         padding: 20px;
+        margin: 5% auto;
+        justify-content: center;
+        align-items: center;
+        min-height: 80vh;
     }
 
     .header-logo-container {
@@ -127,19 +130,26 @@
         margin: 0;
         padding: 0;
     }
+
+    .submit-button {
+        margin-top: 40px;
+    }
 }
 
 @media screen and (min-width: 541px) and (max-width: 768px) {
     .content-container {
         width: 70%;
-        margin: 5% auto;
         padding: 20px;
+        margin: 5% auto;
+        justify-content: center;
+        align-items: center;
+        min-height: 84vh;
     }
 
     .header-logo-container {
-        width: 80%;
+        width: 70%;
         margin: 0 auto;
-        padding: 10px;
+        padding: 0;
     }
 
     .header-logo {
@@ -167,16 +177,81 @@
     }
 }
 
-@media screen and (max-width: 540px) {
-    .content-container {
-        width: 80%;
-        margin: 28px auto;
+@media screen and (width: 540px) {
+    .auth-header {
+        height: 60px;
+        line-height: 60px;
     }
 
     .header-logo-container {
-        width: 60%;
+        width: 70%;
         margin: 0 auto;
-        padding: 10px;
+        padding: 0;
+    }
+
+    .header-logo {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    .content-container {
+        width: 70%;
+        margin: 3% auto;
+        justify-content: center;
+        align-items: center;
+        min-height: 85vh;
+    }
+
+    .form-title {
+        font-size: 30px;
+        margin-bottom: 10px;
+    }
+
+    .form-group {
+        margin-bottom: 10px;
+    }
+
+    .form-label,
+    .form-input {
+        font-size: 20px;
+    }
+
+    .form-input {
+        height: 45px;
+        line-height: 45px;
+    }
+
+    .submit-button {
+        margin-top: 10px;
+        height: 40px;
+        line-height: 40px;
+        font-size: 20px;
+    }
+
+    .register-link {
+        margin-top: 10px;
+    }
+}
+
+@media screen and (max-width: 539px) {
+    .auth-header {
+        height: 60px;
+        line-height: 60px;
+    }
+
+    .content-container {
+        width: 90%;
+        margin: 15% auto;
+        justify-content: center;
+        align-items: center;
+        min-height: 70vh;
+    }
+
+    .header-logo-container {
+        width: 70%;
+        margin: 0 auto;
+        padding: 0px;
     }
 
     .header-logo {
@@ -187,6 +262,12 @@
 
     .form-title {
         font-size: 30px;
+        margin-bottom: 10px;
+    }
+
+    .form-label,
+    .form-input {
+        font-size: 20px;
     }
 
     .submit-button {

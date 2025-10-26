@@ -3,7 +3,7 @@
     width: 680px;
     align-items: center;
     justify-content: center;
-    color: black;
+    color: rgba(0, 0, 0, 1);
     padding-top: 59px;
 }
 
@@ -36,8 +36,7 @@
     width: 150px;
     height: 150px;
     border-radius: 50%;
-    color: #000000;
-    background-color: #D9D9D9;
+    background-color: rgba(217, 217, 217, 1);
     font-weight: 400;
     font-size: 40px;
     display: flex;
@@ -94,7 +93,6 @@
 
 .form-group {
     width: 100%;
-    height: 92px;
     display: flex;
     flex-direction: column;
 }
@@ -108,6 +106,7 @@
 }
 
 .profile-label {
+    height: 36px;
     line-height: 36px;
     font-size: 24px;
     text-align: left;
@@ -115,6 +114,7 @@
 }
 
 .profile-input {
+    height: 55px;
     line-height: 53px;
     border-radius: 4px;
     border: 1px solid rgba(95, 95, 95, 1);
@@ -122,7 +122,6 @@
     font-size: 24px;
     text-align: left;
     color: rgba(95, 95, 95, 1);
-    box-sizing: border-box;
 }
 
 .profile-input:focus {
@@ -141,43 +140,36 @@
 }
 
 /* レスポンシブ対応 */
-@media screen and (min-width: 1024px) and (max-width: 1280px) {
+@media screen and (min-width: 769px) and (max-width: 1280px) {
     .content-container {
-        padding-top: 40px;
-    }
-
-    .content-title {
-        margin-bottom: 23px;
-    }
-
-    .profile-content {
-        width: 100%;
-        margin: 10px auto;
+        width: 60%;
+        padding: 20px;
+        margin: 5% auto;
+        justify-content: center;
+        align-items: center;
+        min-height: 85vh;
     }
 
     .profile-image-section {
-        margin: 28px 0;
+        margin-bottom: 20px;
     }
 
     .profile-button {
-        margin: 24px 0 50px;
+        margin-top: 25px;
     }
 }
 
-@media screen and (min-width: 541px) and (max-width: 1023px) {
+@media screen and (min-width: 541px) and (max-width: 768px) {
     .content-container {
-        padding-top: 20px;
+        width: 70%;
+        padding: 0;
+        margin: 5% auto;
     }
 
     .content-title {
-        margin: 0 auto 10px;
-        font-size: 30px;
-        line-height: 44px;
-    }
-
-    .profile-content {
-        width: 80%;
-        margin: 0 auto;
+        margin: 10px;
+        font-size: 28px;
+        line-height: 30px;
     }
 
     .profile-image-section {
@@ -188,54 +180,42 @@
         justify-content: center;
     }
 
-    .form__error {
-        margin: 0;
-        margin-bottom: 4px;
-    }
-
-
-    .form-group {
-        height: auto;
-        margin-bottom: 10px;
-        font-size: 18px;
-    }
-
-    .profile-label {
-        height: 25px;
-        line-height: 25px;
-        font-size: 18px;
-    }
-
     .profile-input {
-        height: 35px;
-        line-height: 35px;
-        font-size: 18px;
+        line-height: 40px;
     }
 
     .profile-button {
-        margin-top: 10px;
+        margin: 15px 0;
+    }
+
+    .form__error {
+        margin: 7px 0;
+    }
+
+    .profile-image-error {
         height: 40px;
-        line-height: 40px;
-        font-size: 24px;
+        margin: 10px 0;
+        text-align: left;
     }
 }
 
 @media screen and (max-width: 540px) {
     .content-container {
-        width: 100%;
-        padding-top: 20px;
+        width: 70%;
+        margin: 3% auto;
+        justify-content: center;
+        align-items: center;
+        padding: 20px 0;
     }
 
     .content-title {
-        width: 100%;
-        margin: 0 auto 10px;
         font-size: 30px;
-        line-height: 44px;
+        margin-bottom: 10px;
     }
 
     .profile-content {
-        width: 80%;
-        margin: 0 auto;
+        width: 100%;
+        margin: 0;
     }
 
     .profile-image-section {
@@ -262,28 +242,30 @@
         margin-bottom: 4px;
     }
 
+    .profile-image-error {
+        height: 40px;
+        margin: 10px 0;
+        text-align: left;
+    }
+
     .form-group {
-        height: auto;
         margin-bottom: 10px;
     }
 
-    .profile-label {
-        height: 25px;
-        line-height: 25px;
-        font-size: 17px;
+    .profile-label,
+    .profile-input {
+        font-size: 20px;
     }
 
     .profile-input {
-        height: 35px;
-        line-height: 35px;
-        font-size: 17px;
-        padding: 0 10px;
+        height: 45px;
+        line-height: 45px;
     }
 
     .profile-button {
-        margin: 10px 0 50px;
+        margin: 10px 0;
         height: 40px;
         line-height: 40px;
-        font-size: 24px;
+        font-size: 20px;
     }
 }

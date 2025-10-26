@@ -25,11 +25,10 @@
                         </div>
                         <button type="button" class="profile-image-button button"
                             onclick="document.getElementById('profile-image').click()">画像を選択する</button>
-                        <input type="file" name="profile-image" id="profile-image" class="profile-image-input"
-                            accept="image/*" style="display: none;">
+                        <input type="file" name="profile_image" id="profile-image" class="profile-image-input" accept="image/*" style="display: none;">
                     </div>
-                    <p class="form__error">
-                        @error('profile-image')
+                    <p class="form__error profile-image-error">
+                        @error('profile_image')
                             {{ $message }}
                         @enderror
                     </p>
