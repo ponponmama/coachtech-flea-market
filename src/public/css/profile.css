@@ -201,7 +201,7 @@
 
 @media screen and (max-width: 540px) {
     .content-container {
-        width: 70%;
+        width: 90%;
         margin: 3% auto;
         justify-content: center;
         align-items: center;
@@ -254,7 +254,7 @@
 
     .profile-label,
     .profile-input {
-        font-size: 20px;
+        font-size: 18px;
     }
 
     .profile-input {
