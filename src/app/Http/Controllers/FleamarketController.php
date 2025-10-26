@@ -58,14 +58,14 @@ class FleamarketController extends Controller
         $profileImagePath = null;
         // プロフィール画像の処理
         $profileImagePath = null;
-        if ($request->hasFile('profile-image')) {
+        if ($request->hasFile('profile_image')) {
             // 古い画像を削除（存在する場合）
             if ($user->profile && $user->profile->profile_image_path) {
                 Storage::disk('public')->delete($user->profile->profile_image_path);
             }
 
             // 新しい画像を保存
-            $profileImagePath = $request->file('profile-image')->store('profile-images', 'public');
+            $profileImagePath = $request->file('profile_image')->store('profile-images', 'public');
         }
 
         // ユーザー情報を更新
