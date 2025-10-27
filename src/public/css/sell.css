@@ -3,7 +3,7 @@
     width: 180px;
     line-height: 44px;
     font-size: 36px;
-    margin: 49px auto 43px;
+    margin: 51px auto 43px;
     text-align: center;
 }
 
@@ -94,7 +94,7 @@
     width: 150px;
     height: 36px;
     font-size: 24px;
-    color: #000000;
+    color: rgba(0, 0, 0, 1);
 }
 
 .form-section-title-container {
