@@ -10,6 +10,7 @@
     align-items: center;
     justify-content: center;
     color: black;
+    min-height: 80vh;
 }
 
 .auth-header {
