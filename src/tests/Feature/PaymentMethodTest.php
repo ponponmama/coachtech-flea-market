@@ -15,6 +15,7 @@ class PaymentMethodTest extends TestCase
 
     /**
      * テスト項目: 小計画面で変更が反映される
+     * ID: 11-1
      *
      * テストシナリオ:
      * 1. 支払い方法選択画面を開く

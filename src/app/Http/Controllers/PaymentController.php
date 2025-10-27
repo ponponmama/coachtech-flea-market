@@ -9,7 +9,6 @@ use Stripe\Stripe;
 use Stripe\Checkout\Session;
 use App\Models\Item;
 use App\Models\Purchase;
-use App\Models\User;
 
 class PaymentController extends Controller
 {

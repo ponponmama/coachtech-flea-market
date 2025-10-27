@@ -125,6 +125,11 @@
                                 <textarea name="comment" class="comment-input"></textarea>
                                 <span class="custom-resize-handle"></span>
                             </div>
+                            @if (session('success'))
+                                <div class="alert alert-success">
+                                    {{ session('success') }}
+                                </div>
+                            @endif
                             <p class="form__error">
                                 @error('comment')
                                     {{ $message }}

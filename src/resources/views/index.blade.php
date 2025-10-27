@@ -7,6 +7,11 @@
 
 @section('content')
     <div class="content-container">
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
         <nav class="nav-tabs">
             <ul class="nav-tabs__list">
                 <li class="nav-tabs__item {{ $tab !== 'mylist' ? 'nav-tabs__item--active' : '' }}">

@@ -8,13 +8,47 @@ use Illuminate\Foundation\Testing\WithFaker;
 use App\Models\User;
 use App\Models\Item;
 use App\Models\Profile;
+use Mockery;
+use Stripe\Stripe;
+use Stripe\Checkout\Session;
 
 class PurchaseTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
 
     /**
+     * Stripeをモックする
+     */
+    private function mockStripe($itemId = null, $userId = null)
+    {
+        // StripeのAPIキーを設定（テスト用）
+        Stripe::setApiKey('sk_test_mock_key');
+
+        // StripeのCheckout\Sessionをモック
+        $mockSession = Mockery::mock('overload:Stripe\Checkout\Session');
+        $mockSession->shouldReceive('create')
+            ->andReturn((object)[
+                'id' => 'cs_test_mock_session_id',
+                'url' => 'https://checkout.stripe.com/test'
+            ]);
+
+        // Session::retrieveもモック
+        $mockSession->shouldReceive('retrieve')
+            ->andReturn((object)[
+                'id' => 'cs_test_mock_session_id',
+                'payment_status' => 'paid',
+                'amount_total' => 1000,
+                'metadata' => (object)[
+                    'item_id' => $itemId ?? '1',
+                    'user_id' => $userId ?? '1',
+                    'payment_method' => 'credit'
+                ]
+            ]);
+    }
+
+    /**
      * テスト項目: 「購入する」ボタンを押下すると購入が完了する
+     * ID: 10-1
      *
      * テストシナリオ:
      * 1. ユーザーにログインする
@@ -36,27 +70,35 @@ class PurchaseTest extends TestCase
 
         $this->actingAs($user);
 
-        $response = $this->post("/purchase/{$item->id}", [
-            'payment_method' => 'credit_card',
+        // Stripeをモックしてテスト環境で動作するようにする
+        $this->mockStripe($item->id, $user->id);
+
+        $response = $this->post("/create-payment-session", [
+            'item_id' => $item->id,
+            'payment_method' => 'credit',
             'shipping_address' => 'テスト住所'
         ]);
 
-        $response->assertRedirect('/');
-        $response->assertSessionHas('success', '購入が完了しました。');
+        $response->assertStatus(200);
+        $response->assertJsonStructure(['session_url', 'session_id']);
+
+        // 決済セッション作成後、successメソッドを呼び出して購入を完了させる
+        $sessionId = $response->json('session_id');
+
+        // successメソッドを呼び出して購入を完了
+        $successResponse = $this->get("/payment/success?session_id={$sessionId}");
+        $successResponse->assertRedirect("/purchase/{$item->id}");
+        $successResponse->assertSessionHas('success', '決済が完了しました！');
 
         // 商品が購入済みになっていることを確認
-        $this->assertDatabaseHas('items', [
-            'id' => $item->id,
-            'buyer_id' => $user->id,
-        ]);
-
-        // sold_atが設定されていることを確認
         $item->refresh();
+        $this->assertEquals($user->id, $item->buyer_id);
         $this->assertNotNull($item->sold_at);
     }
 
     /**
      * テスト項目: 購入した商品は商品一覧画面にて「sold」と表示される
+     * ID: 10-2
      *
      * テストシナリオ:
      * 1. ユーザーにログインする
@@ -80,22 +122,36 @@ class PurchaseTest extends TestCase
 
         $this->actingAs($user);
 
+        // Stripeをモックしてテスト環境で動作するようにする
+        $this->mockStripe($item->id, $user->id);
+
         // 購入処理
-        $this->post("/purchase/{$item->id}", [
-            'payment_method' => 'credit_card',
+        $response = $this->post("/create-payment-session", [
+            'item_id' => $item->id,
+            'payment_method' => 'credit',
             'shipping_address' => 'テスト住所'
         ]);
 
-        // 商品一覧画面を表示
-        $response = $this->get('/');
-
         $response->assertStatus(200);
-        $response->assertSee('テスト商品');
-        $response->assertSee('SOLD');
+        $sessionId = $response->json('session_id');
+
+        // successメソッドを呼び出して購入を完了
+        $successResponse = $this->get("/payment/success?session_id={$sessionId}");
+        $successResponse->assertRedirect("/purchase/{$item->id}");
+
+        // 商品が購入済みになっていることを確認
+        $item->refresh();
+        $this->assertEquals($user->id, $item->buyer_id);
+        $this->assertNotNull($item->sold_at);
+
+        // 商品一覧画面でSOLDバッジが表示されることを確認
+        $indexResponse = $this->get('/');
+        $indexResponse->assertSee('SOLD');
     }
 
     /**
      * テスト項目: 「プロフィール/購入した商品一覧」に追加されている
+     * ID: 10-3
      *
      * テストシナリオ:
      * 1. ユーザーにログインする
@@ -119,23 +175,30 @@ class PurchaseTest extends TestCase
 
         $this->actingAs($user);
 
+        // Stripeをモックしてテスト環境で動作するようにする
+        $this->mockStripe($item->id, $user->id);
+
         // 購入処理
-        $this->post("/purchase/{$item->id}", [
-            'payment_method' => 'credit_card',
+        $response = $this->post("/create-payment-session", [
+            'item_id' => $item->id,
+            'payment_method' => 'credit',
             'shipping_address' => 'テスト住所'
         ]);
 
-        // プロフィール画面の購入した商品一覧を表示
-        $response = $this->get('/mypage?page=buy');
-
         $response->assertStatus(200);
-        $response->assertSee('購入した商品');
+        $sessionId = $response->json('session_id');
 
-        // データベースでも確認
-        $this->assertDatabaseHas('items', [
-            'id' => $item->id,
-            'buyer_id' => $user->id,
-            'name' => '購入した商品'
-        ]);
+        // successメソッドを呼び出して購入を完了
+        $successResponse = $this->get("/payment/success?session_id={$sessionId}");
+        $successResponse->assertRedirect("/purchase/{$item->id}");
+
+        // 商品が購入済みになっていることを確認
+        $item->refresh();
+        $this->assertEquals($user->id, $item->buyer_id);
+        $this->assertNotNull($item->sold_at);
+
+        // プロフィール画面で購入した商品が表示されることを確認
+        $profileResponse = $this->get('/mypage?page=buy');
+        $profileResponse->assertSee('購入した商品');
     }
 }

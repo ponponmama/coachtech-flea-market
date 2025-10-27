@@ -6,7 +6,6 @@ use App\Http\Controllers\FleamarketController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\PaymentController;
 
-use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,16 +31,14 @@ Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $requ
 })->middleware(['auth', 'signed'])->name('verification.verify');
 
 Route::post('/email/verification-notification', function () {
-    // ログイン済みユーザーの場合のみ
-    if (auth()->check()) {
+    // ユーザー情報を取得（ログイン前でも可能）
+    if (request()->user()) {
         request()->user()->sendEmailVerificationNotification();
         return back()->with('status', '認証メールを再送しました。');
     }
 
-    return back()->withErrors(['email' => 'ログインが必要です。']);
+    return back()->with('error', '認証の有効時間（30分）が過ぎました。再度登録してください。');
 })->middleware(['throttle:6,1'])->name('verification.send');
-
-
 
 // プロフィール画面
 Route::get('/mypage', [FleamarketController::class, 'showMypage'])->middleware(['auth'])->name('mypage');
@@ -70,18 +67,10 @@ Route::post('/sell', [FleamarketController::class, 'storeItem'])->middleware(['a
 
 // 商品購入画面
 Route::get('/purchase/{item_id}', [FleamarketController::class, 'showPurchase'])->middleware(['auth'])->name('purchase');
-Route::post('/purchase/{item_id}', [FleamarketController::class, 'processPurchase'])->middleware(['auth'])->name('purchase.process');
 
 // 送付先住所変更画面
 Route::get('/purchase/address/{item_id}', [FleamarketController::class, 'showAddress'])->middleware(['auth'])->name('purchase.address');
 Route::post('/purchase/address/{item_id}', [FleamarketController::class, 'updateAddress'])->middleware(['auth'])->name('purchase.address.update');
-
-
-// テスト用の簡単なルート
-Route::post('/test-payment', function() {
-    file_put_contents('/tmp/payment_debug.log', date('Y-m-d H:i:s') . " - Test route called\n", FILE_APPEND);
-    return response()->json(['message' => 'Test route working']);
-});
 
 // Stripe決済セッション作成（purchase.blade.phpのJavaScriptから呼び出し）
 Route::post('/create-payment-session', [PaymentController::class, 'createPaymentSession'])->name('payment.create-session');

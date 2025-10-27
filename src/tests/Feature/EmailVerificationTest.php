@@ -7,9 +7,6 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use App\Models\User;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Notification;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Support\Facades\Event;
 
 class EmailVerificationTest extends TestCase
 {
@@ -23,6 +20,7 @@ class EmailVerificationTest extends TestCase
 
     /**
      * テスト項目: 会員登録後、認証メールが送信される
+     * ID: 16-1
      *
      * テストシナリオ:
      * 1. 会員登録をする
@@ -61,6 +59,7 @@ class EmailVerificationTest extends TestCase
 
     /**
      * テスト項目: メール認証誘導画面で「認証はこちらから」ボタンを押下するとメール認証サイトに遷移する
+     * ID: 16-2
      *
      * テストシナリオ:
      * 1. メール認証導線画面を表示する
@@ -101,6 +100,7 @@ class EmailVerificationTest extends TestCase
 
     /**
      * テスト項目: メール認証サイトのメール認証を完了すると、プロフィール設定画面に遷移する
+     * ID: 16-3
      *
      * テストシナリオ:
      * 1. メール認証を完了する

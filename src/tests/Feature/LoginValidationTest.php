@@ -13,6 +13,7 @@ class LoginValidationTest extends TestCase
 
     /**
      * テスト項目1: メールアドレスが入力されていない場合のバリデーションテスト
+     * ID: 2-1
      *
      * テストシナリオ:
      * 1. ログインページを開く
@@ -51,6 +52,7 @@ class LoginValidationTest extends TestCase
 
     /**
      * テスト項目2: パスワードが入力されていない場合のバリデーションテスト
+     * ID: 2-2
      *
      * テストシナリオ:
      * 1. ログインページを開く
@@ -89,6 +91,7 @@ class LoginValidationTest extends TestCase
 
     /**
      * テスト項目3: 入力情報が間違っている場合のバリデーションテスト
+     * ID: 2-3
      *
      * テストシナリオ:
      * 1. ログインページを開く
@@ -127,6 +130,7 @@ class LoginValidationTest extends TestCase
 
     /**
      * テスト項目4: 正しい情報が入力された場合、ログイン処理が実行される
+     * ID: 2-4
      *
      * テストシナリオ:
      * 1. ログインページを開く

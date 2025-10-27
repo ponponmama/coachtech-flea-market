@@ -12,6 +12,7 @@ class RegisterValidationTest extends TestCase
 
     /**
      * テスト項目1: 名前が入力されていない場合のバリデーションテスト
+     * ID: 1-1
      *
      * テストシナリオ:
      * 1. 会員登録ページを開く
@@ -57,6 +58,7 @@ class RegisterValidationTest extends TestCase
 
     /**
      * テスト項目2: メールアドレスが入力されていない場合のバリデーションテスト
+     * ID: 1-2
      *
      * テストシナリオ:
      * 1. 会員登録ページを開く
@@ -102,6 +104,7 @@ class RegisterValidationTest extends TestCase
 
     /**
      * テスト項目3: パスワードが入力されていない場合のバリデーションテスト
+     * ID: 1-3
      *
      * テストシナリオ:
      * 1. 会員登録ページを開く
@@ -147,6 +150,7 @@ class RegisterValidationTest extends TestCase
 
     /**
      * テスト項目4: パスワードが7文字以下の場合のバリデーションテスト
+     * ID: 1-4
      *
      * テストシナリオ:
      * 1. 会員登録ページを開く
@@ -192,6 +196,7 @@ class RegisterValidationTest extends TestCase
 
     /**
      * テスト項目5: パスワードが確認用パスワードと一致しない場合のバリデーションテスト
+     * ID: 1-5
      *
      * テストシナリオ:
      * 1. 会員登録ページを開く
@@ -237,6 +242,7 @@ class RegisterValidationTest extends TestCase
 
     /**
      * テスト項目6: 全ての項目が入力されている場合、会員情報が登録され、プロフィール設定画面に遷移される
+     * ID: 1-6
      *
      * テストシナリオ:
      * 1. 会員登録ページを開く

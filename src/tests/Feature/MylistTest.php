@@ -15,6 +15,7 @@ class MylistTest extends TestCase
 
     /**
      * テスト項目: いいねした商品だけが表示される
+     * ID: 5-1
      *
      * テストシナリオ:
      * 1. ユーザーにログインをする
@@ -53,6 +54,7 @@ class MylistTest extends TestCase
 
     /**
      * テスト項目: 購入済み商品は「Sold」と表示される
+     * ID: 5-2
      *
      * テストシナリオ:
      * 1. ユーザーにログインをする
@@ -94,6 +96,7 @@ class MylistTest extends TestCase
 
     /**
      * テスト項目: 未認証の場合は何も表示されない
+     * ID: 5-3
      *
      * テストシナリオ:
      * 1. マイリストページを開く

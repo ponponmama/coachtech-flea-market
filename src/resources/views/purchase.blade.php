@@ -14,8 +14,9 @@
 
 @section('content')
     <div class="content-container" data-item-id="{{ $item->id }}">
-        <form action="{{ route('purchase.process', $item->id) }}" method="POST" class="purchase-form">
+        <form action="{{ route('payment.create-session') }}" method="POST" class="purchase-form">
             @csrf
+            <input type="hidden" name="item_id" value="{{ $item->id }}">
             <!-- 左側：商品情報・支払い・配送先 -->
             <div class="purchase-section">
                 <div class="product-info-section">

@@ -14,6 +14,7 @@ class ItemsIndexTest extends TestCase
 
     /**
      * テスト項目1: 全商品を取得できる（未ログイン時は全件表示）
+     * ID: 4-1
      *
      * シナリオ:
      * 1. 複数の商品のダミーデータを作成する
@@ -40,6 +41,7 @@ class ItemsIndexTest extends TestCase
 
     /**
      * テスト項目2: 購入済み商品は「SOLD」と表示される
+     * ID: 4-2
      *
      * シナリオ:
      * 1. 購入済み（buyer_id が存在）の商品を作成する
@@ -74,6 +76,7 @@ class ItemsIndexTest extends TestCase
 
     /**
      * テスト項目3: 自分が出品した商品は表示されない（ログイン時）
+     * ID: 4-3
      *
      * シナリオ:
      * 1. ログインユーザーを作成し、そのユーザーが出品した商品と他ユーザーの商品を作成する

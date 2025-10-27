@@ -13,6 +13,7 @@ class LogoutTest extends TestCase
 
     /**
      * テスト項目: ログアウトができる
+     * ID: 3-1
      *
      * テストシナリオ:
      * 1. ユーザーにログインをする

@@ -181,18 +181,6 @@ class FleamarketController extends Controller
         try {
             $user = Auth::user();
 
-            // デバッグ用ログ
-            Log::info('出品リクエストデータ:', [
-                'all_data' => $request->all(),
-                'has_image' => $request->hasFile('image'),
-                'image_name' => $request->file('image') ? $request->file('image')->getClientOriginalName() : 'なし',
-                'price' => $request->price,
-                'name' => $request->name,
-                'description' => $request->description,
-                'condition' => $request->condition,
-                'category' => $request->category,
-            ]);
-
             // 価格のカンマを除去して数値に変換（バリデーション済み）
             $price = (int) str_replace(',', '', $request->price);
 
@@ -241,35 +229,6 @@ class FleamarketController extends Controller
         return view('purchase', compact('item', 'defaultAddress'));
     }
 
-    /**
-     * 購入処理（FN022: 商品購入機能、FN023: 支払い方法選択機能）
-     */
-    public function processPurchase(Request $request, $item_id)
-    {
-        $user = Auth::user();
-        $item = Item::findOrFail($item_id);
-
-        // PurchaseRequestのバリデーションを使用
-        $purchaseRequest = new \App\Http\Requests\PurchaseRequest();
-        $purchaseRequest->merge($request->all());
-        $purchaseRequest->validate($purchaseRequest->rules(), $purchaseRequest->messages());
-
-        // 購入処理のロジック
-        $item->update([
-            'buyer_id' => $user->id,
-            'sold_at' => now(),
-        ]);
-
-        // 支払い方法に応じた処理
-        $paymentMethod = $request->payment_method;
-        if ($paymentMethod === 'credit_card' || $paymentMethod === 'convenience_store') {
-            // Stripeの決済画面に接続（実装予定）
-            // return redirect()->route('stripe.checkout', ['item_id' => $item_id]);
-        }
-
-        // FN022: 商品を購入した後の遷移先は商品一覧画面
-        return redirect('/')->with('success', '購入が完了しました。');
-    }
 
     /**
      * 送付先住所変更画面を表示（FN024: 配送先変更機能）

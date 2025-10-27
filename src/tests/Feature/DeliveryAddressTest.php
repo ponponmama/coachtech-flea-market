@@ -8,13 +8,34 @@ use Illuminate\Foundation\Testing\WithFaker;
 use App\Models\User;
 use App\Models\Item;
 use App\Models\Profile;
+use Mockery;
+use Stripe\Stripe;
+use Stripe\Checkout\Session;
 
 class DeliveryAddressTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
 
     /**
+     * Stripeをモックする
+     */
+    private function mockStripe()
+    {
+        // StripeのAPIキーを設定（テスト用）
+        Stripe::setApiKey('sk_test_mock_key');
+
+        // StripeのCheckout\Sessionをモック
+        $mockSession = Mockery::mock('overload:Stripe\Checkout\Session');
+        $mockSession->shouldReceive('create')
+            ->andReturn((object)[
+                'id' => 'cs_test_mock_session_id',
+                'url' => 'https://checkout.stripe.com/test'
+            ]);
+    }
+
+    /**
      * テスト項目: 送付先住所変更画面にて登録した住所が商品購入画面に反映されている
+     * ID: 12-1
      *
      * テストシナリオ:
      * 1. ユーザーにログインする
@@ -53,7 +74,7 @@ class DeliveryAddressTest extends TestCase
 
         $updateResponse = $this->post("/purchase/address/{$item->id}", $newAddress);
         $updateResponse->assertRedirect("/purchase/{$item->id}");
-        $updateResponse->assertSessionHas('success', '送付先住所を更新しました。');
+        $updateResponse->assertSessionHas('address_updated', '送付先住所を更新しました。');
 
         // 3. 商品購入画面を再度開いて住所が反映されていることを確認
         $purchaseResponse = $this->get("/purchase/{$item->id}");
@@ -68,6 +89,7 @@ class DeliveryAddressTest extends TestCase
 
     /**
      * テスト項目: 購入した商品に送付先住所が紐づいて登録される
+     * ID: 12-2
      *
      * テストシナリオ:
      * 1. ユーザーにログインする
@@ -104,18 +126,20 @@ class DeliveryAddressTest extends TestCase
 
         // 2. 商品を購入
         $purchaseData = [
-            'payment_method' => 'convenience_store',
+            'payment_method' => 'convenience',
             'shipping_address' => '大阪府大阪市北区梅田1-1-1 大阪タワー20階'
         ];
 
-        $purchaseResponse = $this->post("/purchase/{$item->id}", $purchaseData);
-        $purchaseResponse->assertRedirect('/');
-        $purchaseResponse->assertSessionHas('success', '購入が完了しました。');
+        // Stripeをモックしてテスト環境で動作するようにする
+        $this->mockStripe();
 
-        // 3. 商品が購入済みになっていることを確認
-        $item->refresh();
-        $this->assertEquals($user->id, $item->buyer_id);
-        $this->assertNotNull($item->sold_at);
+        $purchaseResponse = $this->post("/create-payment-session", array_merge($purchaseData, ['item_id' => $item->id]));
+        $purchaseResponse->assertStatus(200);
+        $purchaseResponse->assertJsonStructure(['session_url', 'session_id']);
+
+        // 注意: 現在の実装では、createPaymentSessionは決済セッションを作成するだけで
+        // 実際の購入処理はStripeの決済完了後にsuccessメソッドで行われる
+        // そのため、この時点では商品はまだ購入済みになっていない
 
         // 注意: 現在の実装では、配送先住所の紐づけは実装されていないため、
         // 以下のテストは実装完了後に有効にする
