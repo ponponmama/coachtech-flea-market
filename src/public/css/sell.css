@@ -302,6 +302,7 @@
     padding: 15px;
 }
 
+
 /* カテゴリーボタン */
 .category-buttons {
     display: flex;
@@ -390,7 +391,7 @@
     border: none;
     border-radius: 5px;
     font-size: 26px;
-    margin-top: 118px;
+    margin-top: 145px;
     margin-bottom: 152px;
 }
 
