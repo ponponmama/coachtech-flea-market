@@ -89,6 +89,9 @@
                             </p>
                             <p class="address-text">
                                 {{ $defaultAddress['address'] }}
+                                @if ($defaultAddress['building'])
+                                    <br>{{ $defaultAddress['building'] }}
+                                @endif
                             </p>
                         </div>
 

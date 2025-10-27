@@ -224,6 +224,7 @@ class FleamarketController extends Controller
         $defaultAddress = $user->profile ? [
             'postal_code' => $user->profile->postal_code,
             'address' => $user->profile->address,
+            'building' => $user->profile->building_name,
         ] : null;
 
         return view('purchase', compact('item', 'defaultAddress'));
