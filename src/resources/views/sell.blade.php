@@ -26,8 +26,8 @@
         @endif
         <form action="{{ route('sell.store') }}" method="POST" enctype="multipart/form-data" class="sell-form">
             @csrf
-            <div class="form-section">
-                <p class="section-title">商品画像</p>
+            <div class="form-section image-section">
+                <p class="image-section-title">商品画像</p>
                 <div class="image-preview" id="image-preview">
                     <div class="image-placeholder">
                         <button type="button" class="image-upload-button button"
@@ -64,7 +64,7 @@
                         @enderror
                     </p>
                 </div>
-                <div class="form-group">
+                <div class="form-group condition-group">
                     <label class="form-label" for="condition">商品の状態</label>
                     <div class="select-wrapper">
                         <div class="custom-select" id="custom_condition_select">
@@ -103,11 +103,11 @@
                 </p>
             </div>
             <div class="form-section">
-                <div class="form-section-title-container">
+                <div class="form-section-title-container form-section-title-tight">
                     <p class="form-section-title">商品名と説明</p>
                 </div>
                 <div class="form-group">
-                    <label class="form-label" for="name">商品名</label>
+                    <label class="form-label label-tight" for="name">商品名</label>
                     <input type="text" name="name" id="name" class="form-input" value=""
                         autocomplete="off">
                     <p class="form__error">
@@ -116,13 +116,13 @@
                         @enderror
                     </p>
                 </div>
-                <div class="form-group">
-                    <label class="form-label" for="brand">ブランド名</label>
+                <div class="form-group brand-group">
+                    <label class="form-label label-tight" for="brand">ブランド名</label>
                     <input type="text" name="brand" id="brand" class="form-input" value="{{ old('brand') }}"
                         autocomplete="off">
                 </div>
                 <div class="form-group">
-                    <label class="form-label label-description" for="description">商品の説明</label>
+                    <label class="form-label label-tight" for="description">商品の説明</label>
                     <textarea name="description" id="description" class="form-textarea" rows="5" autocomplete="off">{{ old('description') }}</textarea>
                     <p class="form__error">
                         @error('description')
@@ -133,7 +133,7 @@
             </div>
             <div class="form-section">
                 <div class="form-group">
-                    <label class="form-label" for="price">販売価格</label>
+                    <label class="form-label label-tight" for="price">販売価格</label>
                     <div class="price-input-group">
                         <span class="price-symbol">¥</span>
                         <input type="text" name="price" id="price" class="form-input price-input"
@@ -146,7 +146,7 @@
                     </p>
                 </div>
             </div>
-            <div class="form-section">
+            <div class="button-section">
                 <button type="submit" class="submit-button button">出品する</button>
             </div>
         </form>

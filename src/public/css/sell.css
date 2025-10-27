@@ -1,6 +1,18 @@
+.content-container {
+    width: 680px;
+    margin: 0 auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
 /* 商品出品画面 */
 .content-title {
     width: 180px;
+    height: 44px;
     line-height: 44px;
     font-size: 36px;
     margin: 51px auto 43px;
@@ -8,18 +20,22 @@
 }
 
 .sell-form {
-    width: 680px;
+    width: 100%;
     margin: 0 auto;
     padding: 0;
 }
 
-.section-title {
+.image-section {
+    margin-bottom: 52px;
+}
+
+.image-section-title {
     width: 100%;
+    height: 36px;
     font-size: 24px;
     line-height: 36px;
     text-align: left;
     color: rgba(0, 0, 0, 1);
-    margin-bottom: 10px;
 }
 
 /* 画像アップロード */
@@ -53,15 +69,14 @@
     line-height: 43.46px;
     border: 2px solid rgba(255, 85, 85, 1);
     color: rgba(255, 86, 85, 1);
-    background-color: #FFFFFF;
+    background-color: rgba(255, 255, 255, 1);
     border-radius: 10px;
     font-size: 16px;
-    box-sizing: border-box;
 }
 
 .image-upload-button:hover {
-    background-color: #FF5555;
-    color: white;
+    background-color: rgba(255, 86, 85, 1);
+    color: rgba(255, 255, 255, 1);
 }
 
 .upload-image-input {
@@ -82,14 +97,6 @@
     text-align: left;
 }
 
-.image-section-title {
-    width: 150px;
-    height: 36px;
-    color: #5F5F5F;
-    margin-top: 70px;
-    font-size: 24px;
-}
-
 .section-title {
     width: 150px;
     height: 36px;
@@ -105,16 +112,22 @@
     margin-bottom: 36px;
 }
 
+/* 商品の詳細セクション */
 .form-section-title {
     width: 100%;
+    height: 36px;
     line-height: 36px;
     color: rgba(95, 95, 95, 1);
     font-size: 30px;
 }
 
+.form-section-title-tight {
+    height: 46px;
+}
+
 .form-section-line {
     border: 1px solid rgba(95, 95, 95, 1);
-    margin-bottom: 36px;
+    margin-bottom: 35px;
 }
 
 /* フォーム要素 */
@@ -125,21 +138,88 @@
 .form-label {
     display: block;
     font-size: 24px;
+    height: 29px;
     line-height: 29px;
     color: rgba(0, 0, 0, 1);
-    margin-bottom: 7px;
+    margin-bottom: 19px;
     text-align: left;
 }
 
 .form-input {
     width: 100%;
     height: 45px;
-    padding-left: 15px;
+    padding: 0 15px;
     border: 1px solid rgba(95, 95, 95, 1);
     color: rgba(95, 95, 95, 1);
-    border-radius: 6px;
+    border-radius: 4px;
     font-size: 16px;
+}
+
+.form-label-category {
+    height: 36px;
+    line-height: 36px;
+    margin-bottom: 13px;
+}
+
+/* カテゴリーボタン */
+.category-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.category-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 15px;
+    height: 32px;
+    border: 2px solid rgba(255, 86, 85, 1);
+    color: rgba(255, 86, 85, 1);
+    background-color: rgba(255, 255, 255, 1);
+    border-radius: 20px;
     box-sizing: border-box;
+    margin: 18px 6px;
+}
+
+.category-buttons::after {
+    content: "";
+    flex: auto;
+}
+
+/* チェックボックスが選択されている時のスタイル */
+.category-button:has(.category-checkbox:checked) {
+    background-color: rgba(255, 86, 85, 1);
+    border-color: rgba(255, 86, 85, 1);
+    color: rgba(255, 255, 255, 1);
+}
+
+.category-button:has(.category-checkbox:checked):hover {
+    background-color: rgba(255, 86, 85, 1);
+    border-color: rgba(255, 86, 85, 1);
+    color: rgba(255, 255, 255, 1);
+}
+
+.category-checkbox {
+    display: none;
+}
+
+.category-text {
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 32px;
+}
+
+.label-tight {
+    margin-bottom: 7px;
+}
+
+.brand-group {
+    margin-bottom: 39px;
+}
+
+.condition-group {
+    margin-bottom: 29px;
 }
 
 .form-select {
@@ -172,7 +252,6 @@
     left: -9999px;
     opacity: 0;
 }
-
 
 /* カスタムセレクトボックス */
 .custom-select {
@@ -239,6 +318,7 @@
     cursor: pointer;
     vertical-align: middle;
     border-radius: 5px;
+    font-weight: 600;
 }
 
 .check-mark {
@@ -281,19 +361,9 @@
     color: rgba(234, 234, 234, 1);
 }
 
-
-
 .form-input:focus,
 .form-textarea:focus {
     outline: 1px solid rgba(177, 177, 177, 1);
-}
-
-.label-description {
-    margin-top: 18px;
-}
-
-.form-textarea {
-    margin-bottom: 9px;
 }
 
 .form-textarea {
@@ -303,54 +373,6 @@
 }
 
 
-/* カテゴリーボタン */
-.category-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-}
-
-.category-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 8px 15px;
-    height: 32px;
-    border: 2px solid rgba(255, 86, 85, 1);
-    color: rgba(255, 86, 85, 1);
-    /*background-color: #FFFFFF;*/
-    border-radius: 20px;
-    box-sizing: border-box;
-    margin: 16px 6px;
-}
-
-.category-buttons::after {
-    content: "";
-    flex: auto;
-}
-
-/* チェックボックスが選択されている時のスタイル */
-.category-button:has(.category-checkbox:checked) {
-    background-color: rgba(255, 86, 85, 1);
-    border-color: rgba(255, 86, 85, 1);
-    color: rgba(255, 255, 255, 1);
-}
-
-.category-button:has(.category-checkbox:checked):hover {
-    background-color: rgba(255, 86, 85, 1);
-    border-color: rgba(255, 86, 85, 1);
-    color: rgba(255, 255, 255, 1);
-}
-
-.category-checkbox {
-    display: none;
-}
-
-.category-text {
-    font-size: 15px;
-    font-weight: 500;
-    line-height: 32px;
-}
 
 /* 価格入力 */
 .price-input-group {
@@ -382,6 +404,12 @@
     border-color: transparent;
 }
 
+.button-section {
+    width: 100%;
+    margin-top: 100px;
+    margin-bottom: 152px;
+
+}
 /* 出品ボタン */
 .submit-button {
     width: 100%;
@@ -391,8 +419,6 @@
     border: none;
     border-radius: 5px;
     font-size: 26px;
-    margin-top: 145px;
-    margin-bottom: 152px;
 }
 
 .submit-button:hover {
