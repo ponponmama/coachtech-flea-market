@@ -297,8 +297,8 @@
 .delivery-address {
     display: flex;
     flex-direction: column;
-    width: 280px;
-    height: 58px;
+    width: 350px;
+    height: auto;
     gap: 10px;
     font-weight: 600;
     color: rgba(0, 0, 0, 1);

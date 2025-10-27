@@ -130,7 +130,7 @@ class ItemFactory extends Factory
             'condition' => $selectedProduct['condition'],
             'image_path' => $selectedProduct['image_path'],
             'seller_id' => null, // Seederで既存ユーザーを割り当て
-            'buyer_id' => $isSold ? 2 : null, // 固定の購入者ID
+            'buyer_id' => $isSold ? User::inRandomOrder()->first()?->id : null, // ランダムな購入者ID
             'sold_at' => $isSold ? '2024-01-01 12:00:00' : null, // 固定の売却日時
         ];
     }
