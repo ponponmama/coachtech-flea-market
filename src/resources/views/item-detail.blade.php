@@ -100,11 +100,14 @@
                     <div class="comment-item">
                         @foreach ($item->comments as $comment)
                             <div class="comment-user">
+                                @php
+                                    $profileImagePath = optional($comment->user->profile)->profile_image_path;
+                                    $profileImageUrl = $profileImagePath
+                                        ? asset('storage/' . $profileImagePath)
+                                        : asset('images/stroke.png');
+                                @endphp
                                 <span class="profile-image">
-                                    @if ($comment->user->profile_image)
-                                        <img src="{{ \Illuminate\Support\Facades\Storage::url($comment->user->profile_image) }}"
-                                            alt="プロフィール画像" class="profile-image-holder">
-                                    @endif
+                                    <img src="{{ $profileImageUrl }}" alt="プロフィール画像" class="profile-image-holder">
                                 </span>
                                 <span class="user-name">
                                     {{ $comment->user->name }}
@@ -152,13 +155,14 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const likeButtons = document.querySelectorAll('.like-button');
+            const loginUrl = "{{ route('login') }}?redirect_url={{ urlencode(request()->getRequestUri()) }}";
 
             likeButtons.forEach(button => {
                 button.addEventListener('click', function() {
                     // ログインチェック
                     const isLoggedIn = this.dataset.liked !== 'undefined';
                     if (!isLoggedIn) {
-                        alert('いいね機能を使用するにはログインが必要です');
+                        window.location.href = loginUrl;
                         return;
                     }
 
@@ -180,7 +184,7 @@
                         })
                         .then(response => {
                             if (response.status === 401) {
-                                alert('ログインが必要です');
+                                window.location.href = loginUrl;
                                 return;
                             }
                             return response.json();

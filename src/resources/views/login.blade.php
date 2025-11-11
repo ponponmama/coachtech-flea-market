@@ -13,13 +13,18 @@
                 {{ $message }}
             @enderror
         </p>
+        @php
+            $redirectUrl = old('redirect_url', $redirectUrl ?? request()->input('redirect_url'));
+        @endphp
         <form action="{{ route('login') }}" method="POST" class="login-form">
             @csrf
+            <input type="hidden" name="redirect_url" value="{{ $redirectUrl }}">
             <div class="form-group  form-group-margin">
                 <label class="form-label form-label-tight" for="email">
                     メールアドレス
                 </label>
-                <input class="form-input" type="text" name="email" id="email" value="{{ old('email') }}" autocomplete="email">
+                <input class="form-input" type="text" name="email" id="email" value="{{ old('email') }}"
+                    autocomplete="email">
             </div>
             <p class="form__error">
                 @error('email')
@@ -30,7 +35,8 @@
                 <label class="form-label" for="password">
                     パスワード
                 </label>
-                <input class="form-input form-input-tight" type="password" name="password" id="password" autocomplete="current-password">
+                <input class="form-input form-input-tight" type="password" name="password" id="password"
+                    autocomplete="current-password">
             </div>
             <p class="form__error">
                 @error('password')

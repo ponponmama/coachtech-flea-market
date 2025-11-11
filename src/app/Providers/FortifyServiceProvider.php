@@ -34,8 +34,10 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Fortify::loginView(function () {
-            return view('login');
+        Fortify::loginView(function (Request $request) {
+            return view('login', [
+                'redirectUrl' => $request->query('redirect_url'),
+            ]);
         });
 
         Fortify::registerView(function () {
@@ -109,8 +111,43 @@ class FortifyServiceProvider extends ServiceProvider
                         return redirect('/mypage/profile');
                     }
 
+                    $redirectUrl = $request->input('redirect_url');
+                    if ($this->isSafeRedirectUrl($redirectUrl, $request)) {
+                        return redirect($redirectUrl);
+                    }
+
                     // 通常のログインはindex.blade.php（トップページ）に遷移
                     return redirect('/');
+                }
+
+                /**
+                 * リダイレクトURLがアプリケーション内かを判定
+                 */
+                private function isSafeRedirectUrl(?string $url, $request): bool
+                {
+                    if (empty($url)) {
+                        return false;
+                    }
+
+                    $parsed = parse_url($url);
+
+                    if ($parsed === false) {
+                        return false;
+                    }
+
+                    if (isset($parsed['host'])) {
+                        $currentHost = $request->getHost();
+
+                        if ($parsed['host'] !== $currentHost) {
+                            return false;
+                        }
+                    }
+
+                    if (!isset($parsed['path']) || strpos($parsed['path'], '/') !== 0) {
+                        return false;
+                    }
+
+                    return true;
                 }
             };
         });

@@ -15,11 +15,11 @@
         <nav class="nav-tabs">
             <ul class="nav-tabs__list">
                 <li class="nav-tabs__item {{ $tab !== 'mylist' ? 'nav-tabs__item--active' : '' }}">
-                    <a href="/"
+                    <a href="{{ $search ? '/?search=' . urlencode($search) : '/' }}"
                         class="nav-tabs__link {{ $tab !== 'mylist' ? 'nav-tabs__link--active' : '' }} link">おすすめ</a>
                 </li>
                 <li class="nav-tabs__item {{ $tab === 'mylist' ? 'nav-tabs__item--active' : '' }}">
-                    <a href="/?tab=mylist"
+                    <a href="{{ '/?tab=mylist' . ($search ? '&search=' . urlencode($search) : '') }}"
                         class="nav-tabs__link {{ $tab === 'mylist' ? 'nav-tabs__link--active' : '' }} link">マイリスト</a>
                 </li>
             </ul>

@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Profile;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Storage;
 
 class ProfileFactory extends Factory
 {
@@ -42,6 +43,21 @@ class ProfileFactory extends Factory
             'タワー', 'ガーデン', 'パーク', 'ヒルズ', 'プラザ', 'スクエア'
         ];
 
+        static $profileImages;
+
+        if ($profileImages === null) {
+            $profileImages = collect(Storage::disk('public')->files('profile-images'))
+                ->filter(function ($path) {
+                    return preg_match('/\.(jpg|jpeg|png|gif)$/i', $path);
+                })
+                ->values()
+                ->all();
+        }
+
+        $profileImagePath = !empty($profileImages)
+            ? $this->faker->randomElement($profileImages)
+            : null;
+
         return [
             'postal_code' => sprintf('%03d-%04d', $this->faker->numberBetween(100, 999), $this->faker->numberBetween(1000, 9999)),
             'address' => $this->faker->randomElement($prefectures) .
@@ -50,6 +66,7 @@ class ProfileFactory extends Factory
             'building_name' => $this->faker->randomElement($buildingTypes) .
             $this->faker->lastName() .
             $this->faker->optional(0.7)->numberBetween(1, 9),
+            'profile_image_path' => $profileImagePath,
         ];
     }
 }
