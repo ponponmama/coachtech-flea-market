@@ -100,7 +100,6 @@ li {
     height: 80px;
     display: flex;
     align-items: center;
-    justify-content: flex-end;
     color: rgba(255, 255, 255, 1);
     font-size: 24px;
     font-weight: 400;
@@ -202,7 +201,7 @@ li {
 }
 
 /* レスポンシブ対応 */
-@media screen and (min-width: 769px) and (max-width: 1280px) {
+@media screen and (min-width: 769px) and (max-width: 1511px) {
     .header-container {
         width: 100%;
         height: auto;
@@ -245,10 +244,6 @@ li {
     .header-nav__link,
     .header-nav__link.button {
         font-size: 18px;
-    }
-
-    .sell-link-container {
-        margin: 0;
     }
 
     .form__error {
