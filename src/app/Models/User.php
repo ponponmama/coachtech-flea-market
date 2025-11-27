@@ -12,6 +12,7 @@ use App\Models\Item;
 use App\Models\Comment;
 use App\Models\Like;
 use App\Models\Purchase;
+use App\Models\TransactionMessage;
 use App\Mail\VerifyEmailCustom;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
@@ -106,6 +107,22 @@ class User extends Authenticatable implements MustVerifyEmail
     public function favorites()
     {
         return $this->belongsToMany(Item::class, 'likes', 'user_id', 'item_id');
+    }
+
+    /**
+     * ユーザーが送信した取引メッセージを取得
+     */
+    public function sentMessages()
+    {
+        return $this->hasMany(TransactionMessage::class, 'sender_id');
+    }
+
+    /**
+     * ユーザーが受信した取引メッセージを取得
+     */
+    public function receivedMessages()
+    {
+        return $this->hasMany(TransactionMessage::class, 'receiver_id');
     }
 
     /**

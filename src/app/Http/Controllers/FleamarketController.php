@@ -102,6 +102,11 @@ class FleamarketController extends Controller
         // プロフィール情報を取得（存在しない場合はnull）
         $profile = $user->profile;
 
+        // 取引中の商品数（出品した商品で、まだ売れていないもの）
+        $tradingCount = Item::where('seller_id', $user->id)
+            ->whereNull('buyer_id')
+            ->count();
+
         if ($page === 'buy') {
             // PG11: プロフィール画面_購入した商品一覧
             $purchasedItems = Item::where('buyer_id', $user->id)
@@ -109,12 +114,23 @@ class FleamarketController extends Controller
                 ->latest()
                 ->get();
             $soldItems = collect();
+            $tradingItems = collect();
         } elseif ($page === 'sell') {
             // PG12: プロフィール画面_出品した商品一覧
             $soldItems = Item::where('seller_id', $user->id)
                 ->select('id', 'name', 'image_path', 'sold_at', 'buyer_id')
                 ->latest()
                 ->get();
+            $purchasedItems = collect();
+            $tradingItems = collect();
+        } elseif ($page === 'trading') {
+            // 取引中の商品一覧
+            $tradingItems = Item::where('seller_id', $user->id)
+                ->whereNull('buyer_id')
+                ->select('id', 'name', 'image_path', 'sold_at', 'buyer_id')
+                ->latest()
+                ->get();
+            $soldItems = collect();
             $purchasedItems = collect();
         } else {
             // デフォルト表示（両方表示）
@@ -126,9 +142,15 @@ class FleamarketController extends Controller
                 ->select('id', 'name', 'image_path', 'sold_at', 'buyer_id')
                 ->latest()
                 ->get();
+            $tradingItems = collect();
         }
 
-        return view('mypage', compact('user', 'profile', 'soldItems', 'purchasedItems', 'page'));
+        // 評価があるかどうかの判定（仮の値、後でDBから読み込む形に変更）
+        // 例: $hasRating = ($user->average_rating ?? 0) > 0;
+        $hasRating = false; // 仮の値、評価がある場合はtrue
+        $ratingClass = $hasRating ? 'has-rating' : '';
+
+        return view('mypage', compact('user', 'profile', 'soldItems', 'purchasedItems', 'tradingItems', 'tradingCount', 'page', 'ratingClass'));
     }
 
     /**

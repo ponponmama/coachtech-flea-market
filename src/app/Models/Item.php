@@ -74,4 +74,12 @@ class Item extends Model
     {
         return $this->belongsToMany(Category::class, 'item_category');
     }
+
+    /**
+     * 商品の取引メッセージを取得
+     */
+    public function transactionMessages()
+    {
+        return $this->hasMany(TransactionMessage::class);
+    }
 }

@@ -25,12 +25,20 @@ class PurchaseSeeder extends Seeder
             return;
         }
 
-        // 一部のアイテムを購入済みにする
-        $purchaseCount = min(20, $items->count()); // 最大20個の購入
-        $randomItems = $items->random($purchaseCount);
+        // 既に購入済みの商品を除外（buyer_idがnullの商品のみを対象）
+        $availableItems = $items->whereNull('buyer_id');
+
+        if ($availableItems->isEmpty()) {
+            $this->command->info('購入可能な商品がありません。');
+            return;
+        }
+
+        // 一部のアイテムを購入済みにする（取引中の商品を残すため、一部のみ購入）
+        $purchaseCount = min(3, $availableItems->count()); // 最大3個の購入（取引中の商品を残す）
+        $randomItems = $availableItems->random($purchaseCount);
 
         foreach ($randomItems as $item) {
-            $buyer = $users->random();
+            $buyer = $users->where('id', '!=', $item->seller_id)->random(); // 出品者以外を購入者に
 
             Purchase::create([
                 'user_id' => $buyer->id,

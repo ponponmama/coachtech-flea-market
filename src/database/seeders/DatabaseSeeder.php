@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
             LikeSeeder::class,        // いいねを作成（ユーザーとアイテムが必要）
             CommentSeeder::class,     // コメントを作成（ユーザーとアイテムが必要）
             PurchaseSeeder::class,    // 購入を作成（ユーザー、アイテム、プロフィールが必要）
+            TransactionMessageSeeder::class, // 取引メッセージを作成（ユーザーとアイテムが必要）
         ]);
     }
 }
