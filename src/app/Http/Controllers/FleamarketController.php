@@ -10,6 +10,7 @@ use App\Http\Requests\ProfileRequest;
 use App\Http\Requests\ExhibitionRequest;
 use App\Models\User;
 use App\Models\Item;
+use App\Models\TransactionMessage;
 
 class FleamarketController extends Controller
 {
@@ -145,12 +146,35 @@ class FleamarketController extends Controller
             $tradingItems = collect();
         }
 
-        // 評価があるかどうかの判定（仮の値、後でDBから読み込む形に変更）
-        // 例: $hasRating = ($user->average_rating ?? 0) > 0;
-        $hasRating = false; // 仮の値、評価がある場合はtrue
-        $ratingClass = $hasRating ? 'has-rating' : '';
+        // 評価値の取得（仮の値、後でDBから読み込む形に変更）
+        // 例: $rating = $user->average_rating ?? 0;
+        $rating = 0; // 仮の値、0-5の範囲を想定
 
-        return view('mypage', compact('user', 'profile', 'soldItems', 'purchasedItems', 'tradingItems', 'tradingCount', 'page', 'ratingClass'));
+        return view('mypage', compact('user', 'profile', 'soldItems', 'purchasedItems', 'tradingItems', 'tradingCount', 'page', 'rating'));
+    }
+
+    /**
+     * 取引チャット画面を表示
+     */
+    public function showTransactionChat($item_id)
+    {
+        $user = Auth::user();
+        $item = Item::with(['seller', 'buyer'])->findOrFail($item_id);
+
+        // 取引相手を取得（購入者の場合は出品者、出品者の場合は購入者）
+        $otherUser = ($user->id === $item->seller_id) ? $item->buyer : $item->seller;
+
+        // 取引メッセージを取得（時系列順）
+        $messages = TransactionMessage::where('item_id', $item_id)
+            ->where(function ($query) use ($user) {
+                $query->where('sender_id', $user->id)
+                    ->orWhere('receiver_id', $user->id);
+            })
+            ->with(['sender', 'receiver'])
+            ->orderBy('created_at', 'asc')
+            ->get();
+
+        return view('transaction-chat', compact('item', 'user', 'otherUser', 'messages'));
     }
 
     /**

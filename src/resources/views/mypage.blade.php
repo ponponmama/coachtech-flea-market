@@ -2,10 +2,10 @@
 @extends('layouts.app')
 
 @section('css')
-    <link rel="stylesheet" href="{{ asset@section('content')('css/mypage.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/mypage.css') }}">
 @endsection
 
-
+@section('content')
     <div class="content-container">
         <div class="profile-image-section">
             <div class="profile-image-container">
@@ -15,10 +15,19 @@
                             class="profile-image-holder">
                     @endif
                 </div>
-                <span class="user-name">{{ $user->name }}</span>
-                <span class="user-star-icon {{ $ratingClass ?? '' }}">
-                    <img src="{{ asset('images/star.svg') }}" alt="star">
-                </span>
+                <div class="user-info">
+                    <span class="user-name">{{ $user->name }}</span>
+                    <div class="user-star-rating">
+                        @php
+                            $rating = $rating ?? 0; // コントローラーから渡された評価値（0-5）
+                        @endphp
+                        @for ($i = 1; $i <= 5; $i++)
+                            <span class="user-star-icon {{ $i <= $rating ? 'has-rating' : '' }}">
+                                <img src="{{ asset('images/star.svg') }}" alt="star">
+                            </span>
+                        @endfor
+                    </div>
+                </div>
                 <a href="{{ route('mypage.profile') }}" class="profile-edit-button button">プロフィールを編集</a>
             </div>
         </div>
@@ -51,15 +60,18 @@
                     @if ($purchasedItems->count() > 0)
                         @foreach ($purchasedItems as $item)
                             <div class="product-item">
-                                <div class="product-image">
-                                    @if ($item->image_path)
-                                        <img src="{{ asset('storage/' . $item->image_path) }}" alt="{{ $item->name }}"
-                                            class="product-image-holder">
-                                    @else
-                                        <span class="product-image-placeholder">商品画像</span>
-                                    @endif
-                                    {{-- 購入した商品にはSOLDバッジを表示しない --}}
-                                </div>
+                                <a href="{{ route('transaction.chat', ['item_id' => $item->id]) }}"
+                                    class="product-image-link">
+                                    <div class="product-image">
+                                        @if ($item->image_path)
+                                            <img src="{{ asset('storage/' . $item->image_path) }}"
+                                                alt="{{ $item->name }}" class="product-image-holder">
+                                        @else
+                                            <span class="product-image-placeholder">商品画像</span>
+                                        @endif
+                                        {{-- 購入した商品にはSOLDバッジを表示しない --}}
+                                    </div>
+                                </a>
                                 <span class="product-name-text">{{ $item->name }}</span>
                             </div>
                         @endforeach

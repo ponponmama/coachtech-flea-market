@@ -1,0 +1,131 @@
+.content-container {
+    flex-direction: row;
+}
+
+.information-container {
+    width: calc(100% - 259px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.title-container {
+    width: 259px;
+    height: 902px;
+    background-color: rgba(134, 134, 134, 1);
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 13px;
+}
+
+.content-title {
+    width: 100%;
+    height: 36px;
+    font-size: 30px;
+    line-height: 36px;
+    text-align: center;
+    color: rgba(255, 255, 255, 1);
+    font-weight: 400;
+}
+
+.profile-image-section {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-left: 37px;
+}
+
+.profile-image-placeholder {
+    width: 79px;
+    height: 79px;
+    border-radius: 50%;
+    background-color: rgba(217, 217, 217, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.profile-image-holder {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 50%;
+}
+
+.transaction-image-section {
+    display: flex;
+}
+
+.transaction-image {
+    width: 203px;
+    height: 206px;
+    object-fit: contain;
+    object-position: center;
+    border-radius: 10px;
+    margin: 14px 40px 12.99px 40px;
+}
+
+.transaction-image-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.transaction-item-name {
+    width: 326px;
+    height: 66px;
+    font-size: 48px;
+    line-height: 66px;
+    color: rgba(0, 0, 0, 1);
+    font-weight: 700;
+    text-align: left;
+    margin-top: 55.01px;
+
+}
+
+.transaction-item-price {
+    width: 265px;
+    height: 45px;
+    font-size: 36px;
+    line-height: 45px;
+    color: rgba(0, 0, 0, 1);
+    font-weight: 400;
+    text-align: left;
+    margin-top: 31px;
+}
+
+
+.transaction-partner-title {
+    width: 794px;
+    height: 65px;
+    font-size: 36px;
+    color: rgba(0, 0, 0, 1);
+    font-weight: 700;
+    text-align: left;
+    margin-left: 14px;
+}
+
+.transaction-complete-button {
+    width: 172px;
+    height: 54px;
+    line-height: 54px;
+    border-radius: 30px;
+    background-color: rgba(255, 130, 130, 1);
+    color: rgba(255, 255, 255, 1);
+    border: none;
+    font-size: 20px;
+    font-weight: 700;
+    text-align: center;
+    margin-right: 41px;
+}
+
+.transaction-border-line {
+    width: 100%;
+    height: 0;
+    border-bottom: 2px solid rgba(95, 95, 95, 1);
+    margin: 0;
+    padding: 0;
+}

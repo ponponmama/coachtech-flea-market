@@ -49,6 +49,9 @@ Route::get('/mypage/profile', [FleamarketController::class, 'showProfile'])->mid
 // プロフィール更新
 Route::post('/mypage/profile', [FleamarketController::class, 'updateProfile'])->middleware(['auth'])->name('mypage.profile.update');
 
+// 取引チャット画面
+Route::get('/transaction-chat/{item_id}', [FleamarketController::class, 'showTransactionChat'])->middleware(['auth'])->name('transaction.chat');
+
 // 商品一覧画面（トップ）
 Route::get('/', [ItemController::class, 'index'])->name('top');
 
