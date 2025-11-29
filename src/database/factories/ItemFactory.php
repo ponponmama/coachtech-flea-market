@@ -119,9 +119,6 @@ class ItemFactory extends Factory
         // 指定された商品データからランダムに選択
         $selectedProduct = $this->faker->randomElement($productData);
 
-        // 10%の確率で売り切れ商品にする
-        $isSold = $this->faker->boolean(10);
-
         return [
             'name' => $selectedProduct['name'],
             'brand' => $selectedProduct['brand'],
@@ -130,8 +127,23 @@ class ItemFactory extends Factory
             'condition' => $selectedProduct['condition'],
             'image_path' => $selectedProduct['image_path'],
             'seller_id' => null, // Seederで既存ユーザーを割り当て
-            'buyer_id' => $isSold ? User::inRandomOrder()->first()?->id : null, // ランダムな購入者ID
-            'sold_at' => $isSold ? '2024-01-01 12:00:00' : null, // 固定の売却日時
+            'buyer_id' => null, // デフォルトは取引中
+            'sold_at' => null, // デフォルトは取引中
         ];
+    }
+
+    /**
+     * 取引中の商品として作成（buyer_idがnull）
+     *
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     */
+    public function trading()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'buyer_id' => null,
+                'sold_at' => null,
+            ];
+        });
     }
 }

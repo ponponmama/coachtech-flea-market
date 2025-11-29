@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 use App\Http\Requests\ProfileRequest;
 use App\Http\Requests\ExhibitionRequest;
+use App\Http\Requests\TransactionMessageRequest;
 use App\Models\User;
 use App\Models\Item;
 use App\Models\TransactionMessage;
@@ -126,11 +127,34 @@ class FleamarketController extends Controller
             $tradingItems = collect();
         } elseif ($page === 'trading') {
             // 取引中の商品一覧
+            // FN004: 取引自動ソート機能 - 新規メッセージが来た順に表示
             $tradingItems = Item::where('seller_id', $user->id)
                 ->whereNull('buyer_id')
                 ->select('id', 'name', 'image_path', 'sold_at', 'buyer_id')
-                ->latest()
-                ->get();
+                ->with(['transactionMessages' => function ($query) use ($user) {
+                    // 最新メッセージを取得（ソート用）
+                    $query->orderBy('created_at', 'desc');
+                }])
+                ->get()
+                ->map(function ($item) use ($user) {
+                    // FN001, FN005: 未読メッセージ数を取得
+                    // 自分が受信者で、未読のメッセージ数を取得
+                    $item->unread_count = TransactionMessage::where('item_id', $item->id)
+                        ->where('receiver_id', $user->id)
+                        ->where('is_read', false)
+                        ->count();
+
+                    // 最新メッセージの日時（ソート用）
+                    $latestMessage = $item->transactionMessages->first();
+                    if ($latestMessage) {
+                        $item->latest_message_at = $latestMessage->created_at;
+                    } else {
+                        $item->latest_message_at = $item->created_at; // メッセージがない場合は商品作成日時
+                    }
+                    return $item;
+                })
+                ->sortByDesc('latest_message_at') // 最新メッセージが来た順にソート
+                ->values(); // インデックスを再設定
             $soldItems = collect();
             $purchasedItems = collect();
         } else {
@@ -161,9 +185,6 @@ class FleamarketController extends Controller
         $user = Auth::user();
         $item = Item::with(['seller', 'buyer'])->findOrFail($item_id);
 
-        // 取引相手を取得（購入者の場合は出品者、出品者の場合は購入者）
-        $otherUser = ($user->id === $item->seller_id) ? $item->buyer : $item->seller;
-
         // 取引メッセージを取得（時系列順）
         $messages = TransactionMessage::where('item_id', $item_id)
             ->where(function ($query) use ($user) {
@@ -174,7 +195,153 @@ class FleamarketController extends Controller
             ->orderBy('created_at', 'asc')
             ->get();
 
-        return view('transaction-chat', compact('item', 'user', 'otherUser', 'messages'));
+        // 取引相手を取得
+        if ($item->buyer_id) {
+            // 購入済みの場合：購入者の場合は出品者、出品者の場合は購入者
+            $otherUser = ($user->id === $item->seller_id) ? $item->buyer : $item->seller;
+        } else {
+            // 取引中の場合：メッセージから取引相手を特定
+            $latestMessage = $messages->first();
+            if ($latestMessage) {
+                $otherUser = ($latestMessage->sender_id === $user->id)
+                    ? $latestMessage->receiver
+                    : $latestMessage->sender;
+            } else {
+                // メッセージがない場合：出品者以外のユーザーを取得（仮の取引相手）
+                // 実際にはメッセージがない場合は取引相手が確定していないので、エラーを返すか、デフォルトユーザーを設定
+                $otherUser = User::where('id', '!=', $user->id)
+                    ->where('id', '!=', $item->seller_id)
+                    ->first();
+
+                // 取引相手が見つからない場合は出品者を表示
+                if (!$otherUser) {
+                    $otherUser = $item->seller;
+                }
+            }
+        }
+
+        // FN003: 別取引遷移機能 - サイドバーに表示する他の取引中の商品一覧を取得
+        $otherTradingItems = Item::where('seller_id', $user->id)
+            ->whereNull('buyer_id')
+            ->where('id', '!=', $item_id) // 現在の商品を除外
+            ->select('id', 'name', 'image_path', 'sold_at', 'buyer_id')
+            ->with(['transactionMessages' => function ($query) use ($user) {
+                $query->orderBy('created_at', 'desc');
+            }])
+            ->get()
+            ->map(function ($otherItem) use ($user) {
+                // 未読メッセージ数を取得
+                $latestMessage = $otherItem->transactionMessages->first();
+                if ($latestMessage) {
+                    $partnerId = ($latestMessage->sender_id === $user->id)
+                        ? $latestMessage->receiver_id
+                        : $latestMessage->sender_id;
+
+                    $otherItem->unread_count = TransactionMessage::where('item_id', $otherItem->id)
+                        ->where('receiver_id', $user->id)
+                        ->where('sender_id', $partnerId)
+                        ->where('is_read', false)
+                        ->count();
+
+                    $otherItem->latest_message_at = $latestMessage->created_at;
+                } else {
+                    $otherItem->unread_count = 0;
+                    $otherItem->latest_message_at = $otherItem->created_at;
+                }
+                return $otherItem;
+            })
+            ->sortByDesc('latest_message_at')
+            ->values();
+
+        return view('transaction-chat', compact('item', 'user', 'otherUser', 'messages', 'otherTradingItems'));
+    }
+
+    /**
+     * 取引メッセージを送信
+     */
+    public function sendTransactionMessage(TransactionMessageRequest $request, $item_id)
+    {
+        $user = Auth::user();
+        $item = Item::with(['seller', 'buyer'])->findOrFail($item_id);
+
+        // 取引相手を取得（購入者の場合は出品者、出品者の場合は購入者）
+        $otherUser = ($user->id === $item->seller_id) ? $item->buyer : $item->seller;
+
+        // 画像のアップロード処理（あれば）
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('transaction-messages', 'public');
+        }
+
+        // メッセージを作成
+        TransactionMessage::create([
+            'item_id' => $item->id,
+            'sender_id' => $user->id,
+            'receiver_id' => $otherUser->id,
+            'message' => $request->message,
+            'image_path' => $imagePath,
+            'is_read' => false,
+        ]);
+
+        return redirect()->route('transaction.chat', ['item_id' => $item_id])->with('success', 'メッセージを送信しました。');
+    }
+
+    /**
+     * 取引メッセージを更新（FN010）
+     */
+    public function updateTransactionMessage(TransactionMessageRequest $request, $message_id)
+    {
+        $user = Auth::user();
+        $message = TransactionMessage::findOrFail($message_id);
+
+        // 自分のメッセージのみ編集可能
+        if ($message->sender_id !== $user->id) {
+            abort(403, 'このメッセージを編集する権限がありません。');
+        }
+
+        // 画像のアップロード処理（あれば）
+        $imagePath = $message->image_path; // 既存の画像パスを保持
+        if ($request->hasFile('image')) {
+            // 既存の画像を削除
+            if ($imagePath && Storage::disk('public')->exists($imagePath)) {
+                Storage::disk('public')->delete($imagePath);
+            }
+            $imagePath = $request->file('image')->store('transaction-messages', 'public');
+        }
+
+        // メッセージを更新
+        $message->update([
+            'message' => $request->message,
+            'image_path' => $imagePath,
+        ]);
+
+        return redirect()->route('transaction.chat', ['item_id' => $message->item_id])->with('success', 'メッセージを更新しました。');
+    }
+
+    /**
+     * 取引メッセージを削除（FN011）
+     */
+    public function deleteTransactionMessage($message_id)
+    {
+        $user = Auth::user();
+        $message = TransactionMessage::findOrFail($message_id);
+
+        // 自分のメッセージのみ削除可能
+        if ($message->sender_id !== $user->id) {
+            abort(403, 'このメッセージを削除する権限がありません。');
+        }
+
+        $item_id = $message->item_id;
+
+        // 画像を削除
+        if ($message->image_path && Storage::disk('public')->exists($message->image_path)) {
+            Storage::disk('public')->delete($message->image_path);
+        }
+
+        // メッセージを削除
+        $message->delete();
+
+        return redirect()->route('transaction.chat', ['item_id' => $item_id])->with('success', 'メッセージを削除しました。');
     }
 
     /**

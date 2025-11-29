@@ -63,11 +63,11 @@
     align-items: center;
 }
 
+/* 評価がない場合（デフォルト） */
 .user-star-icon img {
     width: 39px;
     height: 37px;
     display: block;
-    /* 評価がない場合（デフォルト） */
     filter: brightness(0) saturate(100%) invert(85%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%); /* #D9D9D9 */
 }
 
@@ -106,7 +106,7 @@
     display: flex;
     align-items: center;
     justify-content: left;
-    padding-left: 129px;
+    padding-left: 188px;
 }
 
 .nav-tabs__list {
@@ -117,10 +117,20 @@
 }
 
 .nav-tabs__item {
-    width: 155px;
-    height: 40px;
+    display: flex;
+    align-items: center; /* 縦方向の中央揃え */
     margin-right: 52px;
     text-align: right;
+}
+
+.nav-tabs__item:last-child {
+    margin-right: 0;
+}
+
+.trading-badge-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .nav-tabs__link {
@@ -130,15 +140,16 @@
     font-size: 24px;
     text-decoration: none;
     color: rgba(95, 95, 95, 1);
-    height: 100%;
-    width: 100%;
+    width: 155px;
+    height: 40px;
+
 }
 
 .nav-tabs__link--active {
     color: rgba(255, 0, 0, 1);
 }
 
-/* 取引中バッジ */
+/* タグ用件数バッジ */
 .trading-badge {
     display: inline-flex;
     align-items: center;
@@ -146,13 +157,12 @@
     width: 27px;
     height: 26px;
     border-radius: 10px;
-    border: 1px solid #FF0000;
-    background-color: #FFFFFF;
-    color: #FF0000;
-    font-size: 14px;
+    border: none;
+    background-color: rgba(255, 0, 0, 1);
+    color: rgba(255, 255, 255, 1);
+    font-size: 24px;
     font-weight: 700;
-    margin-left: 8px;
-    line-height: 1;
+    line-height: 26px;
 }
 
 /* ナビゲーションタブ下のボーダーライン */
@@ -175,21 +185,20 @@
     display: flex;
     flex-direction: row;
     gap: 71.5px;
-    padding-left: 69px;
+    padding-left: 180px;
     flex-wrap: wrap;
 }
 
 /* 商品アイテム */
 .product-item {
-    width: 290px;
-    height: 320px;
+    width: 200px;
+    height: 200px;
     text-align: center;
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
 
 .product-image {
     width: 100%;
-    height: 290px;
+    height: 100%;
     background-color: rgba(217, 217, 217, 1);
     border-radius: 4px;
     display: flex;
@@ -199,8 +208,8 @@
 }
 
 .product-image-placeholder {
-    width: 290px;
-    height: 290px;
+    width: 100%;
+    height: 100%;
     border-radius: 4px;
     color: rgba(0, 0, 0, 1);
     background-color: rgba(217, 217, 217, 1);
@@ -219,7 +228,17 @@
     border-radius: 4px;
 }
 
-/* SOLDバッジ */
+.trading-product-image-holder {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    border-radius: 4px;
+    background-color: rgba(217, 217, 217, 1);
+    position: relative;
+}
+
+/* イメージ用SOLDバッジ */
 .sold-badge {
     position: absolute;
     top: 0;
@@ -233,20 +252,20 @@
     z-index: 1;
 }
 
-/* 通知バッジ（取引中の商品） */
-.notification-badge {
+/* イメージ用件数バッジ */
+.trading-notification-badge {
     position: absolute;
     top: 0;
     left: 0;
-    width: 27px;
-    height: 26px;
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
-    background-color: #FF0000;
-    color: #FFFFFF;
+    background-color: rgba(255, 0, 0, 1);
+    color: rgba(255, 255, 255, 1);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 14px;
+    font-size: 10px;
     font-weight: 700;
     z-index: 1;
 }

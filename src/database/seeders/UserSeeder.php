@@ -14,17 +14,30 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        // 21人のユーザーを作成
-        $users = User::factory(21)->create();
+        // 既存のユーザーをチェックして、不足しているメールアドレスのユーザーを作成
+        $createdCount = 0;
 
-        // user_idに合わせてemailを更新
-        foreach ($users as $user) {
-            $user->update([
-                'email' => 'test@' . str_pad($user->id, 2, '0', STR_PAD_LEFT) . '.com'
-            ]);
+        for ($i = 1; $i <= 21; $i++) {
+            $email = 'test@' . str_pad($i, 2, '0', STR_PAD_LEFT) . '.com';
+
+            // 既に存在するかチェック
+            $existingUser = User::where('email', $email)->first();
+
+            if (!$existingUser) {
+                // ユーザーを作成（メールアドレスを直接指定）
+                $user = User::factory()->create([
+                    'email' => $email
+                ]);
+                $createdCount++;
+            }
         }
 
-        $this->command->info('21人のユーザーを作成しました。');
+        if ($createdCount > 0) {
+            $this->command->info("{$createdCount}人のユーザーを作成しました。");
+        } else {
+            $this->command->info('既に21人のユーザーが存在します。スキップします。');
+        }
+
         $this->command->info('ログイン情報: test@01.com 〜 test@21.com / user_pass');
     }
 }

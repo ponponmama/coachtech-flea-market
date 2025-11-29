@@ -52,6 +52,13 @@ Route::post('/mypage/profile', [FleamarketController::class, 'updateProfile'])->
 // 取引チャット画面
 Route::get('/transaction-chat/{item_id}', [FleamarketController::class, 'showTransactionChat'])->middleware(['auth'])->name('transaction.chat');
 
+// 取引メッセージ送信
+Route::post('/transaction-chat/{item_id}/send', [FleamarketController::class, 'sendTransactionMessage'])->middleware(['auth'])->name('transaction.chat.send');
+// 取引メッセージ更新（FN010）
+Route::put('/transaction-message/{message_id}', [FleamarketController::class, 'updateTransactionMessage'])->middleware(['auth'])->name('transaction.message.update');
+// 取引メッセージ削除（FN011）
+Route::delete('/transaction-message/{message_id}', [FleamarketController::class, 'deleteTransactionMessage'])->middleware(['auth'])->name('transaction.message.delete');
+
 // 商品一覧画面（トップ）
 Route::get('/', [ItemController::class, 'index'])->name('top');
 

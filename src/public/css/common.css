@@ -25,6 +25,8 @@ li {
 .button,
 .link {
     cursor: pointer;
+    text-decoration: none;
+
 }
 
 .button:hover {

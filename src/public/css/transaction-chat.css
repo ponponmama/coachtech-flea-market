@@ -2,32 +2,84 @@
     flex-direction: row;
 }
 
+.title-container {
+    width: 259px;
+    height: 902px;
+    background-color: rgba(134, 134, 134, 1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: 13px;
+    margin: 0;
+
+}
+
+.content-title {
+    width: 195px;
+    height: 36px;
+    font-size: 30px;
+    line-height: 36px;
+    text-align: center;
+    color: rgba(255, 255, 255, 1);
+    outline: 1px solid rgba(255, 255, 255, 1);
+    outline-offset: -1px;
+    font-weight: 400;
+    letter-spacing: 3px;
+    white-space: nowrap;
+    overflow: hidden;
+    box-sizing: content-box;
+    margin-bottom: 56px;
+}
+
+/* FN003: 別取引遷移機能 - サイドバーの他の取引一覧 */
+.other-transactions-list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+    padding: 0 10px;
+}
+
+.other-transaction-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    background-color: rgba(238, 239, 235, 1);
+    color: rgba(0, 0, 0, 1);
+    border-radius: 5px;
+}
+
+.other-transaction-item:nth-child(even) {
+    margin-top: 43px;
+}
+
+.other-transaction-item:nth-child(odd):not(:first-child) {
+    margin-top: 46px;
+}
+
+.other-transaction-item:hover {
+    background-color: rgba(100, 100, 100, 1);
+}
+
+.other-transaction-name,
+.no-other-transactions {
+    width: 197px;
+    height: 40px;
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 40px;
+    text-align: center;
+}
+
 .information-container {
     width: calc(100% - 259px);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-}
-
-.title-container {
-    width: 259px;
-    height: 902px;
-    background-color: rgba(134, 134, 134, 1);
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-    padding-top: 13px;
-}
-
-.content-title {
-    width: 100%;
-    height: 36px;
-    font-size: 30px;
-    line-height: 36px;
-    text-align: center;
-    color: rgba(255, 255, 255, 1);
-    font-weight: 400;
 }
 
 .profile-image-section {
@@ -56,7 +108,32 @@
     border-radius: 50%;
 }
 
+.transaction-partner-title {
+    width: 794px;
+    height: 65px;
+    font-size: 36px;
+    color: rgba(0, 0, 0, 1);
+    font-weight: 700;
+    text-align: left;
+    margin-left: 14px;
+}
+
+.transaction-complete-button {
+    width: 172px;
+    height: 54px;
+    line-height: 54px;
+    border-radius: 30px;
+    background-color: rgba(255, 130, 130, 1);
+    color: rgba(255, 255, 255, 1);
+    border: none;
+    font-size: 20px;
+    font-weight: 700;
+    text-align: center;
+    margin-right: 41px;
+}
+
 .transaction-image-section {
+    width: 100%;
     display: flex;
 }
 
@@ -97,31 +174,6 @@
     margin-top: 31px;
 }
 
-
-.transaction-partner-title {
-    width: 794px;
-    height: 65px;
-    font-size: 36px;
-    color: rgba(0, 0, 0, 1);
-    font-weight: 700;
-    text-align: left;
-    margin-left: 14px;
-}
-
-.transaction-complete-button {
-    width: 172px;
-    height: 54px;
-    line-height: 54px;
-    border-radius: 30px;
-    background-color: rgba(255, 130, 130, 1);
-    color: rgba(255, 255, 255, 1);
-    border: none;
-    font-size: 20px;
-    font-weight: 700;
-    text-align: center;
-    margin-right: 41px;
-}
-
 .transaction-border-line {
     width: 100%;
     height: 0;
@@ -129,3 +181,199 @@
     margin: 0;
     padding: 0;
 }
+
+/* メッセージ表示エリア */
+.message-area {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 26px;
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.message-item {
+    width: 100%;
+    display: flex;
+}
+
+.message-item.sent .message-bubble,
+.message-item.received .message-bubble {
+    width: 461px;
+}
+
+.message-item.sent {
+    justify-content: flex-end;
+}
+
+.message-item.received {
+    justify-content: flex-start;
+}
+
+.message-bubble {
+    display: flex;
+    flex-direction: column;
+    color: rgba(0, 0, 0, 1);
+
+}
+
+.user-profile-container {
+    display: flex;
+    gap: 24px;
+}
+
+.user-profile-placeholder {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: rgba(217, 217, 217, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.user-profile-image-holder {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.user-name {
+    width: 145px;
+    height: 50px;
+    font-size: 20px;
+    color: rgba(0, 0, 0, 1);
+    font-weight: 700;
+    line-height: 50px;
+    text-align: left;
+}
+
+.message-content {
+    width: 100%;
+    height: 60px;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 60px;
+    border-radius: 4px;
+    background-color: rgba(217, 217, 217, 1);
+}
+
+.message-image {
+    max-width: 100%;
+    border-radius: 5px;
+    margin-top: 5px;
+}
+
+.message-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 21px;
+    margin-top: 10px;
+}
+
+.message-edit-button {
+    width: 30px;
+    height: 18px;
+    color: rgba(95, 95, 95, 1);
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 18px;
+    text-align: center;
+    text-decoration: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 1);
+}
+
+.message-delete-form {
+    margin: 0;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+}
+
+.message-delete-button {
+    width: 30px;
+    height: 18px;
+    color: rgba(95, 95, 95, 1);
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 18px;
+    text-align: center;
+    text-decoration: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 1);
+}
+
+.message-form-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 18px 27.5px;
+}
+
+/* メッセージ入力フォーム */
+.message-form {
+    width: 100%;
+    height: 44px;
+    display: flex;
+    align-items: center;
+}
+
+.chat-message-input {
+    width: 937px;
+    height: 100%;
+    border: 1px solid rgba(95, 95, 95, 1);
+    border-radius: 4px;
+    font-size: 16px;
+    line-height: 44px;
+    padding: 0 19px;
+    outline: none;
+}
+
+.chat-message-image-button {
+    width: 143px;
+    height: 44px;
+    border: 2px solid rgba(255, 85, 85, 1);
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 1);
+    color: rgba(255, 85, 85, 1);
+    margin-left: 18px;
+}
+
+.chat-message-send-button {
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 20px;
+}
+
+.chat-message-send-button img {
+    width: 80px;
+    height: 61px;
+}
+
+.chat-image-input {
+    display: none;
+}
+
+
+
+
+
+
+
+

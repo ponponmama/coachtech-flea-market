@@ -288,6 +288,16 @@ php artisan migrate --seed
 
 ※ シーダー実行後に上記アカウントが作成されます。
 
+### 取引中の商品（テスト用）
+
+- 取引中の商品は `ItemSeeder` で `ItemFactory` を使用して作成されます
+- `ItemFactory` の `trading()` state メソッドを使用して、取引中の商品（buyer_id が null）を 5 つ作成します
+- 各商品にはランダムな出品者が割り当てられます
+- 商品名、価格、ブランド、説明、画像パス、状態などは `ItemFactory` で定義された商品データからランダムに選択されます
+- カテゴリは `ItemCategorySeeder` でランダムに 1-3 個割り当てられます
+
+> **注意**: 取引中の商品は `ItemSeeder` で Factory を使用して作成されます。`Item::factory()->trading()->create()` で作成されます。
+
 ### 取引メッセージ
 
 - 取引中の商品（buyer_id が null の商品）に対して、出品者と購入希望者の間でメッセージが作成されます

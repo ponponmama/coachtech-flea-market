@@ -35,6 +35,11 @@ class TransactionMessageSeeder extends Seeder
             $messageCount = rand(2, 10);
             $baseTime = Carbon::now()->subDays(rand(1, 30)); // 1-30日前から開始
 
+            // 出品者が受信者になる未読メッセージを確実に作成するためのフラグ
+            $hasUnreadForSeller = false;
+            // 未読メッセージ数をランダムに設定（1-3件）
+            $unreadCountForSeller = rand(1, 3);
+
             for ($i = 0; $i < $messageCount; $i++) {
                 // 送信者を交互に変更（最初は購入希望者から）
                 $sender = ($i % 2 === 0) ? $buyer : $seller;
@@ -43,8 +48,17 @@ class TransactionMessageSeeder extends Seeder
                 // メッセージ作成時間を時系列順に
                 $createdAt = $baseTime->copy()->addMinutes($i * rand(10, 60));
 
-                // 既読フラグ（最後のメッセージは未読の可能性がある）
-                $isRead = ($i < $messageCount - 1) ? true : (rand(0, 1) === 1);
+                // 既読フラグ
+                // 出品者が受信者になるメッセージ（偶数番目）で、未読メッセージを作成
+                $isRead = true;
+                if ($i % 2 === 0 && $receiver->id === $seller->id) {
+                    // 出品者が受信者の場合
+                    if ($unreadCountForSeller > 0) {
+                        // 未読メッセージを作成
+                        $isRead = false;
+                        $unreadCountForSeller--;
+                    }
+                }
 
                 TransactionMessage::create([
                     'item_id' => $item->id,

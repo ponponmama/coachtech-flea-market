@@ -116,6 +116,25 @@ class ItemSeeder extends Seeder
             ]));
         }
 
+        // Factoryを使って取引中の商品を追加作成（テスト用）
+        // 取引中の商品を1人につき3つ作成（test@01.com〜test@05.comのユーザーに固定）
+        for ($i = 1; $i <= 5; $i++) {
+            $email = 'test@' . str_pad($i, 2, '0', STR_PAD_LEFT) . '.com';
+            $seller = User::where('email', $email)->first();
+
+            if ($seller) {
+                // 1人につき3つの取引中の商品を作成
+                for ($j = 0; $j < 3; $j++) {
+                    Item::factory()
+                        ->trading() // 取引中（buyer_idがnull）
+                        ->create([
+                            'seller_id' => $seller->id,
+                        ]);
+                }
+            }
+        }
+
         $this->command->info(count($itemsData) . '件のアイテムを作成しました。');
+        $this->command->info('15件の取引中の商品をFactoryで作成しました。（test@01.com〜test@05.comのユーザーに各3件ずつ）');
     }
 }
