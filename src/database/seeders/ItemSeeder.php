@@ -116,25 +116,103 @@ class ItemSeeder extends Seeder
             ]));
         }
 
-        // Factoryを使って取引中の商品を追加作成（テスト用）
-        // 取引中の商品を1人につき3つ作成（test@01.com〜test@05.comのユーザーに固定）
-        for ($i = 1; $i <= 5; $i++) {
-            $email = 'test@' . str_pad($i, 2, '0', STR_PAD_LEFT) . '.com';
-            $seller = User::where('email', $email)->first();
+        // Factoryを使ってテスト用の商品を追加作成
+        // 出品者: test@01.com (ID: 1)
+        // 購入者: test@02.com (ID: 2)
+        $seller01 = User::where('email', 'test@01.com')->first(); // 出品者
+        $buyer02 = User::where('email', 'test@02.com')->first(); // 購入者
 
-            if ($seller) {
-                // 1人につき3つの取引中の商品を作成
-                for ($j = 0; $j < 3; $j++) {
+        if ($seller01 && $buyer02) {
+            // 取引中の商品を3つ作成（出品者: test@01.com、購入希望者: test@02.com）
+            for ($j = 0; $j < 3; $j++) {
+                Item::factory()
+                    ->trading() // 取引中（buyer_idがnull）
+                    ->create([
+                        'seller_id' => $seller01->id, // 出品者ID: 1
+                    ]);
+            }
+
+            // 取引中の商品を3つ作成（出品者: test@02.com、購入希望者: test@01.com）
+            for ($j = 0; $j < 3; $j++) {
+                Item::factory()
+                    ->trading() // 取引中（buyer_idがnull）
+                    ->create([
+                        'seller_id' => $buyer02->id, // 出品者ID: 2
+                    ]);
+            }
+
+            // 決済処理済みの商品を3つ作成（test@01.comが出品、test@02.comが購入）
+            // 評価機能のテスト用に決済処理済みにする
+            for ($j = 0; $j < 3; $j++) {
+                Item::factory()
+                    ->create([
+                        'seller_id' => $seller01->id, // 出品者ID: 1
+                        'buyer_id' => $buyer02->id, // 購入者ID: 2（決済完了済み）
+                        'sold_at' => now()->subDays(rand(1, 30)), // 1-30日前に購入
+                    ]);
+            }
+
+            // 決済処理済みの商品を3つ作成（test@02.comが出品、test@01.comが購入）
+            // 評価機能のテスト用に決済処理済みにする
+            for ($j = 0; $j < 3; $j++) {
+                Item::factory()
+                    ->create([
+                        'seller_id' => $buyer02->id, // 出品者ID: 2
+                        'buyer_id' => $seller01->id, // 購入者ID: 1（決済完了済み）
+                        'sold_at' => now()->subDays(rand(1, 30)), // 1-30日前に購入
+                    ]);
+            }
+
+            // 購入済みの商品を3つ作成（test@01.comが出品、test@02.comが購入）
+            for ($j = 0; $j < 3; $j++) {
+                Item::factory()
+                    ->create([
+                        'seller_id' => $seller01->id, // 出品者ID: 1
+                        'buyer_id' => $buyer02->id, // 購入者ID: 2（決済完了済み）
+                        'sold_at' => now()->subDays(rand(1, 30)), // 1-30日前に購入
+                    ]);
+            }
+
+            // test@02.comが出品、test@01.comが購入した商品を3つ作成
+            for ($j = 0; $j < 3; $j++) {
+                Item::factory()
+                    ->create([
+                        'seller_id' => $buyer02->id, // 出品者ID: 2
+                        'buyer_id' => $seller01->id, // 購入者ID: 1（test@01.comが購入）
+                        'sold_at' => now()->subDays(rand(1, 30)), // 1-30日前に購入
+                    ]);
+            }
+
+            // test@03.com〜test@10.comのユーザーが購入した商品を作成（評価用）
+            $allUsers = User::all();
+            for ($i = 3; $i <= 10; $i++) {
+                $buyerEmail = 'test@' . str_pad($i, 2, '0', STR_PAD_LEFT) . '.com';
+                $buyer = User::where('email', $buyerEmail)->first();
+
+                if ($buyer) {
+                    // 各購入者に対して、ランダムな出品者を選択（自分以外）
+                    $seller = $allUsers->where('id', '!=', $buyer->id)->random();
+
+                    // 購入済みの商品を1つ作成
                     Item::factory()
-                        ->trading() // 取引中（buyer_idがnull）
                         ->create([
                             'seller_id' => $seller->id,
+                            'buyer_id' => $buyer->id,
+                            'sold_at' => now()->subDays(rand(1, 30)),
                         ]);
                 }
             }
+
+            $this->command->info('3件の取引中の商品を作成しました（test@01.comが出品）。');
+            $this->command->info('3件の購入済み商品を作成しました（test@01.comが出品、test@02.comが購入）。');
+            $this->command->info('3件の購入済み商品を作成しました（test@02.comが出品、test@01.comが購入）。');
+            $this->command->info('test@03.com〜test@10.comのユーザーが購入した商品を作成しました。');
+            $this->command->info('出品者: test@01.com (ID: ' . $seller01->id . ')');
+            $this->command->info('購入者: test@02.com (ID: ' . $buyer02->id . ')');
+        } else {
+            $this->command->warn('test@01.com または test@02.com のユーザーが見つかりません。');
         }
 
         $this->command->info(count($itemsData) . '件のアイテムを作成しました。');
-        $this->command->info('15件の取引中の商品をFactoryで作成しました。（test@01.com〜test@05.comのユーザーに各3件ずつ）');
     }
 }

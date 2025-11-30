@@ -9,9 +9,11 @@ use Illuminate\Support\Facades\Log;
 use App\Http\Requests\ProfileRequest;
 use App\Http\Requests\ExhibitionRequest;
 use App\Http\Requests\TransactionMessageRequest;
+use App\Http\Requests\RatingRequest;
 use App\Models\User;
 use App\Models\Item;
 use App\Models\TransactionMessage;
+use App\Models\Rating;
 
 class FleamarketController extends Controller
 {
@@ -104,10 +106,31 @@ class FleamarketController extends Controller
         // プロフィール情報を取得（存在しない場合はnull）
         $profile = $user->profile;
 
-        // 取引中の商品数（出品した商品で、まだ売れていないもの）
-        $tradingCount = Item::where('seller_id', $user->id)
-            ->whereNull('buyer_id')
-            ->count();
+        // 取引中の商品数（出品した商品で、まだ売れていないもの または 取引メッセージが存在する商品）
+        // ただし、両方が評価した商品は除外する
+        // 決済処理が完了していても、評価が完了していない場合は取引中として扱う
+        $tradingItemsForCount = Item::where(function ($query) use ($user) {
+                // 出品者が自分の商品
+                $query->where('seller_id', $user->id)
+                    // または、取引メッセージが存在する商品（購入者も見られるように）
+                    ->orWhereHas('transactionMessages', function ($q) use ($user) {
+                        $q->where(function ($subQuery) use ($user) {
+                            $subQuery->where('sender_id', $user->id)
+                                ->orWhere('receiver_id', $user->id);
+                        });
+                    });
+            })
+            ->get()
+            ->filter(function ($item) {
+                // 両方が評価した商品を除外
+                // 決済処理が完了していても、評価が完了していない場合は取引中として扱う
+                $ratingCount = Rating::where('item_id', $item->id)
+                    ->select('rater_id')
+                    ->distinct()
+                    ->count();
+                return $ratingCount < 2; // 評価が2つ未満の商品のみ
+            });
+        $tradingCount = $tradingItemsForCount->count();
 
         if ($page === 'buy') {
             // PG11: プロフィール画面_購入した商品一覧
@@ -128,14 +151,35 @@ class FleamarketController extends Controller
         } elseif ($page === 'trading') {
             // 取引中の商品一覧
             // FN004: 取引自動ソート機能 - 新規メッセージが来た順に表示
-            $tradingItems = Item::where('seller_id', $user->id)
-                ->whereNull('buyer_id')
-                ->select('id', 'name', 'image_path', 'sold_at', 'buyer_id')
+            // 出品者が自分で、まだ売れていない商品 または 取引メッセージが存在する商品（購入者も見られるように）
+            // ただし、両方が評価した商品は除外する
+            // 決済処理が完了していても、評価が完了していない場合は取引中として扱う
+            $tradingItems = Item::where(function ($query) use ($user) {
+                    // 出品者が自分の商品
+                    $query->where('seller_id', $user->id)
+                        // または、取引メッセージが存在する商品（購入者も見られるように）
+                        ->orWhereHas('transactionMessages', function ($q) use ($user) {
+                            $q->where(function ($subQuery) use ($user) {
+                                $subQuery->where('sender_id', $user->id)
+                                    ->orWhere('receiver_id', $user->id);
+                            });
+                        });
+                })
+                ->select('id', 'name', 'image_path', 'sold_at', 'buyer_id', 'seller_id')
                 ->with(['transactionMessages' => function ($query) use ($user) {
                     // 最新メッセージを取得（ソート用）
                     $query->orderBy('created_at', 'desc');
                 }])
                 ->get()
+                ->filter(function ($item) {
+                    // 両方が評価した商品を除外
+                    // 決済処理が完了していても、評価が完了していない場合は取引中として扱う
+                    $ratingCount = Rating::where('item_id', $item->id)
+                        ->select('rater_id')
+                        ->distinct()
+                        ->count();
+                    return $ratingCount < 2; // 評価が2つ未満の商品のみ
+                })
                 ->map(function ($item) use ($user) {
                     // FN001, FN005: 未読メッセージ数を取得
                     // 自分が受信者で、未読のメッセージ数を取得
@@ -170,9 +214,15 @@ class FleamarketController extends Controller
             $tradingItems = collect();
         }
 
-        // 評価値の取得（仮の値、後でDBから読み込む形に変更）
-        // 例: $rating = $user->average_rating ?? 0;
-        $rating = 0; // 仮の値、0-5の範囲を想定
+        // 他ユーザーからの取引評価の平均値を取得
+        $ratings = Rating::where('rated_user_id', $user->id)->get();
+
+        $rating = 0;
+        if ($ratings->isNotEmpty()) {
+            // 評価の平均値を計算（四捨五入）
+            $averageRating = $ratings->avg('rating');
+            $rating = round($averageRating);
+        }
 
         return view('mypage', compact('user', 'profile', 'soldItems', 'purchasedItems', 'tradingItems', 'tradingCount', 'page', 'rating'));
     }
@@ -208,27 +258,34 @@ class FleamarketController extends Controller
                     : $latestMessage->sender;
             } else {
                 // メッセージがない場合：出品者以外のユーザーを取得（仮の取引相手）
-                // 実際にはメッセージがない場合は取引相手が確定していないので、エラーを返すか、デフォルトユーザーを設定
-                $otherUser = User::where('id', '!=', $user->id)
-                    ->where('id', '!=', $item->seller_id)
-                    ->first();
-
-                // 取引相手が見つからない場合は出品者を表示
-                if (!$otherUser) {
-                    $otherUser = $item->seller;
-                }
+                // 実際にはメッセージがない場合は取引相手が確定していないので、出品者を表示
+                $otherUser = $item->seller;
             }
         }
 
+        // 取引相手が見つからない場合はエラー
+        if (!$otherUser) {
+            abort(400, '取引相手が特定できません。');
+        }
+
         // FN003: 別取引遷移機能 - サイドバーに表示する他の取引中の商品一覧を取得
+        // 決済処理が完了していても、評価が完了していない場合は取引中として扱う
         $otherTradingItems = Item::where('seller_id', $user->id)
-            ->whereNull('buyer_id')
             ->where('id', '!=', $item_id) // 現在の商品を除外
             ->select('id', 'name', 'image_path', 'sold_at', 'buyer_id')
             ->with(['transactionMessages' => function ($query) use ($user) {
                 $query->orderBy('created_at', 'desc');
             }])
             ->get()
+            ->filter(function ($item) {
+                // 両方が評価した商品を除外
+                // 決済処理が完了していても、評価が完了していない場合は取引中として扱う
+                $ratingCount = Rating::where('item_id', $item->id)
+                    ->select('rater_id')
+                    ->distinct()
+                    ->count();
+                return $ratingCount < 2; // 評価が2つ未満の商品のみ
+            })
             ->map(function ($otherItem) use ($user) {
                 // 未読メッセージ数を取得
                 $latestMessage = $otherItem->transactionMessages->first();
@@ -253,7 +310,39 @@ class FleamarketController extends Controller
             ->sortByDesc('latest_message_at')
             ->values();
 
-        return view('transaction-chat', compact('item', 'user', 'otherUser', 'messages', 'otherTradingItems'));
+        // FN012, FN013: 評価モーダル表示判定
+        // 購入者: 取引完了ボタンをクリックした時にモーダルを表示
+        // 出品者: 購入者が取引を完了した後に、取引チャット画面を開くと自動的にモーダルを表示
+        $showRatingModal = false;
+        if ($item->buyer_id) {
+            // 購入済みの場合
+            // 購入者の場合：セッションからshowRatingModalフラグが来た場合のみモーダルを表示（取引完了ボタンをクリックした時）
+            if ($user->id === $item->buyer_id) {
+                if (session('showRatingModal')) {
+                    $showRatingModal = true;
+                }
+            }
+            // 出品者の場合：購入者が取引を完了した後に、取引チャット画面を開くと自動的にモーダルを表示
+            elseif ($user->id === $item->seller_id) {
+                $existingRating = Rating::where('item_id', $item_id)
+                    ->where('rater_id', $user->id)
+                    ->exists();
+                // まだ評価していない場合、自動的にモーダルを表示
+                if (!$existingRating) {
+                    $showRatingModal = true;
+                }
+            }
+        } else {
+            // 取引中の商品（buyer_idがnull）の場合は、モーダルを表示しない
+            // セッションのshowRatingModalはそのまま（他のページで使用される可能性があるため）
+        }
+
+        // 評価済みかどうかを確認
+        $hasRating = Rating::where('item_id', $item_id)
+            ->where('rater_id', $user->id)
+            ->exists();
+
+        return view('transaction-chat', compact('item', 'user', 'otherUser', 'messages', 'otherTradingItems', 'showRatingModal', 'hasRating'));
     }
 
     /**
@@ -264,8 +353,42 @@ class FleamarketController extends Controller
         $user = Auth::user();
         $item = Item::with(['seller', 'buyer'])->findOrFail($item_id);
 
-        // 取引相手を取得（購入者の場合は出品者、出品者の場合は購入者）
-        $otherUser = ($user->id === $item->seller_id) ? $item->buyer : $item->seller;
+        // 取引相手を取得
+        if ($item->buyer_id) {
+            // 購入済みの場合：購入者の場合は出品者、出品者の場合は購入者
+            $otherUser = ($user->id === $item->seller_id) ? $item->buyer : $item->seller;
+        } else {
+            // 取引中の場合：メッセージから取引相手を特定
+            $messages = TransactionMessage::where('item_id', $item_id)
+                ->where(function ($query) use ($user) {
+                    $query->where('sender_id', $user->id)
+                        ->orWhere('receiver_id', $user->id);
+                })
+                ->get();
+
+            if ($messages->isNotEmpty()) {
+                // メッセージから取引相手を特定
+                $latestMessage = $messages->first();
+                $otherUserId = ($latestMessage->sender_id === $user->id)
+                    ? $latestMessage->receiver_id
+                    : $latestMessage->sender_id;
+                $otherUser = User::find($otherUserId);
+            } else {
+                // メッセージがない場合
+                if ($user->id === $item->seller_id) {
+                    // 出品者の場合：購入希望者を取得（最初のメッセージなので、ランダムなユーザーを選択）
+                    $otherUser = User::where('id', '!=', $user->id)->first();
+                } else {
+                    // 購入希望者の場合：出品者を取得
+                    $otherUser = $item->seller;
+                }
+            }
+        }
+
+        // 取引相手が見つからない場合はエラー
+        if (!$otherUser) {
+            abort(400, '取引相手が特定できません。');
+        }
 
         // 画像のアップロード処理（あれば）
         $imagePath = null;
@@ -273,12 +396,12 @@ class FleamarketController extends Controller
             $imagePath = $request->file('image')->store('transaction-messages', 'public');
         }
 
-        // メッセージを作成
+        // メッセージを作成（空文字列の場合はnullに変換）
         TransactionMessage::create([
             'item_id' => $item->id,
             'sender_id' => $user->id,
             'receiver_id' => $otherUser->id,
-            'message' => $request->message,
+            'message' => !empty(trim($request->message)) ? $request->message : null,
             'image_path' => $imagePath,
             'is_read' => false,
         ]);
@@ -309,9 +432,9 @@ class FleamarketController extends Controller
             $imagePath = $request->file('image')->store('transaction-messages', 'public');
         }
 
-        // メッセージを更新
+        // メッセージを更新（空文字列の場合はnullに変換）
         $message->update([
-            'message' => $request->message,
+            'message' => !empty(trim($request->message)) ? $request->message : null,
             'image_path' => $imagePath,
         ]);
 
@@ -489,5 +612,99 @@ class FleamarketController extends Controller
         ]);
 
         return redirect('/purchase/' . $item_id)->with('address_updated', '送付先住所を更新しました。');
+    }
+
+    /**
+     * 取引完了処理（FN012）
+     * 購入者が取引完了ボタンをクリックした時に評価モーダルを表示
+     */
+    public function completeTransaction($item_id)
+    {
+        $user = Auth::user();
+        $item = Item::with(['seller', 'buyer'])->findOrFail($item_id);
+
+        // 購入者の判定
+        $isBuyer = false;
+        if ($item->buyer_id) {
+            // 購入済みの場合：buyer_idで判定
+            $isBuyer = ($user->id === $item->buyer_id);
+        } else {
+            // 取引中の場合：出品者ではないユーザーが購入希望者として扱える
+            $isBuyer = ($user->id !== $item->seller_id);
+        }
+
+        // 購入者のみが取引完了できる（FN012）
+        if (!$isBuyer) {
+            abort(403, 'この取引を完了する権限がありません。');
+        }
+
+        // 取引中の商品の場合、buyer_idを設定して取引を完了する
+        if (!$item->buyer_id) {
+            $item->update([
+                'buyer_id' => $user->id,
+                'sold_at' => now(),
+            ]);
+        }
+
+        // チャット画面にリダイレクト（評価モーダルを表示）
+        return redirect()->route('transaction.chat', ['item_id' => $item_id])
+            ->with('showRatingModal', true);
+    }
+
+    /**
+     * 評価を送信（FN012, FN013, FN014）
+     */
+    public function storeRating(RatingRequest $request, $item_id)
+    {
+        $user = Auth::user();
+        $item = Item::with(['seller', 'buyer'])->findOrFail($item_id);
+
+        // 決済処理後（buyer_idが設定されている）の場合のみ評価できる
+        if (!$item->buyer_id) {
+            abort(400, '決済処理が完了していないため、評価できません。');
+        }
+
+        // 購入者または出品者のみが評価できる
+        $isBuyer = ($user->id === $item->buyer_id);
+        $isSeller = ($user->id === $item->seller_id);
+
+        if (!$isBuyer && !$isSeller) {
+            abort(403, 'この取引を評価する権限がありません。');
+        }
+
+        // 取引相手を取得（決済処理後なので、buyer_idが設定されている）
+        $ratedUserId = ($user->id === $item->seller_id) ? $item->buyer_id : $item->seller_id;
+
+        if (!$ratedUserId) {
+            abort(400, '評価対象のユーザーが特定できません。');
+        }
+
+        // 既に評価済みかチェック
+        $existingRating = Rating::where('item_id', $item_id)
+            ->where('rater_id', $user->id)
+            ->first();
+
+        if ($existingRating) {
+            // 既存の評価を更新
+            $existingRating->update([
+                'rating' => $request->rating,
+                'comment' => $request->comment,
+            ]);
+        } else {
+            // 新しい評価を作成
+            Rating::create([
+                'item_id' => $item_id,
+                'rater_id' => $user->id,
+                'rated_user_id' => $ratedUserId,
+                'rating' => $request->rating,
+                'comment' => $request->comment,
+            ]);
+        }
+
+        // 決済処理後（buyer_idが設定されている）の場合のみ評価できるため、
+        // buyer_idを設定する処理は不要（completeTransactionで既に設定されている）
+
+        // FN014: 評価を送信した後は、商品一覧画面に遷移する
+        return redirect()->route('top')->with('success', '評価を送信しました。');
     }
 }

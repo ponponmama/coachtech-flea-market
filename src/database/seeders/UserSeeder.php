@@ -14,6 +14,31 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
+        // テスト用の出品者と購入者を確実に作成
+        // 出品者: test@01.com (ID: 1)
+        // 購入者: test@02.com (ID: 2)
+        $seller = User::where('email', 'test@01.com')->first();
+        if (!$seller) {
+            $seller = User::factory()->create([
+                'email' => 'test@01.com',
+                'name' => '出品者ユーザー'
+            ]);
+            $this->command->info('出品者を作成しました: test@01.com (ID: ' . $seller->id . ')');
+        } else {
+            $this->command->info('出品者は既に存在します: test@01.com (ID: ' . $seller->id . ')');
+        }
+
+        $buyer = User::where('email', 'test@02.com')->first();
+        if (!$buyer) {
+            $buyer = User::factory()->create([
+                'email' => 'test@02.com',
+                'name' => '購入者ユーザー'
+            ]);
+            $this->command->info('購入者を作成しました: test@02.com (ID: ' . $buyer->id . ')');
+        } else {
+            $this->command->info('購入者は既に存在します: test@02.com (ID: ' . $buyer->id . ')');
+        }
+
         // 既存のユーザーをチェックして、不足しているメールアドレスのユーザーを作成
         $createdCount = 0;
 
@@ -39,5 +64,6 @@ class UserSeeder extends Seeder
         }
 
         $this->command->info('ログイン情報: test@01.com 〜 test@21.com / user_pass');
+        $this->command->info('テスト用: 出品者 test@01.com / 購入者 test@02.com');
     }
 }

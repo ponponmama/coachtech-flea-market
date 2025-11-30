@@ -78,7 +78,7 @@
     width: calc(100% - 259px);
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
 }
 
@@ -151,8 +151,12 @@
     flex-direction: column;
 }
 
+.transaction-item-info {
+    width: 100%;
+}
+
 .transaction-item-name {
-    width: 326px;
+    width: 100%;
     height: 66px;
     font-size: 48px;
     line-height: 66px;
@@ -188,7 +192,7 @@
     display: flex;
     flex-direction: column;
     padding: 26px;
-    max-height: 500px;
+    height: 450px;
     overflow-y: auto;
 }
 
@@ -327,14 +331,36 @@
 /* メッセージ入力フォーム */
 .message-form {
     width: 100%;
-    height: 44px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-errors {
+    display: flex;
+    flex-direction: column;
+    width: 937px;
+}
+
+.form-inputs-row {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.message-input-wrapper {
+    display: flex;
+    width: 937px;
+}
+
+.image-input-wrapper {
     display: flex;
     align-items: center;
 }
 
 .chat-message-input {
-    width: 937px;
-    height: 100%;
+    width: 100%;
+    height: 44px;
     border: 1px solid rgba(95, 95, 95, 1);
     border-radius: 4px;
     font-size: 16px;
@@ -350,7 +376,6 @@
     border-radius: 5px;
     background-color: rgba(255, 255, 255, 1);
     color: rgba(255, 85, 85, 1);
-    margin-left: 18px;
 }
 
 .chat-message-send-button {
@@ -358,7 +383,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-right: 20px;
 }
 
 .chat-message-send-button img {
@@ -368,6 +392,112 @@
 
 .chat-image-input {
     display: none;
+}
+
+/* 評価モーダル */
+.rating-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+}
+
+.rating-modal-content {
+    background-color: rgba(255, 255, 255, 1);
+    border-radius: 10px;
+    padding: 40px;
+    width: 600px;
+    max-width: 90%;
+    max-height: 90%;
+    overflow-y: auto;
+}
+
+.rating-modal-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: rgba(0, 0, 0, 1);
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.rating-stars {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.rating-modal .form__error {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.rating-star {
+    font-size: 48px;
+    color: rgba(217, 217, 217, 1);
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.rating-star:hover,
+.rating-star.active {
+    color: rgba(255, 200, 0, 1);
+}
+
+.rating-comment {
+    margin-bottom: 30px;
+}
+
+.rating-comment label {
+    display: block;
+    font-size: 16px;
+    font-weight: 400;
+    color: rgba(0, 0, 0, 1);
+    margin-bottom: 10px;
+}
+
+.rating-comment-input {
+    width: 100%;
+    min-height: 120px;
+    padding: 10px;
+    border: 1px solid rgba(95, 95, 95, 1);
+    border-radius: 4px;
+    font-size: 16px;
+    font-family: inherit;
+    resize: vertical;
+    box-sizing: border-box;
+}
+
+.rating-modal-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.rating-cancel-button,
+.rating-submit-button {
+    padding: 10px 30px;
+    border-radius: 5px;
+    font-size: 18px;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+}
+
+.rating-cancel-button {
+    background-color: rgba(217, 217, 217, 1);
+    color: rgba(0, 0, 0, 1);
+}
+
+.rating-submit-button {
+    background-color: rgba(255, 85, 85, 1);
+    color: rgba(255, 255, 255, 1);
 }
 
 

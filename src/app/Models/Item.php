@@ -82,4 +82,12 @@ class Item extends Model
     {
         return $this->hasMany(TransactionMessage::class);
     }
+
+    /**
+     * 商品の評価を取得
+     */
+    public function ratings()
+    {
+        return $this->hasMany(Rating::class);
+    }
 }

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class TransactionMessageRequest extends FormRequest
+class RatingRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,8 @@ class TransactionMessageRequest extends FormRequest
     public function rules()
     {
         return [
-            'message' => 'nullable|string|max:400',
-            'image' => 'nullable|mimes:jpeg,png|max:2048',
+            'rating' => 'required|integer|min:1|max:5',
+            'comment' => 'nullable|string|max:400',
         ];
     }
 
@@ -37,9 +37,11 @@ class TransactionMessageRequest extends FormRequest
     public function messages()
     {
         return [
-            'message.required' => '本文を入力してください',
-            'message.max' => '本文は400文字以内で入力してください',
-            'image.mimes' => '「.png」または「.jpeg」形式でアップロードしてください',
+            'rating.required' => '評価を選択してください',
+            'rating.integer' => '評価は数値で入力してください',
+            'rating.min' => '評価は1以上で入力してください',
+            'rating.max' => '評価は5以下で入力してください',
+            'comment.max' => 'コメントは400文字以内で入力してください',
         ];
     }
 }

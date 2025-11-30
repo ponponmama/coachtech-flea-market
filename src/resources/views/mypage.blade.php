@@ -20,12 +20,15 @@
                     <div class="user-star-rating">
                         @php
                             $rating = $rating ?? 0; // コントローラーから渡された評価値（0-5）
+                            // 評価がない場合は表示しない（$ratingが0の場合は何も表示しない）
                         @endphp
-                        @for ($i = 1; $i <= 5; $i++)
-                            <span class="user-star-icon {{ $i <= $rating ? 'has-rating' : '' }}">
-                                <img src="{{ asset('images/star.svg') }}" alt="star">
-                            </span>
-                        @endfor
+                        @if ($rating > 0)
+                            @for ($i = 1; $i <= 5; $i++)
+                                <span class="user-star-icon {{ $i <= $rating ? 'has-rating' : '' }}">
+                                    <img src="{{ asset('images/star.svg') }}" alt="star">
+                                </span>
+                            @endfor
+                        @endif
                     </div>
                 </div>
                 <a href="{{ route('mypage.profile') }}" class="profile-edit-button button">プロフィールを編集</a>

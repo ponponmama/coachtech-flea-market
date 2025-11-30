@@ -59,6 +59,12 @@ Route::put('/transaction-message/{message_id}', [FleamarketController::class, 'u
 // 取引メッセージ削除（FN011）
 Route::delete('/transaction-message/{message_id}', [FleamarketController::class, 'deleteTransactionMessage'])->middleware(['auth'])->name('transaction.message.delete');
 
+// 取引完了（FN012, FN013）
+Route::post('/transaction-chat/{item_id}/complete', [FleamarketController::class, 'completeTransaction'])->middleware(['auth'])->name('transaction.complete');
+
+// 評価送信（FN012, FN013, FN014）
+Route::post('/transaction-chat/{item_id}/rating', [FleamarketController::class, 'storeRating'])->middleware(['auth'])->name('transaction.rating.store');
+
 // 商品一覧画面（トップ）
 Route::get('/', [ItemController::class, 'index'])->name('top');
 
