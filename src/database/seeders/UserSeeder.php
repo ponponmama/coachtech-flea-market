@@ -14,35 +14,47 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        // テスト用の出品者と購入者を確実に作成
-        // 出品者: test@01.com (ID: 1)
-        // 購入者: test@02.com (ID: 2)
-        $seller = User::where('email', 'test@01.com')->first();
-        if (!$seller) {
-            $seller = User::factory()->create([
+        // 要件に基づいたユーザーデータを3つ作成
+        // 1. CO01~CO05の商品データを出品したユーザー
+        $user1 = User::where('email', 'test@01.com')->first();
+        if (!$user1) {
+            $user1 = User::factory()->create([
                 'email' => 'test@01.com',
-                'name' => '出品者ユーザー'
+                'name' => 'CO01~CO05出品ユーザー'
             ]);
-            $this->command->info('出品者を作成しました: test@01.com (ID: ' . $seller->id . ')');
+            $this->command->info('CO01~CO05出品ユーザーを作成しました: test@01.com (ID: ' . $user1->id . ')');
         } else {
-            $this->command->info('出品者は既に存在します: test@01.com (ID: ' . $seller->id . ')');
+            $this->command->info('CO01~CO05出品ユーザーは既に存在します: test@01.com (ID: ' . $user1->id . ')');
         }
 
-        $buyer = User::where('email', 'test@02.com')->first();
-        if (!$buyer) {
-            $buyer = User::factory()->create([
+        // 2. CO06~CO10の商品データを出品したユーザー
+        $user2 = User::where('email', 'test@02.com')->first();
+        if (!$user2) {
+            $user2 = User::factory()->create([
                 'email' => 'test@02.com',
-                'name' => '購入者ユーザー'
+                'name' => 'CO06~CO10出品ユーザー'
             ]);
-            $this->command->info('購入者を作成しました: test@02.com (ID: ' . $buyer->id . ')');
+            $this->command->info('CO06~CO10出品ユーザーを作成しました: test@02.com (ID: ' . $user2->id . ')');
         } else {
-            $this->command->info('購入者は既に存在します: test@02.com (ID: ' . $buyer->id . ')');
+            $this->command->info('CO06~CO10出品ユーザーは既に存在します: test@02.com (ID: ' . $user2->id . ')');
         }
 
-        // 既存のユーザーをチェックして、不足しているメールアドレスのユーザーを作成
+        // 3. 何も紐づけられていないユーザー
+        $user3 = User::where('email', 'test@03.com')->first();
+        if (!$user3) {
+            $user3 = User::factory()->create([
+                'email' => 'test@03.com',
+                'name' => '紐づけなしユーザー'
+            ]);
+            $this->command->info('紐づけなしユーザーを作成しました: test@03.com (ID: ' . $user3->id . ')');
+        } else {
+            $this->command->info('紐づけなしユーザーは既に存在します: test@03.com (ID: ' . $user3->id . ')');
+        }
+
+        // 既存のユーザーをチェックして、不足しているメールアドレスのユーザーを作成（test@04.com以降）
         $createdCount = 0;
 
-        for ($i = 1; $i <= 21; $i++) {
+        for ($i = 4; $i <= 21; $i++) {
             $email = 'test@' . str_pad($i, 2, '0', STR_PAD_LEFT) . '.com';
 
             // 既に存在するかチェック
@@ -58,12 +70,15 @@ class UserSeeder extends Seeder
         }
 
         if ($createdCount > 0) {
-            $this->command->info("{$createdCount}人のユーザーを作成しました。");
+            $this->command->info("{$createdCount}人の追加ユーザーを作成しました。");
         } else {
-            $this->command->info('既に21人のユーザーが存在します。スキップします。');
+            $this->command->info('既に全ユーザーが存在します。スキップします。');
         }
 
         $this->command->info('ログイン情報: test@01.com 〜 test@21.com / user_pass');
-        $this->command->info('テスト用: 出品者 test@01.com / 購入者 test@02.com');
+        $this->command->info('要件に基づくユーザー:');
+        $this->command->info('  - test@01.com: CO01~CO05の商品を出品');
+        $this->command->info('  - test@02.com: CO06~CO10の商品を出品');
+        $this->command->info('  - test@03.com: 何も紐づけられていないユーザー');
     }
 }

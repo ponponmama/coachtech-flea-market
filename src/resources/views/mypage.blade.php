@@ -23,11 +23,11 @@
                             // 評価がない場合は表示しない（$ratingが0の場合は何も表示しない）
                         @endphp
                         @if ($rating > 0)
-                            @for ($i = 1; $i <= 5; $i++)
-                                <span class="user-star-icon {{ $i <= $rating ? 'has-rating' : '' }}">
-                                    <img src="{{ asset('images/star.svg') }}" alt="star">
-                                </span>
-                            @endfor
+                        @for ($i = 1; $i <= 5; $i++)
+                            <span class="user-star-icon {{ $i <= $rating ? 'has-rating' : '' }}">
+                                <img src="{{ asset('images/star.svg') }}" alt="star">
+                            </span>
+                        @endfor
                         @endif
                     </div>
                 </div>

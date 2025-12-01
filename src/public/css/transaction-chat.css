@@ -378,12 +378,20 @@
     color: rgba(255, 85, 85, 1);
 }
 
+.selected-image-name {
+    margin-left: 10px;
+    color: rgba(95, 95, 95, 1);
+    font-size: 14px;
+}
+
 .chat-message-send-button {
     border: none;
     display: flex;
     align-items: center;
     justify-content: center;
 }
+
+
 
 .chat-message-send-button img {
     width: 80px;

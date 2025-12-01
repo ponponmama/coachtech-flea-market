@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use App\Http\Requests\ProfileRequest;
 use App\Http\Requests\ExhibitionRequest;
 use App\Http\Requests\TransactionMessageRequest;
@@ -14,6 +15,7 @@ use App\Models\User;
 use App\Models\Item;
 use App\Models\TransactionMessage;
 use App\Models\Rating;
+use App\Mail\TransactionCompleteNotification;
 
 class FleamarketController extends Controller
 {
@@ -314,6 +316,12 @@ class FleamarketController extends Controller
         // 購入者: 取引完了ボタンをクリックした時にモーダルを表示
         // 出品者: 購入者が取引を完了した後に、取引チャット画面を開くと自動的にモーダルを表示
         $showRatingModal = false;
+
+        // バリデーションエラーがある場合、モーダルを表示
+        if (session()->has('errors') && session('errors')->has('rating')) {
+            $showRatingModal = true;
+        }
+
         if ($item->buyer_id) {
             // 購入済みの場合
             // 購入者の場合：セッションからshowRatingModalフラグが来た場合のみモーダルを表示（取引完了ボタンをクリックした時）
@@ -639,11 +647,21 @@ class FleamarketController extends Controller
         }
 
         // 取引中の商品の場合、buyer_idを設定して取引を完了する
+        $isNewTransaction = false;
         if (!$item->buyer_id) {
             $item->update([
                 'buyer_id' => $user->id,
                 'sold_at' => now(),
             ]);
+            $item->refresh(); // リレーションを更新
+            $isNewTransaction = true;
+        }
+
+        // FN016: 取引完了時に出品者にメール通知を送信
+        if ($isNewTransaction) {
+            $seller = $item->seller;
+            $buyer = $item->buyer ?? $user;
+            Mail::to($seller->email)->send(new TransactionCompleteNotification($seller, $buyer, $item));
         }
 
         // チャット画面にリダイレクト（評価モーダルを表示）
@@ -656,6 +674,9 @@ class FleamarketController extends Controller
      */
     public function storeRating(RatingRequest $request, $item_id)
     {
+        // バリデーションはRatingRequestで自動的に実行される
+        // バリデーションが失敗した場合、自動的にリダイレクトされる
+
         $user = Auth::user();
         $item = Item::with(['seller', 'buyer'])->findOrFail($item_id);
 

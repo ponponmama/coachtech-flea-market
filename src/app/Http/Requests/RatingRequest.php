@@ -25,7 +25,6 @@ class RatingRequest extends FormRequest
     {
         return [
             'rating' => 'required|integer|min:1|max:5',
-            'comment' => 'nullable|string|max:400',
         ];
     }
 
@@ -39,9 +38,8 @@ class RatingRequest extends FormRequest
         return [
             'rating.required' => '評価を選択してください',
             'rating.integer' => '評価は数値で入力してください',
-            'rating.min' => '評価は1以上で入力してください',
+            'rating.min' => '評価を選択してください',
             'rating.max' => '評価は5以下で入力してください',
-            'comment.max' => 'コメントは400文字以内で入力してください',
         ];
     }
 }

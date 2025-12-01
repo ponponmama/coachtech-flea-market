@@ -15,8 +15,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    // 既存のプレースホルダーを削除
-                    imagePreview.innerHTML = '';
+                    // 既存のプレースホルダーを削除（元のinput要素は保持）
+                    const placeholder = imagePreview.querySelector('.image-placeholder');
+                    if (placeholder) {
+                        placeholder.style.display = 'none';
+                    }
+
+                    // 既存のプレビュー画像を削除
+                    const existingPreview = imagePreview.querySelector('.preview-image');
+                    if (existingPreview) {
+                        existingPreview.remove();
+                    }
 
                     // 画像プレビューを表示
                     const img = document.createElement('img');
@@ -25,21 +34,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     img.className = 'preview-image';
                     imagePreview.appendChild(img);
 
-                    // 隠しinput要素を追加（ファイルデータ保持用）
-                    const hiddenInput = document.createElement('input');
-                    hiddenInput.type = 'file';
-                    hiddenInput.name = 'image';
-                    hiddenInput.id = 'upload-image-hidden';
-                    hiddenInput.className = 'upload-image-input';
-                    hiddenInput.accept = 'image/*';
-                    hiddenInput.style.display = 'none';
-
-                    // 元のファイルデータをコピー
-                    const dataTransfer = new DataTransfer();
-                    dataTransfer.items.add(uploadFileInput.files[0]);
-                    hiddenInput.files = dataTransfer.files;
-
-                    imagePreview.appendChild(hiddenInput);
+                    // 元のinput要素はフォーム内に保持される（ファイルデータは元のinput要素に保持される）
                 };
                 reader.readAsDataURL(file);
             }
@@ -49,6 +44,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // 出品画面の処理
     const sellForm = document.querySelector('.sell-form');
     if (sellForm) {
+
         // 価格入力の処理（数値のみ）
         const priceInput = document.getElementById('price');
         if (priceInput) {

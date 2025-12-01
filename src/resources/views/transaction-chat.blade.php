@@ -90,7 +90,7 @@
                             @if ($message->sender_id === $user->id)
                                 <div class="message-actions">
                                     <button type="button" class="message-edit-button button"
-                                        onclick="editMessage({{ $message->id }}, '{{ addslashes($message->message ?? '') }}', {{ $message->image_path ? "'" . addslashes($message->image_path) . "'" : 'null' }})">編集</button>
+                                        onclick="editMessage({{ $message->id }}, {!! json_encode($message->message ?? '') !!}, {!! json_encode($message->image_path) !!})">編集</button>
                                     <form
                                         action="{{ route('transaction.message.delete', ['message_id' => $message->id]) }}"
                                         method="POST" class="message-delete-form">
@@ -130,8 +130,7 @@
                             <button class="chat-message-image-button button" type="button"
                                 onclick="document.getElementById('chat-image-input').click()">画像を追加</button>
                             <input type="file" name="image" id="chat-image-input" class="chat-image-input">
-                            <span id="selected-image-name"
-                                style="margin-left: 10px; color: rgba(95, 95, 95, 1); font-size: 14px;"></span>
+                            <span id="selected-image-name"></span>
                         </div>
                         <button class="chat-message-send-button button" type="submit">
                             <img src="{{ asset('images/send-button.svg') }}" alt="送信">
@@ -225,8 +224,13 @@
 
         // FN012, FN013: 評価モーダルの表示制御
         // 購入済みの商品のみモーダルを表示（取引中の商品では表示しない）
+        // バリデーションエラーがある場合もモーダルを表示
         @php
             $shouldShowModal = false;
+            // バリデーションエラーがある場合、モーダルを表示
+            if (session()->has('errors') && session('errors')->has('rating')) {
+                $shouldShowModal = true;
+            }
             if ($item->buyer_id) {
                 // 購入済みの商品の場合のみ、モーダルを表示
                 if ((isset($showRatingModal) && $showRatingModal) || session('showRatingModal')) {
@@ -265,16 +269,6 @@
                 }
             });
         }
-
-        // 評価フォーム送信時のバリデーション
-        document.querySelector('.rating-form')?.addEventListener('submit', function(e) {
-            const rating = document.getElementById('rating-input').value;
-            if (!rating || rating === '0') {
-                e.preventDefault();
-                alert('評価を選択してください');
-                return false;
-            }
-        });
     </script>
 
     <!-- 評価モーダル -->
@@ -284,7 +278,7 @@
             <form action="{{ route('transaction.rating.store', ['item_id' => $item->id]) }}" method="POST"
                 class="rating-form">
                 @csrf
-                <input type="hidden" name="rating" id="rating-input" value="{{ old('rating', '0') }}" required>
+                <input type="hidden" name="rating" id="rating-input" value="{{ old('rating', '0') }}">
 
                 <div class="rating-stars">
                     <span class="rating-star" onclick="setRating(1)" data-rating="1">★</span>
@@ -306,17 +300,6 @@
                         });
                     </script>
                 @endif
-
-                <div class="rating-comment">
-                    <label for="rating-comment-input">コメント（任意）</label>
-                    <textarea id="rating-comment-input" name="comment" class="rating-comment-input" placeholder="コメントを入力してください"
-                        maxlength="400">{{ old('comment') }}</textarea>
-                    <p class="form__error">
-                        @error('comment')
-                            {{ $message }}
-                        @enderror
-                    </p>
-                </div>
 
                 <div class="rating-modal-buttons">
                     <button type="button" class="rating-cancel-button button"
