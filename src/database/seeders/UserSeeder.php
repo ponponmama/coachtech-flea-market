@@ -20,11 +20,11 @@ class UserSeeder extends Seeder
         if (!$user1) {
             $user1 = User::factory()->create([
                 'email' => 'test@01.com',
-                'name' => 'CO01~CO05出品ユーザー'
+                'name' => '1-5出品ユーザー'
             ]);
-            $this->command->info('CO01~CO05出品ユーザーを作成しました: test@01.com (ID: ' . $user1->id . ')');
+            $this->command->info('1-5出品ユーザーを作成しました: test@01.com (ID: ' . $user1->id . ')');
         } else {
-            $this->command->info('CO01~CO05出品ユーザーは既に存在します: test@01.com (ID: ' . $user1->id . ')');
+            $this->command->info('1-5出品ユーザーは既に存在します: test@01.com (ID: ' . $user1->id . ')');
         }
 
         // 2. CO06~CO10の商品データを出品したユーザー
@@ -32,11 +32,11 @@ class UserSeeder extends Seeder
         if (!$user2) {
             $user2 = User::factory()->create([
                 'email' => 'test@02.com',
-                'name' => 'CO06~CO10出品ユーザー'
+                'name' => '6-10出品ユーザー'
             ]);
-            $this->command->info('CO06~CO10出品ユーザーを作成しました: test@02.com (ID: ' . $user2->id . ')');
+            $this->command->info('6-10出品ユーザーを作成しました: test@02.com (ID: ' . $user2->id . ')');
         } else {
-            $this->command->info('CO06~CO10出品ユーザーは既に存在します: test@02.com (ID: ' . $user2->id . ')');
+            $this->command->info('6-10出品ユーザーは既に存在します: test@02.com (ID: ' . $user2->id . ')');
         }
 
         // 3. 何も紐づけられていないユーザー
