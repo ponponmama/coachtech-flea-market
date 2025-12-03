@@ -4,11 +4,14 @@
     <link rel="stylesheet" href="{{ asset('css/transaction-chat.css') }}">
 @endsection
 
+@section('js')
+    <script src="{{ asset('js/transaction-chat.js') }}"></script>
+@endsection
+
 @section('content')
     <div class="content-container">
         <div class="title-container">
             <h1 class="content-title">その他の取引</h1>
-            {{-- FN003: 別取引遷移機能 - サイドバーに他の取引中の商品一覧を表示 --}}
             @if (isset($otherTradingItems) && $otherTradingItems->count() > 0)
                 <div class="other-transactions-list">
                     @foreach ($otherTradingItems as $otherItem)
@@ -32,7 +35,6 @@
                 </div>
                 <h2 class="transaction-partner-title">{{ $otherUser->name }} さんとの取引画面</h2>
                 @php
-                    // 購入者の判定（評価済みの場合は完了ボタンを表示しない）
                     $canComplete = false;
                     if (!$hasRating) {
                         if ($item->buyer_id) {
@@ -105,6 +107,10 @@
                     method="POST" enctype="multipart/form-data" class="message-form">
                     @csrf
                     <input type="hidden" name="edit_message_id" id="edit-message-id" value="">
+                    <input type="hidden" id="storage-key" value="transaction-chat-message-{{ $item->id }}">
+                    <input type="hidden" id="should-show-rating-modal"
+                        value="{{ ($showRatingModal ?? false) ? '1' : '0' }}">
+                    <input type="hidden" id="old-rating" value="{{ old('rating', '0') }}">
                     <div class="form-errors">
                         <p class="form__error">
                             @error('message')
@@ -120,7 +126,8 @@
                     <div class="form-inputs-row">
                         <div class="message-input-wrapper">
                             <input type="text" class="chat-message-input" id="message-input" name="message"
-                                placeholder="取引メッセージを記入してください" value="{{ old('message', '') }}">
+                                placeholder="取引メッセージを記入してください" value="{{ old('message', '') }}"
+                                data-has-old-message="{{ old('message') ? 'true' : 'false' }}">
                         </div>
                         <div class="image-input-wrapper">
                             <button class="chat-message-image-button button" type="button"
@@ -129,178 +136,42 @@
                             <span id="selected-image-name"></span>
                         </div>
                         <button class="chat-message-send-button button" type="submit">
-                            <img src="{{ asset('images/send-button.svg') }}" alt="送信">
+                            <img class="chat-message-send-button-image" src="{{ asset('images/send-button.svg') }}"
+                                alt="送信">
                         </button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-
-    <script>
-        // FN009: 入力情報保持機能 - localStorageを使用して入力内容を保持
-        const messageInput = document.getElementById('message-input');
-        const storageKey = 'transaction-chat-message-{{ $item->id }}';
-
-        // ページ読み込み時に保存された値を復元（old()の値がない場合のみ）
-        @if (!old('message'))
-            const savedMessage = localStorage.getItem(storageKey);
-            if (savedMessage) {
-                messageInput.value = savedMessage;
-            }
-        @endif
-
-        // 入力内容をlocalStorageに保存
-        messageInput.addEventListener('input', function() {
-            localStorage.setItem(storageKey, this.value);
-        });
-
-        // フォーム送信時にlocalStorageをクリア
-        document.getElementById('message-form').addEventListener('submit', function() {
-            localStorage.removeItem(storageKey);
-        });
-
-        function editMessage(messageId, messageText, imagePath) {
-            // フォームの送信先を編集用に変更
-            const form = document.getElementById('message-form');
-            // ルートURLを動的に構築
-            form.action = '/transaction-message/' + messageId;
-
-            // メソッドをPUTに変更
-            let methodInput = form.querySelector('input[name="_method"]');
-            if (!methodInput) {
-                methodInput = document.createElement('input');
-                methodInput.type = 'hidden';
-                methodInput.name = '_method';
-                form.appendChild(methodInput);
-            }
-            methodInput.value = 'PUT';
-
-            // メッセージIDを設定
-            document.getElementById('edit-message-id').value = messageId;
-
-            // メッセージ内容をフォームに表示
-            messageInput.value = messageText || '';
-            // localStorageも更新
-            localStorage.setItem(storageKey, messageText || '');
-
-            // 既存の画像がある場合、ファイル名を表示
-            const imageNameSpan = document.getElementById('selected-image-name');
-            const imageInput = document.getElementById('chat-image-input');
-            if (imagePath) {
-                // 画像パスからファイル名を取得
-                const fileName = imagePath.split('/').pop();
-                imageNameSpan.textContent = '現在の画像: ' + fileName;
-                imageNameSpan.style.display = 'inline';
-                // ファイル入力はクリア（新しい画像を選択可能にする）
-                imageInput.value = '';
-            } else {
-                imageNameSpan.textContent = '';
-                imageNameSpan.style.display = 'none';
-            }
-
-            // フォームにスクロール
-            form.scrollIntoView({
-                behavior: 'smooth',
-                block: 'nearest'
-            });
-        }
-
-        // 画像選択時にファイル名を表示
-        document.getElementById('chat-image-input').addEventListener('change', function(e) {
-            const imageNameSpan = document.getElementById('selected-image-name');
-            if (this.files && this.files.length > 0) {
-                imageNameSpan.textContent = '選択中: ' + this.files[0].name;
-                imageNameSpan.style.display = 'inline';
-            } else {
-                imageNameSpan.textContent = '';
-                imageNameSpan.style.display = 'none';
-            }
-        });
-
-        // FN012, FN013: 評価モーダルの表示制御
-        // 購入済みの商品のみモーダルを表示（取引中の商品では表示しない）
-        // バリデーションエラーがある場合もモーダルを表示
-        @php
-            $shouldShowModal = false;
-            // バリデーションエラーがある場合、モーダルを表示
-            if (session()->has('errors') && session('errors')->has('rating')) {
-                $shouldShowModal = true;
-            }
-            if ($item->buyer_id) {
-                // 購入済みの商品の場合のみ、モーダルを表示
-                if ((isset($showRatingModal) && $showRatingModal) || session('showRatingModal')) {
-                    $shouldShowModal = true;
-                }
-            }
-        @endphp
-        @if ($shouldShowModal)
-            document.addEventListener('DOMContentLoaded', function() {
-                document.getElementById('rating-modal').style.display = 'flex';
-            });
-        @endif
-
-        // 評価モーダルを閉じる
-        function closeRatingModal() {
-            document.getElementById('rating-modal').style.display = 'none';
-        }
-
-        // モーダルの外側をクリックした時に閉じる
-        document.addEventListener('click', function(event) {
-            const modal = document.getElementById('rating-modal');
-            if (event.target === modal) {
-                closeRatingModal();
-            }
-        });
-
-        // 星評価の設定
-        function setRating(rating) {
-            document.getElementById('rating-input').value = rating;
-            const stars = document.querySelectorAll('.rating-star');
-            stars.forEach((star, index) => {
-                if (index < rating) {
-                    star.classList.add('active');
-                } else {
-                    star.classList.remove('active');
-                }
-            });
-        }
-    </script>
-
     <!-- 評価モーダル -->
     <div id="rating-modal" class="rating-modal" style="display: none;">
         <div class="rating-modal-content">
-            <h2 class="rating-modal-title">{{ $otherUser->name }} さんを評価してください</h2>
+            <p class="rating-modal-title">取引が完了しました<span class="rating-modal-title-dot">。</span></p>
+            <p class="rating-modal-line-top"></p>
+            <p class="rating-modal-subtitle">今回の取引相手はどうでしたか？</p>
             <form action="{{ route('transaction.rating.store', ['item_id' => $item->id]) }}" method="POST"
                 class="rating-form">
                 @csrf
                 <input type="hidden" name="rating" id="rating-input" value="{{ old('rating', '0') }}">
 
                 <div class="rating-stars">
-                    <span class="rating-star" onclick="setRating(1)" data-rating="1">★</span>
-                    <span class="rating-star" onclick="setRating(2)" data-rating="2">★</span>
-                    <span class="rating-star" onclick="setRating(3)" data-rating="3">★</span>
-                    <span class="rating-star" onclick="setRating(4)" data-rating="4">★</span>
-                    <span class="rating-star" onclick="setRating(5)" data-rating="5">★</span>
+                    <span class="rating-star" onclick="setRating(1)" data-rating="1"></span>
+                    <span class="rating-star" onclick="setRating(2)" data-rating="2"></span>
+                    <span class="rating-star" onclick="setRating(3)" data-rating="3"></span>
+                    <span class="rating-star" onclick="setRating(4)" data-rating="4"></span>
+                    <span class="rating-star" onclick="setRating(5)" data-rating="5"></span>
                 </div>
-                <p class="form__error">
-                    @error('rating')
+                <p class="rating-modal-line-bottom"></p>
+                @error('rating')
+                    <p class="form__error">
                         {{ $message }}
-                    @enderror
-                </p>
+                    </p>
+                @enderror
 
-                @if (old('rating'))
-                    <script>
-                        document.addEventListener('DOMContentLoaded', function() {
-                            setRating({{ old('rating') }});
-                        });
-                    </script>
-                @endif
 
                 <div class="rating-modal-buttons">
-                    <button type="button" class="rating-cancel-button button"
-                        onclick="closeRatingModal()">キャンセル</button>
-                    <button type="submit" class="rating-submit-button button">評価を送信</button>
+                    <button type="submit" class="rating-submit-button button">送信する</button>
                 </div>
             </form>
         </div>
