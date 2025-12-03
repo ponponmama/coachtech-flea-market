@@ -8,7 +8,16 @@ document.addEventListener('DOMContentLoaded', function() {
         const valueDisplay = customSelect.querySelector('.custom-select-value');
 
         // 隠しinputを取得（セレクトボックスの近くにあるinput要素を探す）
-        const hiddenInput = customSelect.parentElement.querySelector('input[type="hidden"], input[type="text"].hidden-input');
+        // まずid="payment_method"を探し、なければ親要素内の最初のhidden inputを探す
+        let hiddenInput = customSelect.parentElement.querySelector('#payment_method');
+        if (!hiddenInput) {
+            hiddenInput = customSelect.parentElement.querySelector('input[type="hidden"][name="payment_method"]');
+        }
+        if (!hiddenInput) {
+            hiddenInput = customSelect.parentElement.querySelector('input[type="hidden"], input[type="text"].hidden-input');
+        }
+
+        console.log('カスタムセレクト - 隠しinput:', hiddenInput);
 
         // セレクトボックスを開閉
         trigger.addEventListener('click', function(e) {
@@ -56,11 +65,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 // 隠しinputの値を更新
                 if (hiddenInput) {
-                    hiddenInput.value = this.getAttribute('data-value');
+                    const selectedValue = this.getAttribute('data-value');
+                    hiddenInput.value = selectedValue;
+                    console.log('カスタムセレクト - 値を設定:', selectedValue, 'hiddenInput.value:', hiddenInput.value);
 
                     // changeイベントを手動で発火
                     const changeEvent = new Event('change', { bubbles: true });
                     hiddenInput.dispatchEvent(changeEvent);
+                    console.log('カスタムセレクト - changeイベント発火');
+                } else {
+                    console.error('カスタムセレクト - 隠しinputが見つかりません');
                 }
 
                 // 0.5秒後にセレクトボックスを閉じる

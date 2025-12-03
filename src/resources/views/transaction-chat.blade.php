@@ -36,12 +36,8 @@
                     $canComplete = false;
                     if (!$hasRating) {
                         if ($item->buyer_id) {
-                            // 購入済みの場合：buyer_idで判定（購入者のみがボタンを表示できる）
-                            // ただし、決済処理済みの場合は取引完了ボタンは不要（評価モーダルを表示）
-                            $canComplete = false; // 決済処理済みの場合は取引完了ボタンは表示しない
+                            $canComplete = $user->id === $item->buyer_id;
                         } else {
-                            // 取引中の場合：出品者ではないユーザーが購入希望者として扱える
-                            // つまり、購入者側の取引でも、現在のユーザーが出品者でなければ購入希望者として扱える
                             $canComplete = $user->id !== $item->seller_id;
                         }
                     }

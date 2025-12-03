@@ -138,7 +138,7 @@
                 @if (!is_null($item->buyer_id))
                     <button type="button" class="purchase-button sold-button" disabled>SOLD OUT</button>
                 @else
-                    <div id="purchase_button" class="purchase-button">購入する</div>
+                    <button type="button" id="purchase_button" class="purchase-button button">購入する</button>
                 @endif
             </div>
         </form>

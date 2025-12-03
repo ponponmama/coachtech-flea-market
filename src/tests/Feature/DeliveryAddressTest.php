@@ -133,7 +133,7 @@ class DeliveryAddressTest extends TestCase
         // Stripeをモックしてテスト環境で動作するようにする
         $this->mockStripe();
 
-        $purchaseResponse = $this->post("/create-payment-session", array_merge($purchaseData, ['item_id' => $item->id]));
+        $purchaseResponse = $this->postJson("/create-payment-session", array_merge($purchaseData, ['item_id' => $item->id]));
         $purchaseResponse->assertStatus(200);
         $purchaseResponse->assertJsonStructure(['session_url', 'session_id']);
 

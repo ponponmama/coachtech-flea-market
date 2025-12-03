@@ -23,7 +23,8 @@
             {{-- 認証関連ページ以外では検索フォームを表示 --}}
             <div class="header-search">
                 <form class="search-form" action="{{ route('top') }}" method="GET">
-                    <input type="text" class="search-input" placeholder="なにをお探しですか?" name="search" value="{{ request('search') }}">
+                    <input type="text" class="search-input" placeholder="なにをお探しですか?" name="search"
+                        value="{{ request('search') }}">
                 </form>
             </div>
             {{-- ナビゲーションメニュー --}}
@@ -44,7 +45,8 @@
                     {{-- マイページボタン（常に表示） --}}
                     <li class="header-nav__item">
                         @auth
-                            <a href="{{ route('mypage') }}" class="header-nav__link link">マイページ</a>
+                            <a href="{{ route('mypage', request('search') ? ['search' => request('search')] : []) }}"
+                                class="header-nav__link link">マイページ</a>
                         @else
                             <a href="{{ route('login') }}" class="header-nav__link link">マイページ</a>
                         @endauth

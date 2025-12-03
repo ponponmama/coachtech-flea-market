@@ -24,6 +24,7 @@ class PurchaseRequest extends FormRequest
         return [
             'payment_method' => 'required|in:convenience,credit',
             'shipping_address' => 'required',
+            'item_id' => 'required|integer|exists:items,id',
         ];
     }
 

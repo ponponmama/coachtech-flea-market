@@ -10,7 +10,8 @@
         <div class="profile-image-section">
             <div class="profile-image-placeholder">
                 @if ($user->profile && $user->profile->profile_image_path)
-                    <img src="{{ asset('storage/' . $user->profile->profile_image_path) }}" alt="プロフィール画像" class="profile-image-holder">
+                    <img src="{{ asset('storage/' . $user->profile->profile_image_path) }}" alt="プロフィール画像"
+                        class="profile-image-holder">
                 @endif
             </div>
             <div class="user-info">
@@ -33,15 +34,15 @@
         <nav class="nav-tabs">
             <ul class="nav-tabs__list">
                 <li class="nav-tabs__item {{ $page !== 'buy' && $page !== 'trading' ? 'nav-tabs__item--active' : '' }}">
-                    <a href="{{ route('mypage', ['page' => 'sell']) }}"
+                    <a href="{{ route('mypage', array_merge(['page' => 'sell'], $search ? ['search' => $search] : [])) }}"
                         class="nav-tabs__link {{ $page !== 'buy' && $page !== 'trading' ? 'nav-tabs__link--active' : '' }}">出品した商品</a>
                 </li>
                 <li class="nav-tabs__item {{ $page === 'buy' ? 'nav-tabs__item--active' : '' }}">
-                    <a href="{{ route('mypage', ['page' => 'buy']) }}"
+                    <a href="{{ route('mypage', array_merge(['page' => 'buy'], $search ? ['search' => $search] : [])) }}"
                         class="nav-tabs__link {{ $page === 'buy' ? 'nav-tabs__link--active' : '' }}">購入した商品</a>
                 </li>
                 <li class="nav-tabs__item {{ $page === 'trading' ? 'nav-tabs__item--active' : '' }}">
-                    <a href="{{ route('mypage', ['page' => 'trading']) }}"
+                    <a href="{{ route('mypage', array_merge(['page' => 'trading'], $search ? ['search' => $search] : [])) }}"
                         class="nav-tabs__link {{ $page === 'trading' ? 'nav-tabs__link--active' : '' }}">
                         取引中の商品
                     </a>

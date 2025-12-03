@@ -9,6 +9,7 @@ use Stripe\Stripe;
 use Stripe\Checkout\Session;
 use App\Models\Item;
 use App\Models\Purchase;
+use App\Http\Requests\PurchaseRequest;
 
 class PaymentController extends Controller
 {
@@ -21,20 +22,20 @@ class PaymentController extends Controller
     /**
      * Stripe決済セッションを作成
      */
-    public function createPaymentSession(Request $request)
+    public function createPaymentSession(PurchaseRequest $request)
     {
         try {
             // 認証チェック
             if (!Auth::check()) {
-                return response()->json(['error' => 'ログインが必要です'], 401);
+                // JSONリクエストの場合はJSONで返す
+                if ($request->wantsJson() || $request->expectsJson()) {
+                    return response()->json(['error' => 'ログインが必要です'], 401);
+                }
+                // 通常のリクエストの場合はログインページにリダイレクト
+                return redirect()->route('login');
             }
 
-            // バリデーション
-            $request->validate([
-                'payment_method' => 'required|string|in:convenience,credit',
-                'item_id' => 'required|integer|exists:items,id'
-            ]);
-
+            // バリデーションはPurchaseRequestで自動実行される
             $item = Item::findOrFail($request->item_id);
             $user = Auth::user();
 
@@ -77,16 +78,30 @@ class PaymentController extends Controller
 
             $session = Session::create($sessionParams);
 
-            return response()->json([
-                'session_url' => $session->url,
-                'session_id' => $session->id,
-            ]);
+            // JSONリクエストの場合はJSONで返す
+            if ($request->wantsJson() || $request->expectsJson()) {
+                return response()->json([
+                    'session_url' => $session->url,
+                    'session_id' => $session->id,
+                ]);
+            }
+
+            // 通常のフォーム送信の場合はStripe決済画面にリダイレクト
+            return redirect($session->url);
 
         } catch (\Exception $e) {
-            return response()->json([
-                'error' => '決済セッションの作成に失敗しました。',
-                'details' => $e->getMessage()
-            ], 500);
+            // JSONリクエストの場合はJSONでエラーを返す
+            if ($request->wantsJson() || $request->expectsJson()) {
+                return response()->json([
+                    'error' => '決済セッションの作成に失敗しました。',
+                    'details' => $e->getMessage()
+                ], 500);
+            }
+
+            // 通常のリクエストの場合はエラーメッセージと共にリダイレクト
+            return redirect()->back()
+                ->withInput()
+                ->withErrors(['error' => '決済セッションの作成に失敗しました。']);
         }
     }
 

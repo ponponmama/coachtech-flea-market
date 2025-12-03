@@ -29,7 +29,7 @@ class ItemSeeder extends Seeder
             [
                 'name' => '腕時計',
                 'price' => 15000,
-                'brand' => null, // 要件にはbrandの記載なし
+                'brand' => 'Rolax',
                 'description' => 'スタイリッシュなデザインのメンズ腕時計',
                 'image_path' => 'product-images/watch_1.jpg',
                 'condition' => '良好',
@@ -38,7 +38,7 @@ class ItemSeeder extends Seeder
             [
                 'name' => 'HDD',
                 'price' => 5000,
-                'brand' => null, // 要件にはbrandの記載なし
+                'brand' => '西芝',
                 'description' => '高速で信頼性の高いハードディスク',
                 'image_path' => 'product-images/hdd_2.jpg',
                 'condition' => '目立った傷や汚れなし',
@@ -102,7 +102,7 @@ class ItemSeeder extends Seeder
             [
                 'name' => 'コーヒーミル',
                 'price' => 4000,
-                'brand' => null, // 要件にはbrandの記載なし
+                'brand' => 'Starbacks',
                 'description' => '手動のコーヒーミル',
                 'image_path' => 'product-images/coffee_grinder_9.jpg',
                 'condition' => '良好',
@@ -142,9 +142,11 @@ class ItemSeeder extends Seeder
         $this->command->info('  - CO01~CO05: test@01.comが出品');
         $this->command->info('  - CO06~CO10: test@02.comが出品');
 
+        // 要件通りに10件のみ作成するため、以下のテスト用商品作成はコメントアウト
         // Factoryを使ってテスト用の商品を追加作成
         // 出品者: test@01.com (ID: 1)
         // 購入者: test@02.com (ID: 2)
+        /*
         $seller01 = User::where('email', 'test@01.com')->first(); // 出品者
         $buyer02 = User::where('email', 'test@02.com')->first(); // 購入者
 
@@ -211,6 +213,7 @@ class ItemSeeder extends Seeder
         } else {
             $this->command->warn('test@01.com または test@02.com のユーザーが見つかりません。');
         }
+        */
 
         $this->command->info(count($itemsData) . '件のアイテムを作成しました。');
     }

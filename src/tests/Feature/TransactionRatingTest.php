@@ -270,5 +270,80 @@ class TransactionRatingTest extends TestCase
             'rater_id' => $otherUser->id,
         ]);
     }
+
+    /**
+     * テスト項目: 決済処理が完了した後でも、購入者がまだ評価していない場合は取引完了ボタンが表示される
+     * ID: FN012
+     *
+     * テストシナリオ:
+     * 1. 購入者としてログインする
+     * 2. 決済処理が完了した商品（buyer_idが設定されている）の取引チャット画面を開く
+     * 3. まだ評価していない場合
+     *
+     * 期待結果: 取引完了ボタンが表示される
+     */
+    public function test_complete_button_displayed_for_purchased_item_without_rating()
+    {
+        /** @var User $buyer */
+        $buyer = User::factory()->create();
+        $seller = User::factory()->create();
+
+        // 決済処理が完了した商品（buyer_idが設定されている）
+        $item = Item::factory()->create([
+            'seller_id' => $seller->id,
+            'buyer_id' => $buyer->id,
+            'sold_at' => now(),
+        ]);
+
+        $this->actingAs($buyer);
+
+        // 取引チャット画面を開く
+        $response = $this->get("/transaction-chat/{$item->id}");
+
+        $response->assertStatus(200);
+        // 取引完了ボタンが表示されることを確認
+        $response->assertSee('取引を完了する');
+    }
+
+    /**
+     * テスト項目: 出品者は取引完了ボタンが表示されない
+     * ID: FN012
+     *
+     * テストシナリオ:
+     * 1. 出品者としてログインする
+     * 2. 取引中の商品の取引チャット画面を開く
+     *
+     * 期待結果: 取引完了ボタンが表示されない
+     */
+    public function test_seller_cannot_see_complete_button()
+    {
+        /** @var User $seller */
+        $seller = User::factory()->create();
+        $buyer = User::factory()->create();
+
+        // 取引中の商品
+        $item = Item::factory()->create([
+            'seller_id' => $seller->id,
+            'buyer_id' => null,
+        ]);
+
+        // 取引メッセージを作成
+        TransactionMessage::create([
+            'item_id' => $item->id,
+            'sender_id' => $buyer->id,
+            'receiver_id' => $seller->id,
+            'message' => 'テストメッセージ',
+            'is_read' => false,
+        ]);
+
+        $this->actingAs($seller);
+
+        // 取引チャット画面を開く
+        $response = $this->get("/transaction-chat/{$item->id}");
+
+        $response->assertStatus(200);
+        // 取引完了ボタンが表示されないことを確認
+        $response->assertDontSee('取引を完了する');
+    }
 }
 

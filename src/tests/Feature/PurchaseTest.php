@@ -73,7 +73,7 @@ class PurchaseTest extends TestCase
         // Stripeをモックしてテスト環境で動作するようにする
         $this->mockStripe($item->id, $user->id);
 
-        $response = $this->post("/create-payment-session", [
+        $response = $this->postJson("/create-payment-session", [
             'item_id' => $item->id,
             'payment_method' => 'credit',
             'shipping_address' => 'テスト住所'
@@ -126,7 +126,7 @@ class PurchaseTest extends TestCase
         $this->mockStripe($item->id, $user->id);
 
         // 購入処理
-        $response = $this->post("/create-payment-session", [
+        $response = $this->postJson("/create-payment-session", [
             'item_id' => $item->id,
             'payment_method' => 'credit',
             'shipping_address' => 'テスト住所'
@@ -179,7 +179,7 @@ class PurchaseTest extends TestCase
         $this->mockStripe($item->id, $user->id);
 
         // 購入処理
-        $response = $this->post("/create-payment-session", [
+        $response = $this->postJson("/create-payment-session", [
             'item_id' => $item->id,
             'payment_method' => 'credit',
             'shipping_address' => 'テスト住所'

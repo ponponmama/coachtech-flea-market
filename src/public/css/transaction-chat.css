@@ -2,6 +2,7 @@
     flex-direction: row;
 }
 
+/*画面左側のその他の取引一覧 */
 .title-container {
     width: 259px;
     height: 902px;
@@ -15,6 +16,7 @@
 
 }
 
+/* その他の取引タイトル */
 .content-title {
     width: 195px;
     height: 36px;
@@ -32,36 +34,19 @@
     margin-bottom: 56px;
 }
 
-/* FN003: 別取引遷移機能 - サイドバーの他の取引一覧 */
+/* その他の取引一覧 (内容) */
 .other-transactions-list {
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 20px;
-    padding: 0 10px;
 }
 
 .other-transaction-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-decoration: none;
+    text-align: center;
     background-color: rgba(238, 239, 235, 1);
     color: rgba(0, 0, 0, 1);
     border-radius: 5px;
-}
-
-.other-transaction-item:nth-child(even) {
-    margin-top: 43px;
-}
-
-.other-transaction-item:nth-child(odd):not(:first-child) {
-    margin-top: 46px;
-}
-
-.other-transaction-item:hover {
-    background-color: rgba(100, 100, 100, 1);
 }
 
 .other-transaction-name,
@@ -74,6 +59,19 @@
     text-align: center;
 }
 
+.other-transaction-item:nth-child(even) {
+    margin-top: 43px;
+}
+
+.other-transaction-item:nth-child(odd):not(:first-child) {
+    margin-top: 46px;
+}
+
+.other-transaction-item:hover {
+    background-color: #646464;
+}
+
+/* 画面右側の取引情報エリア */
 .information-container {
     width: calc(100% - 259px);
     display: flex;
@@ -85,7 +83,6 @@
 .profile-image-section {
     display: flex;
     align-items: center;
-    gap: 10px;
     padding-left: 37px;
 }
 
@@ -98,6 +95,7 @@
     align-items: center;
     justify-content: center;
     overflow: hidden;
+    margin: 13px;
 }
 
 .profile-image-holder {
@@ -112,10 +110,12 @@
     width: 794px;
     height: 65px;
     font-size: 36px;
+    line-height: 36px;
     color: rgba(0, 0, 0, 1);
-    font-weight: 700;
     text-align: left;
-    margin-left: 14px;
+    padding: 0 10px;
+    display: flex;
+    align-items: flex-start;
 }
 
 .transaction-complete-button {
@@ -129,7 +129,7 @@
     font-size: 20px;
     font-weight: 700;
     text-align: center;
-    margin-right: 41px;
+    margin-left: 117px;
 }
 
 .transaction-image-section {

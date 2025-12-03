@@ -42,10 +42,13 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // 購入ボタンのクリックイベント
-    purchaseButton.addEventListener('click', function() {
+    purchaseButton.addEventListener('click', function(event) {
+        event.preventDefault(); // フォームのデフォルト送信を防ぐ
         console.log('購入ボタンがクリックされました');
         const selectedPaymentMethod = paymentMethodSelect.value;
         console.log('選択された支払い方法:', selectedPaymentMethod);
+        console.log('paymentMethodSelect要素:', paymentMethodSelect);
+        console.log('paymentMethodSelect.value:', paymentMethodSelect.value);
 
         // バリデーションチェック
         if (!selectedPaymentMethod) {
@@ -65,9 +68,14 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             // Stripe決済セッション作成のAPIコール
+            // フォームからshipping_addressを取得
+            const shippingAddressInput = document.querySelector('input[name="shipping_address"]');
+            const shippingAddress = shippingAddressInput ? shippingAddressInput.value : '';
+
             const requestData = {
                 payment_method: selectedPaymentMethod,
-                item_id: itemId
+                item_id: itemId,
+                shipping_address: shippingAddress
             };
 
             console.log('送信データ:', requestData);
@@ -82,6 +90,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Accept': 'application/json',
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                 },
                 body: JSON.stringify(requestData)
@@ -89,13 +98,39 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log('fetch完了:', fetchPromise);
 
             fetchPromise
-            .then(response => response.json())
+            .then(response => {
+                // バリデーションエラーの場合（422）
+                if (response.status === 422) {
+                    return response.json().then(errors => {
+                        // エラーメッセージを表示
+                        let errorMessages = [];
+                        if (errors.errors) {
+                            Object.keys(errors.errors).forEach(key => {
+                                errorMessages.push(errors.errors[key][0]);
+                            });
+                        } else if (errors.message) {
+                            errorMessages.push(errors.message);
+                        }
+                        alert('入力内容に誤りがあります:\n' + errorMessages.join('\n'));
+                        return null;
+                    });
+                }
+
+                // その他のエラーの場合
+                if (!response.ok) {
+                    return response.json().then(data => {
+                        alert('決済セッションの作成に失敗しました: ' + (data.error || 'エラーが発生しました'));
+                        return null;
+                    });
+                }
+
+                // 成功の場合
+                return response.json();
+            })
             .then(data => {
-                if (data.session_url) {
+                if (data && data.session_url) {
                     // Stripe決済画面にリダイレクト
                     window.location.href = data.session_url;
-                } else if (data.error) {
-                    alert('決済セッションの作成に失敗しました: ' + data.error);
                 }
             })
             .catch(error => {

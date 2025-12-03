@@ -104,16 +104,19 @@ class FleamarketController extends Controller
     {
         $user = Auth::user();
         $page = $request->query('page');
+        $search = $request->query('search');
 
         // プロフィール情報を取得（存在しない場合はnull）
         $profile = $user->profile;
 
-        // 取引中の商品数（出品した商品で、まだ売れていないもの または 取引メッセージが存在する商品）
+        // 取引中の商品数（出品した商品で、まだ売れていないもの または 購入した商品 または 取引メッセージが存在する商品）
         // ただし、両方が評価した商品は除外する
         // 決済処理が完了していても、評価が完了していない場合は取引中として扱う
         $tradingItemsForCount = Item::where(function ($query) use ($user) {
                 // 出品者が自分の商品
                 $query->where('seller_id', $user->id)
+                    // または、購入した商品（buyer_idが自分のID）
+                    ->orWhere('buyer_id', $user->id)
                     // または、取引メッセージが存在する商品（購入者も見られるように）
                     ->orWhereHas('transactionMessages', function ($q) use ($user) {
                         $q->where(function ($subQuery) use ($user) {
@@ -152,13 +155,11 @@ class FleamarketController extends Controller
             $tradingItems = collect();
         } elseif ($page === 'trading') {
             // 取引中の商品一覧
-            // FN004: 取引自動ソート機能 - 新規メッセージが来た順に表示
-            // 出品者が自分で、まだ売れていない商品 または 取引メッセージが存在する商品（購入者も見られるように）
-            // ただし、両方が評価した商品は除外する
-            // 決済処理が完了していても、評価が完了していない場合は取引中として扱う
             $tradingItems = Item::where(function ($query) use ($user) {
                     // 出品者が自分の商品
                     $query->where('seller_id', $user->id)
+                        // または、購入した商品（buyer_idが自分のID）
+                        ->orWhere('buyer_id', $user->id)
                         // または、取引メッセージが存在する商品（購入者も見られるように）
                         ->orWhereHas('transactionMessages', function ($q) use ($user) {
                             $q->where(function ($subQuery) use ($user) {
@@ -226,7 +227,7 @@ class FleamarketController extends Controller
             $rating = round($averageRating);
         }
 
-        return view('mypage', compact('user', 'profile', 'soldItems', 'purchasedItems', 'tradingItems', 'tradingCount', 'page', 'rating'));
+        return view('mypage', compact('user', 'profile', 'soldItems', 'purchasedItems', 'tradingItems', 'tradingCount', 'page', 'rating', 'search'));
     }
 
     /**

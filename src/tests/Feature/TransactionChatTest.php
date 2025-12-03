@@ -381,4 +381,87 @@ class TransactionChatTest extends TestCase
         // 通知バッジに5が表示されることを確認
         $response->assertSee('5', false);
     }
+
+    /**
+     * テスト項目: 購入した商品（buyer_idが設定されている）も取引中の商品に含まれる
+     * ID: FN001
+     *
+     * テストシナリオ:
+     * 1. ユーザーにログインする
+     * 2. 購入した商品（buyer_idが設定されている）を作成する
+     * 3. マイページの「取引中」タブを開く
+     *
+     * 期待結果: 購入した商品が取引中の商品一覧に表示される
+     */
+    public function test_purchased_items_included_in_trading_items()
+    {
+        /** @var User $user */
+        $user = User::factory()->create();
+        $seller = User::factory()->create();
+
+        // 購入した商品を作成（buyer_idが設定されている）
+        $purchasedItem = Item::factory()->create([
+            'seller_id' => $seller->id,
+            'buyer_id' => $user->id,
+            'sold_at' => now(),
+            'name' => '購入した商品',
+        ]);
+
+        $this->actingAs($user);
+
+        $response = $this->get('/mypage?page=trading');
+
+        $response->assertStatus(200);
+        $response->assertSee($purchasedItem->name);
+    }
+
+    /**
+     * テスト項目: 購入した商品で両方が評価した場合は取引中の商品から除外される
+     * ID: FN001
+     *
+     * テストシナリオ:
+     * 1. ユーザーにログインする
+     * 2. 購入した商品を作成する
+     * 3. 出品者と購入者の両方が評価する
+     * 4. マイページの「取引中」タブを開く
+     *
+     * 期待結果: 評価が完了した商品は取引中の商品一覧に表示されない
+     */
+    public function test_completed_ratings_excluded_from_trading_items()
+    {
+        /** @var User $user */
+        $user = User::factory()->create();
+        $seller = User::factory()->create();
+
+        // 購入した商品を作成
+        $purchasedItem = Item::factory()->create([
+            'seller_id' => $seller->id,
+            'buyer_id' => $user->id,
+            'sold_at' => now(),
+            'name' => '評価完了した商品',
+        ]);
+
+        // 両方が評価した場合
+        \App\Models\Rating::create([
+            'item_id' => $purchasedItem->id,
+            'rater_id' => $user->id,
+            'rated_user_id' => $seller->id,
+            'rating' => 5,
+        ]);
+
+        \App\Models\Rating::create([
+            'item_id' => $purchasedItem->id,
+            'rater_id' => $seller->id,
+            'rated_user_id' => $user->id,
+            'rating' => 4,
+        ]);
+
+        $this->actingAs($user);
+
+        $response = $this->get('/mypage?page=trading');
+
+        $response->assertStatus(200);
+        // 評価が完了した商品は取引中の商品一覧に表示されない
+        $response->assertDontSee($purchasedItem->name);
+    }
 }
