@@ -111,18 +111,16 @@
                     <input type="hidden" id="should-show-rating-modal"
                         value="{{ ($showRatingModal ?? false) ? '1' : '0' }}">
                     <input type="hidden" id="old-rating" value="{{ old('rating', '0') }}">
-                    <div class="form-errors">
-                        <p class="form__error">
-                            @error('message')
-                                {{ $message }}
-                            @enderror
-                        </p>
-                        <p class="form__error">
-                            @error('image')
-                                {{ $message }}
-                            @enderror
-                        </p>
-                    </div>
+                    <p class="form__error">
+                        @error('message')
+                            {{ $message }}
+                        @enderror
+                    </p>
+                    <p class="form__error">
+                        @error('image')
+                            {{ $message }}
+                        @enderror
+                    </p>
                     <div class="form-inputs-row">
                         <div class="message-input-wrapper">
                             <input type="text" class="chat-message-input" id="message-input" name="message"

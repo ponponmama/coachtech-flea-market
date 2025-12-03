@@ -418,6 +418,7 @@
     border: 1px solid rgba(0, 0, 0, 1);
     border-radius: 15px;
     width: 598px;
+    height: 367px;
     max-width: 90%;
     max-height: 90%;
     overflow-y: auto;
@@ -516,14 +517,60 @@
     margin-left: 20px;
 }
 
-@media screen and (max-width: 768px) {
-    
+@media screen and (min-width:540px) and (max-width: 1280px) {
+    .content-container {
+        flex-direction: column;
+    }
+
+    .title-container {
+        width: 100%;
+        height: auto;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .content-title {
+        width: 60%;
+        margin: 10px auto;
+    }
+
+    .other-transactions-list {
+        width: 80%;
+        height: auto;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .other-transaction-item,
+    .other-transaction-item:nth-child(even),
+    .other-transaction-item:nth-child(odd):not(:first-child) {
+        margin: 10px;
+    }
+
+    .information-container {
+        width: 100%;
+    }
+
+    .profile-image-section {
+        width: 100%;
+        margin: 0 auto;
+        padding: 0;
+        justify-content: center;
+    }
+
+    .transaction-partner-title {
+        width: 70%;
+        font-size: 30px;
+        line-height: 30px;
+        margin: 10px 0;
+        align-items: center;
+    }
+
+    .message-area {
+        height: 40vh;
+        padding: 50px;
+    }
 }
-
-
-
-
-
-
-
-
