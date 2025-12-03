@@ -4,15 +4,8 @@
 
 
 .profile-image-section {
-    width: 100%;
-    height: 150px;
-    display: flex;
-    align-items: flex-start;
-    justify-content: flex-start;
-}
-
-.profile-image-container {
     width: 1017px;
+    height: 100%;
     display: flex;
     align-items: center;
     margin: 0 196px 0 299px;
@@ -32,12 +25,11 @@
     width: 100%;
     height: 100%;
     object-fit: contain;
-    object-position: center;
     border-radius: 50%;
 }
 
 .user-info {
-    width: 400px;
+    width: 377px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -168,7 +160,7 @@
 .nav-tabs-border-line {
     width: 100%;
     border: 2px solid rgba(95, 95, 95, 1);
-    margin-bottom: 59px;
+    margin-bottom: 72px;
     transform: rotate(0.08deg);
     transform-origin: center center;
 }
@@ -178,13 +170,13 @@
     width: 100%;
     display: flex;
     justify-content: flex-start;
+    padding: 0 223px 0 180px;
 }
 
 .product-grid {
     display: flex;
     flex-direction: row;
-    gap: 103px;
-    padding-left: 180px;
+    gap: 111px 103px;
     flex-wrap: wrap;
 }
 

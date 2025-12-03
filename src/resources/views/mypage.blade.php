@@ -8,31 +8,27 @@
 @section('content')
     <div class="content-container">
         <div class="profile-image-section">
-            <div class="profile-image-container">
-                <div class="profile-image-placeholder">
-                    @if ($user->profile && $user->profile->profile_image_path)
-                        <img src="{{ asset('storage/' . $user->profile->profile_image_path) }}" alt="プロフィール画像"
-                            class="profile-image-holder">
-                    @endif
-                </div>
-                <div class="user-info">
-                    <span class="user-name">{{ $user->name }}</span>
-                    <div class="user-star-rating">
-                        @php
-                            $rating = $rating ?? 0; // コントローラーから渡された評価値（0-5）
-                            // 評価がない場合は表示しない（$ratingが0の場合は何も表示しない）
-                        @endphp
-                        @if ($rating > 0)
+            <div class="profile-image-placeholder">
+                @if ($user->profile && $user->profile->profile_image_path)
+                    <img src="{{ asset('storage/' . $user->profile->profile_image_path) }}" alt="プロフィール画像" class="profile-image-holder">
+                @endif
+            </div>
+            <div class="user-info">
+                <span class="user-name">{{ $user->name }}</span>
+                <div class="user-star-rating">
+                    @php
+                        $rating = $rating ?? 0;
+                    @endphp
+                    @if ($rating > 0)
                         @for ($i = 1; $i <= 5; $i++)
                             <span class="user-star-icon {{ $i <= $rating ? 'has-rating' : '' }}">
                                 <img src="{{ asset('images/star.svg') }}" alt="star">
                             </span>
                         @endfor
-                        @endif
-                    </div>
+                    @endif
                 </div>
-                <a href="{{ route('mypage.profile') }}" class="profile-edit-button button">プロフィールを編集</a>
             </div>
+            <a href="{{ route('mypage.profile') }}" class="profile-edit-button button">プロフィールを編集</a>
         </div>
         <nav class="nav-tabs">
             <ul class="nav-tabs__list">
