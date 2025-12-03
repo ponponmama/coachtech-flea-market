@@ -39,6 +39,12 @@ class PaymentController extends Controller
             $item = Item::findOrFail($request->item_id);
             $user = Auth::user();
 
+            // 画像URLを生成（image_pathから完全なURLを作成）
+            $imageUrl = null;
+            if ($item->image_path) {
+                $imageUrl = asset('storage/' . $item->image_path);
+            }
+
             // 決済セッションの設定
             $sessionParams = [
                 'payment_method_types' => $request->payment_method === 'convenience'
@@ -50,7 +56,7 @@ class PaymentController extends Controller
                         'product_data' => [
                             'name' => $item->name,
                             'description' => $item->description,
-                            'images' => $item->image_url ? [$item->image_url] : [],
+                            'images' => $imageUrl ? [$imageUrl] : [],
                         ],
                         'unit_amount' => $item->price,
                     ],
