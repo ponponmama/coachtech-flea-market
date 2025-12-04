@@ -27,6 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // フォーム送信時にlocalStorageをクリア
     messageForm.addEventListener('submit', function() {
         localStorage.removeItem(storageKey);
+        // フォーム送信時はリセットしない（リダイレクト後にページが再読み込みされるため）
     });
 
     // 画像選択時にファイル名を表示
@@ -45,17 +46,37 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
+// 編集ボタンのクリックイベントを設定
+document.addEventListener('DOMContentLoaded', function() {
+    const editButtons = document.querySelectorAll('.message-edit-button');
+    editButtons.forEach(function(button) {
+        button.addEventListener('click', function() {
+            const messageId = this.dataset.messageId;
+            const messageText = this.dataset.messageText || '';
+            const imagePath = this.dataset.imagePath || '';
+            editMessage(messageId, messageText, imagePath);
+        });
+    });
+});
+
 function editMessage(messageId, messageText, imagePath) {
     // フォームの送信先を編集用に変更
     const form = document.getElementById('message-form');
     const storageKeyElement = document.getElementById('storage-key');
 
     if (!form || !storageKeyElement) {
+        console.error('フォームまたはstorage-key要素が見つかりません');
         return;
+    }
+
+    // 元のaction URLを保存（初回のみ）
+    if (!form.dataset.originalAction) {
+        form.dataset.originalAction = form.action;
     }
 
     // ルートURLを動的に構築
     form.action = '/transaction-message/' + messageId;
+    console.log('編集モード: action =', form.action);
 
     // メソッドをPUTに変更
     let methodInput = form.querySelector('input[name="_method"]');
@@ -108,6 +129,51 @@ function editMessage(messageId, messageText, imagePath) {
         behavior: 'smooth',
         block: 'nearest'
     });
+}
+
+// 編集モードをリセット（通常の送信モードに戻す）
+function resetEditMode() {
+    const form = document.getElementById('message-form');
+    if (!form) {
+        return;
+    }
+
+    // フォームのactionを元のURLに戻す（data属性から取得）
+    const originalAction = form.dataset.originalAction;
+    if (originalAction) {
+        form.action = originalAction;
+    }
+
+    // メソッドをPOSTに戻す（_methodを削除）
+    const methodInput = form.querySelector('input[name="_method"]');
+    if (methodInput) {
+        methodInput.remove();
+    }
+
+    // メッセージ入力欄をクリア
+    const messageInput = document.getElementById('message-input');
+    if (messageInput) {
+        messageInput.value = '';
+    }
+
+    // 画像名表示をクリア
+    const imageNameSpan = document.getElementById('selected-image-name');
+    if (imageNameSpan) {
+        imageNameSpan.textContent = '';
+        imageNameSpan.style.display = 'none';
+    }
+
+    // 画像入力をクリア
+    const imageInput = document.getElementById('chat-image-input');
+    if (imageInput) {
+        imageInput.value = '';
+    }
+
+    // 編集メッセージIDをクリア
+    const editMessageIdInput = document.getElementById('edit-message-id');
+    if (editMessageIdInput) {
+        editMessageIdInput.value = '';
+    }
 }
 
 // FN012, FN013: 評価モーダルの表示制御
@@ -163,4 +229,3 @@ function setRating(rating) {
         }
     });
 }
-

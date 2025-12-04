@@ -19,7 +19,10 @@
         <div class="header-logo-container">
             <img class="header-logo" src="{{ asset('images/logo.svg') }}" alt="COACHTECH">
         </div>
-        @unless (request()->routeIs('verification.notice') || request()->routeIs('login') || request()->routeIs('register'))
+        @unless (request()->routeIs('verification.notice') ||
+                request()->routeIs('login') ||
+                request()->routeIs('register') ||
+                request()->routeIs('transaction.chat'))
             {{-- 認証関連ページ以外では検索フォームを表示 --}}
             <div class="header-search">
                 <form class="search-form" action="{{ route('top') }}" method="GET">

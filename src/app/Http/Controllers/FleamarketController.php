@@ -109,7 +109,7 @@ class FleamarketController extends Controller
         // プロフィール情報を取得（存在しない場合はnull）
         $profile = $user->profile;
 
-        // 取引中の商品数（出品した商品で、まだ売れていないもの または 購入した商品 または 取引メッセージが存在する商品）
+        // 取引中の商品（出品した商品で、まだ売れていないもの または 購入した商品 または 取引メッセージが存在する商品）
         // ただし、両方が評価した商品は除外する
         // 決済処理が完了していても、評価が完了していない場合は取引中として扱う
         $tradingItemsForCount = Item::where(function ($query) use ($user) {
@@ -135,7 +135,16 @@ class FleamarketController extends Controller
                     ->count();
                 return $ratingCount < 2; // 評価が2つ未満の商品のみ
             });
-        $tradingCount = $tradingItemsForCount->count();
+
+        // 未読メッセージ件数の合計を計算
+        $tradingCount = 0;
+        foreach ($tradingItemsForCount as $item) {
+            $unreadCount = TransactionMessage::where('item_id', $item->id)
+                ->where('receiver_id', $user->id)
+                ->where('is_read', false)
+                ->count();
+            $tradingCount += $unreadCount;
+        }
 
         if ($page === 'buy') {
             // PG11: プロフィール画面_購入した商品一覧

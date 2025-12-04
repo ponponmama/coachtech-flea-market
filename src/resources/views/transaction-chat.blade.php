@@ -88,7 +88,9 @@
                             @if ($message->sender_id === $user->id)
                                 <div class="message-actions">
                                     <button type="button" class="message-edit-button button"
-                                        onclick="editMessage({{ $message->id }}, {!! json_encode($message->message ?? '') !!}, {!! json_encode($message->image_path) !!})">編集</button>
+                                        data-message-id="{{ $message->id }}"
+                                        data-message-text="{{ htmlspecialchars($message->message ?? '', ENT_QUOTES, 'UTF-8') }}"
+                                        data-image-path="{{ htmlspecialchars($message->image_path ?? '', ENT_QUOTES, 'UTF-8') }}">編集</button>
                                     <form
                                         action="{{ route('transaction.message.delete', ['message_id' => $message->id]) }}"
                                         method="POST" class="message-delete-form">
@@ -109,7 +111,7 @@
                     <input type="hidden" name="edit_message_id" id="edit-message-id" value="">
                     <input type="hidden" id="storage-key" value="transaction-chat-message-{{ $item->id }}">
                     <input type="hidden" id="should-show-rating-modal"
-                        value="{{ ($showRatingModal ?? false) ? '1' : '0' }}">
+                        value="{{ $showRatingModal ?? false ? '1' : '0' }}">
                     <input type="hidden" id="old-rating" value="{{ old('rating', '0') }}">
                     <p class="form__error">
                         @error('message')
