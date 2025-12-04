@@ -125,6 +125,7 @@ class FleamarketController extends Controller
                         });
                     });
             })
+            ->select('id', 'name', 'image_path', 'sold_at', 'buyer_id', 'seller_id')
             ->get()
             ->filter(function ($item) {
                 // 両方が評価した商品を除外
@@ -256,6 +257,12 @@ class FleamarketController extends Controller
             ->with(['sender', 'receiver'])
             ->orderBy('created_at', 'asc')
             ->get();
+
+        // チャット画面を表示した時に、受信した未読メッセージを既読に更新
+        TransactionMessage::where('item_id', $item_id)
+            ->where('receiver_id', $user->id)
+            ->where('is_read', false)
+            ->update(['is_read' => true]);
 
         // 取引相手を取得
         if ($item->buyer_id) {

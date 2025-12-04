@@ -55,10 +55,10 @@ class TransactionMessageSeeder extends Seeder
             $messageCount = rand(2, 10);
             $baseTime = Carbon::now()->subDays(rand(1, 30)); // 1-30日前から開始
 
-            // 出品者が受信者になる未読メッセージを確実に作成するためのフラグ
-            $hasUnreadForSeller = false;
             // 未読メッセージ数をランダムに設定（1-3件）
+            // 出品者と購入者の両方に未読メッセージを作成
             $unreadCountForSeller = rand(1, 3);
+            $unreadCountForBuyer = rand(1, 3);
 
             for ($i = 0; $i < $messageCount; $i++) {
                 // 送信者を交互に変更（最初は購入希望者から）
@@ -69,14 +69,26 @@ class TransactionMessageSeeder extends Seeder
                 $createdAt = $baseTime->copy()->addMinutes($i * rand(10, 60));
 
                 // 既読フラグ
-                // 出品者が受信者になるメッセージ（偶数番目）で、未読メッセージを作成
+                // 最新のメッセージから未読メッセージを作成（現実的なシミュレーション）
                 $isRead = true;
-                if ($i % 2 === 0 && $receiver->id === $seller->id) {
-                    // 出品者が受信者の場合
-                    if ($unreadCountForSeller > 0) {
-                        // 未読メッセージを作成
+
+                // 出品者が受信者の場合
+                if ($receiver->id === $seller->id && $unreadCountForSeller > 0) {
+                    // 最新のメッセージから未読を作成（後ろから数える）
+                    $remainingMessages = $messageCount - $i;
+                    if ($remainingMessages <= $unreadCountForSeller) {
                         $isRead = false;
                         $unreadCountForSeller--;
+                    }
+                }
+
+                // 購入者が受信者の場合
+                if ($receiver->id === $buyer->id && $unreadCountForBuyer > 0) {
+                    // 最新のメッセージから未読を作成（後ろから数える）
+                    $remainingMessages = $messageCount - $i;
+                    if ($remainingMessages <= $unreadCountForBuyer) {
+                        $isRead = false;
+                        $unreadCountForBuyer--;
                     }
                 }
 
