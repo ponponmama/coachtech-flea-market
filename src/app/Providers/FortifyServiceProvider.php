@@ -34,6 +34,12 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        RateLimiter::for('login', function (Request $request) {
+            $throttleKey = Str::transliterate(Str::lower($request->input(Fortify::username())).'|'.$request->ip());
+
+            return Limit::perMinute(5)->by($throttleKey);
+        });
+
         Fortify::loginView(function (Request $request) {
             return view('login', [
                 'redirectUrl' => $request->query('redirect_url'),
